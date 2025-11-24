@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexVoid – Precision Beyond Execution</title>
+    <!-- Explicación: Este es el archivo HTML principal que contiene toda la estructura de la página web. 
+    He optado por un solo archivo HTML con CSS en <style> y JS en <script> para simplicidad y portabilidad. 
+    El diseño es minimalista, usando colores negro (#000000), gris grafito (#333333), blanco (#FFFFFF) y dorado tenue (#D4AF37) como acento.
+    Todas las animaciones son suaves y sutiles, enfocadas en fade-ins y transiciones leves, sin brillos excesivos ni neones. -->
+    <style>
+        /* Explicación: Estilos globales para un diseño elegante y minimalista. Fuente sans-serif para lujo sobrio. */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #000000;
+            color: #FFFFFF;
+            line-height: 1.6;
+        }
+
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        a {
+            color: #D4AF37;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #FFFFFF;
+        }
+
+        /* Hero Section: Fondo con canvas para partículas lentas. Animación fade-in para elementos. */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+        #hero canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1; /* Sutil, no llamativo */
+        }
+
+        #hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        #hero p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease forwards;
+        }
+
+        .btn {
+            padding: 10px 30px;
+            border: 1px solid #D4AF37;
+            color: #D4AF37;
+            margin: 0 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards;
+        }
+
+        .btn:hover {
+            background-color: #D4AF37;
+            color: #000000;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Features Section: Tarjetas rectangulares con borde fino dorado. Hover minimalista (escala sutil). */
+        #features {
+            background-color: #333333;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            border: 1px solid #D4AF37;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: scale(1.02); /* Hover minimalista */
+        }
+
+        /* Core Engine Section: Explicación con SVG simple (diagrama geométrico). */
+        #core-engine {
+            background-color: #000000;
+        }
+
+        #core-engine svg {
+            max-width: 400px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        /* Modules Section: Explicación breve en párrafos. */
+        #modules {
+            background-color: #333333;
+        }
+
+        /* Changelog Section: Timeline vertical con puntos dorados. */
+        #changelog {
+            background-color: #000000;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background: #D4AF37;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            background: inherit;
+            width: 50%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #D4AF37;
+            border-radius: 50%;
+            top: 25px;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-dot {
+            right: -6px;
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -6px;
+        }
+
+        /* FAQ Section: Acordeones con micro-animaciones (rotación de icono). */
+        #faq {
+            background-color: #333333;
+        }
+
+        .accordion {
+            background-color: #000000;
+            color: #FFFFFF;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .accordion:hover {
+            background-color: #222222;
+        }
+
+        .panel {
+            padding: 0 18px;
+            background-color: #000000;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        .accordion::after {
+            content: '+';
+            font-size: 20px;
+            position: absolute;
+            right: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion.active::after {
+            transform: rotate(45deg);
+        }
+
+        /* Footer: Links limpios y sobrios. */
+        footer {
+            background-color: #000000;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #333333;
+        }
+
+        footer a {
+            margin: 0 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <canvas id="particles"></canvas>
+        <h1>NexVoid – Precision Beyond Execution</h1>
+        <p>Tecnología sólida, veloz y con diseño centrado en la experiencia real.</p>
+        <div>
+            <a href="#" class="btn">Download</a>
+            <a href="#" class="btn">Documentation</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <h2>Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Alta Precisión</h3>
+                <p>Procesamiento eficiente y preciso para tareas complejas.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Interfaz Minimalista</h3>
+                <p>Diseño centrado en la usabilidad sin distracciones.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Compatibilidad Amplia</h3>
+                <p>Integración seamless con múltiples plataformas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Engine Section -->
+    <section id="core-engine">
+        <h2>Core Engine (Núcleo NexVoid)</h2>
+        <p>El núcleo de NexVoid está diseñado para ofrecer una base sólida y estable, enfocada en la ejecución precisa y la optimización de recursos. Su propósito es proporcionar tecnología de élite que priorice la experiencia del usuario en entornos reales.</p>
+        <!-- Ilustración SVG simple: Diagrama geométrico representando un núcleo. -->
+        <svg width="400" height="200" viewBox="0 0 400 200">
+            <rect x="100" y="50" width="200" height="100" fill="none" stroke="#D4AF37" stroke-width="2"/>
+            <circle cx="200" cy="100" r="40" fill="none" stroke="#D4AF37" stroke-width="2"/>
+            <line x1="100" y1="100" x2="160" y2="100" stroke="#D4AF37" stroke-width="2"/>
+            <line x1="240" y1="100" x2="300" y2="100" stroke="#D4AF37" stroke-width="2"/>
+        </svg>
+    </section>
+
+    <!-- Modules / Ecosystem Section -->
+    <section id="modules">
+        <h2>Modules / Ecosystem</h2>
+        <p>La API de NexVoid permite integraciones flexibles y seguras. La UI es intuitiva y minimalista, compatible con web, móvil y desktop. El ecosistema soporta múltiples lenguajes y frameworks para una adopción sencilla.</p>
+    </section>
+
+    <!-- Changelog Section -->
+    <section id="changelog">
+        <h2>Changelog</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h3>v1.0.0 - Lanzamiento Inicial</h3>
+                <p>Implementación del núcleo base y features esenciales.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h3>v1.1.0 - Optimizaciones</h3>
+                <p>Mejoras en rendimiento y compatibilidad.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h3>v1.2.0 - Nuevos Módulos</h3>
+                <p>Adición de API extendida y UI mejorada.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq">
+        <h2>FAQ</h2>
+        <button class="accordion">¿Qué es NexVoid?</button>
+        <div class="panel">
+            <p>NexVoid es un proyecto de tecnología avanzada enfocado en precisión y estabilidad.</p>
+        </div>
+        <button class="accordion">¿Cómo instalar?</button>
+        <div class="panel">
+            <p>Descarga desde el botón en la hero section y sigue la documentación.</p>
+        </div>
+        <button class="accordion">¿Es compatible con mi sistema?</button>
+        <div class="panel">
+            <p>Sí, soporta múltiples plataformas. Consulta la documentación para detalles.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <a href="#">Home</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+        <p>&copy; 2025 NexVoid. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript: Para partículas en hero (sutiles y lentas) y acordeones en FAQ. -->
+    <script>
+        // Partículas en Hero: Canvas con partículas lentas y sutiles.
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                vx: (Math.random() - 0.5) * 0.5, // Velocidad lenta
+                vy: (Math.random() - 0.5) * 0.5
+            });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#D4AF37';
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx = -p.vx;
+                if (p.y < 0 || p.y > canvas.height) p.vy = -p.vy;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+
+        // Acordeones en FAQ: Micro-animación en click.
+        const acc = document.getElementsByClassName('accordion');
+        for (let i = 0; i < acc.length; i++) {
+            acc[i].addEventListener('click', function() {
+                this.classList.toggle('active');
+                const panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + 'px';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
