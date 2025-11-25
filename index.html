@@ -1,403 +1,177 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="es" data-godmode="false">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>NexVoid — The Silent Power Core</title>
-<meta name="description" content="NexVoid — Precisión, estabilidad y tecnología premium. Núcleo de ejecución diseñado para entornos críticos." />
-<!-- =========================
-     PALETA Y FUENTES
-     (no azul — morados permitidos)
-     ========================= -->
-<style>
-  :root{
-    --bg:#060607;
-    --bg-2:#0f0f11;
-    --graphite:#151517;
-    --muted:#9aa0aa;
-    --white:#eef0f6;
-    --purple:#7e22ce;   /* acento principal */
-    --purple-2:#a855f7; /* acento claro */
-    --purple-deep:#6d28d9;
-    --gold:#d4af87;     /* opcional */
-    --wine:#6f1f2f;     /* opcional */
-    --glass: rgba(255,255,255,0.03);
-    --transition: 300ms cubic-bezier(.2,.9,.2,1);
-    --maxw:1200px;
-    --radius:10px;
-  }
-  /* Reset mínimo */
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: linear-gradient(180deg,var(--bg) 0%, var(--bg-2) 100%);
-    color:var(--white);
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    line-height:1.5;
-  }
-
-  a{color:inherit;text-decoration:none}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:28px}
-
-  /* =========================
-     HERO: nebulosa + partículas
-     ========================= */
-  #hero{
-    position:relative;
-    min-height:80vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    overflow:hidden;
-    padding:80px 20px;
-  }
-  /* canvas full */
-  #nebula, #particles-canvas { position:absolute; inset:0; width:100%; height:100%; z-index:0; }
-  .hero-inner{position:relative;z-index:10;max-width:980px;padding:40px}
-  .title{
-    font-size:clamp(2rem,6vw,4.4rem);
-    line-height:1.02;
-    letter-spacing:-0.02em;
-    font-weight:700;
-    margin-bottom:12px;
-    background:linear-gradient(90deg,var(--white),var(--purple));
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    text-wrap:balance;
-  }
-  .subtitle{
-    color:var(--muted);
-    font-size:clamp(1rem,2.3vw,1.2rem);
-    margin-bottom:24px;
-    font-weight:400;
-  }
-  .hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .btn{
-    padding:12px 22px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.06);
-    background:transparent;color:var(--white);cursor:pointer;transition:var(--transition);font-weight:600;
-  }
-  .btn.primary{border-color:var(--purple); box-shadow:0 6px 22px rgba(126,34,206,0.08)}
-  .btn.primary:hover{transform:translateY(-6px); background:linear-gradient(90deg,var(--purple) 0%,var(--purple-2) 100%); color:#080808}
-  .btn.ghost:hover{background:var(--glass); transform:translateY(-4px)}
-
-  /* small caption */
-  .hero-note{color:var(--muted);font-size:0.9rem;margin-top:16px}
-
-  /* =========================
-     SECTIONS: shared
-     ========================= */
-  section{padding:72px 18px}
-  .section-title{font-size:clamp(1.6rem,3.5vw,2.6rem);text-align:center;margin-bottom:24px}
-  .section-sub{max-width:900px;margin:12px auto 42px;color:var(--muted);text-align:center}
-
-  /* = Features = */
-  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
-  .card{
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.03);
-    padding:22px;border-radius:12px;transition:var(--transition);overflow:hidden;
-  }
-  .card:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(0,0,0,0.55);border-color:rgba(126,34,206,0.45)}
-  .card .icon{width:56px;height:56px;border-radius:10px;display:inline-grid;place-items:center;margin-bottom:14px;background:linear-gradient(180deg, rgba(126,34,206,0.08), rgba(168,85,247,0.06));border:1px solid rgba(126,34,206,0.12)}
-  .card h3{margin-bottom:8px}
-  .card p{color:var(--muted);font-size:0.95rem}
-
-  /* = Core diagram = */
-  .core-grid{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
-  .core-desc{color:var(--muted);font-size:1rem}
-  .core-canvas{width:100%;height:360px;border-radius:12px;background:linear-gradient(180deg, rgba(126,34,206,0.02), transparent);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
-  .core-center{width:110px;height:110px;border-radius:999px;display:grid;place-items:center;font-weight:700;background:radial-gradient(circle,var(--purple),var(--purple-deep));box-shadow:0 0 50px rgba(126,34,206,0.18)}
-  .core-node{position:absolute;width:38px;height:38px;border-radius:50%;background:var(--graphite);border:2px solid rgba(126,34,206,0.8);display:grid;place-items:center}
-
-  /* = Ecosystem grid = */
-  .eco-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-  .eco-card{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border-left:4px solid var(--purple);color:var(--muted)}
-
-  /* = Timeline = */
-  .timeline-wrap{max-width:960px;margin:0 auto;position:relative}
-  .timeline{position:relative;padding:20px 0}
-  .timeline::before{content:'';position:absolute;left:50%;transform:translateX(-50%);width:2px;height:100%;background:linear-gradient(180deg,rgba(126,34,206,0.18),rgba(126,34,206,0.05))}
-  .tl-item{position:relative;width:50%;padding:18px 28px}
-  .tl-item.left{left:0;text-align:right}
-  .tl-item.right{left:50%}
-  .tl-dot{position:absolute;left:50%;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;background:var(--purple);box-shadow:0 0 18px rgba(126,34,206,0.15)}
-  .tl-card{background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);padding:18px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);color:var(--muted)}
-  .tl-head{font-weight:700;color:var(--white);margin-bottom:6px}
-  .tl-date{font-size:0.85rem;color:var(--muted);margin-bottom:8px}
-
-  /* = FAQ = */
-  .faq{max-width:920px;margin:0 auto}
-  .faq-item{border-radius:10px;border:1px solid rgba(255,255,255,0.03);overflow:hidden;margin-bottom:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005))}
-  .faq-q{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-  .faq-q h4{font-size:1rem}
-  .faq-a{padding:0 18px;max-height:0;overflow:hidden;transition:max-height var(--transition)}
-  .faq-a p{color:var(--muted);padding:14px 0}
-
-  /* = Footer = */
-  footer{padding:60px 18px;text-align:center;border-top:1px solid rgba(255,255,255,0.02)}
-  .footer-links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;color:var(--muted)}
-
-  /* responsive */
-  @media (max-width:1000px){ .core-grid{grid-template-columns:1fr} .tl-item{width:100%;left:0;text-align:left} .timeline::before{left:20px} .tl-dot{left:20px;transform:none} }
-  @media (max-width:560px){ .title{font-size:2rem} .hero-inner{padding:20px} .core-canvas{height:320px} }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NexVoid - Innovación en el vacío digital">
+    
+    <!-- Paleta de color NexVoid (OBLIGATORIA) -->
+    <!--
+        Fondo: #050407
+        Paneles: #141218 / #222025
+        Morado primario: #8B39E6
+        Púrpura oscuro: #5B1EA8
+        Ámbar: #B58F3B
+        Texto principal: #EDEAF6
+        Texto secundario: #A8A0B3
+    -->
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <title>NexVoid | Innovación Cuántica</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<!-- HERO -->
-<header id="hero" aria-label="Sección principal">
-  <canvas id="nebula"></canvas>          <!-- Nebulosa/gradiente procedural -->
-  <canvas id="particles-canvas"></canvas><!-- Partículas reactivas -->
-  <div class="wrap hero-inner">
-    <div class="title">NexVoid — The Silent Power Core</div>
-    <div class="subtitle">Precisión. Estabilidad. Tecnología diseñada para entornos donde el fallo no es una opción.</div>
-    <div class="hero-ctas">
-      <a class="btn primary" href="#download">Descargar</a>
-      <a class="btn" href="#docs">Documentación</a>
-      <a class="btn" href="#features">Showcase</a>
+    <!-- Fondo animado sutil -->
+    <div class="bg-ambient" aria-hidden="true">
+        <div class="bg-wave"></div>
+        <div class="bg-particles"></div>
     </div>
-    <div class="hero-note">Diseñado para integraciones críticas — módulo API DLL, UI modular y capas de seguridad de alto nivel.</div>
-  </div>
-</header>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="wrap">
-    <h2 class="section-title">Acerca de NexVoid</h2>
-    <p class="section-sub">NexVoid es un núcleo híbrido pensado para máxima fiabilidad: arquitectura modular, ejecución determinista y una capa de compatibilidad que permite desplegar en entornos exigentes sin sacrificar rendimiento.</p>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section id="features">
-  <div class="wrap">
-    <h3 class="section-title">Características principales</h3>
-    <p class="section-sub">Hecho para producción: baja latencia, seguridad avanzada, API extensible y estabilidad certificada para sistemas críticos.</p>
-
-    <div class="features">
-      <article class="card">
-        <div class="icon" aria-hidden="true"></div>
-        <h3>Latencia Ultra-Baja</h3>
-        <p>Ejecución determinista y operaciones críticas con latencias mínimas.</p>
-      </article>
-
-      <article class="card">
-        <div class="icon" aria-hidden="true"></div>
-        <h3>Gestión de Memoria</h3>
-        <p>Arena allocators y enfoque sin GC para evitar pausas en tiempo real.</p>
-      </article>
-
-      <article class="card">
-        <div class="icon" aria-hidden="true"></div>
-        <h3>Seguridad Post-Cuántica</h3>
-        <p>Canales cifrados y validación de integridad integrados en tiempo de ejecución.</p>
-      </article>
-
-      <article class="card">
-        <div class="icon" aria-hidden="true"></div>
-        <h3>API Extensible</h3>
-        <p>Interfaz limpia para integraciones y bindings automáticos para distintos lenguajes.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- CORE -->
-<section id="core">
-  <div class="wrap core-grid">
-    <div>
-      <h3 class="section-title">Núcleo Tecnológico</h3>
-      <p class="core-desc">NexVoid combina componentes nativos (ej.: Rust) con módulos WebAssembly para ofrecer control absoluto sobre la memoria, concurrencia ligera y predictibilidad bajo carga. El motor está pensado para entornos de misión crítica.</p>
-      <div style="margin-top:18px" class="eco-grid">
-        <div class="eco-card"><strong>UI Framework</strong><div style="color:var(--muted)">Componentes atómicos y render optimizado.</div></div>
-        <div class="eco-card"><strong>API DLL</strong><div style="color:var(--muted)">Binding de alta velocidad y compatibilidad binaria.</div></div>
-        <div class="eco-card"><strong>Inyección</strong><div style="color:var(--muted)">Sistema seguro y controlado de inyección de módulos.</div></div>
-        <div class="eco-card"><strong>Compatibilidad</strong><div style="color:var(--muted)">Comportamiento uniforme en Windows/Linux/macOS.</div></div>
-      </div>
-    </div>
-
-    <div class="core-canvas" aria-hidden="true">
-      <!-- visual core diagram: center + nodes -->
-      <div class="core-center">CORE</div>
-      <div class="core-node" style="top:14%;left:50%;transform:translateX(-50%);" id="node1"></div>
-      <div class="core-node" style="top:50%;left:90%;transform:translateY(-50%);" id="node2"></div>
-      <div class="core-node" style="top:86%;left:50%;transform:translateX(-50%);" id="node3"></div>
-      <div class="core-node" style="top:50%;left:10%;transform:translateY(-50%);" id="node4"></div>
-      <!-- optional decorative SVG lines will be drawn by JS -->
-    </div>
-  </div>
-</section>
-
-<!-- CHANGELOG / TIMELINE -->
-<section id="changelog">
-  <div class="wrap timeline-wrap">
-    <h3 class="section-title">Historial de versiones</h3>
-    <div class="timeline" aria-hidden="false">
-      <div class="tl-item left">
-        <div class="tl-dot" style="top:28px"></div>
-        <div class="tl-card">
-          <div class="tl-head">v3.2 — Eclipse</div>
-          <div class="tl-date">Octubre 2025</div>
-          <div>GPU compute shaders y runtime edge optimizado.</div>
+    
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <header class="site-header" role="banner">
+        <div class="container">
+            <div class="logo">
+                <svg class="logo-icon" role="img" width="40" height="40" viewBox="0 0 40 40">
+                    <title>NexVoid Logo</title>
+                    <path d="M20 5 L35 15 L35 25 L20 35 L5 25 L5 15 Z" fill="#8B39E6"/>
+                    <path d="M20 12 L28 17 L28 23 L20 28 L12 23 L12 17 Z" fill="#050407"/>
+                </svg>
+                <span class="logo-text">NexVoid</span>
+            </div>
+            <nav role="navigation" aria-label="Menú principal">
+                <ul class="nav-list">
+                    <li><a href="#features" class="nav-link">Características</a></li>
+                    <li><a href="#core" class="nav-link">Núcleo</a></li>
+                    <li><a href="#ecosystem" class="nav-link">Ecosistema</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
+                </ul>
+            </nav>
         </div>
-      </div>
-
-      <div class="tl-item right">
-        <div class="tl-dot" style="top:178px"></div>
-        <div class="tl-card">
-          <div class="tl-head">v3.0 — Silent Horizon</div>
-          <div class="tl-date">Mayo 2025</div>
-          <div>Reescritura modular y soporte multi-proceso.</div>
+    </header>
+    
+    <main id="main-content">
+        <section id="hero" class="hero" role="region" aria-label="Hero">
+            <div class="hero-content container">
+                <h1 class="hero-title">
+                    <span class="title-main">NexVoid</span>
+                    <span class="title-sub">El Vacío que Construye el Futuro</span>
+                </h1>
+                <p class="hero-description">
+                    Tecnología cuántica y diseño orgánico convergen en una plataforma 
+                    que redefine los límites de la experiencia digital.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" aria-label="Explorar demo">
+                        <span>Iniciar Demo</span>
+                    </button>
+                    <button class="btn btn-secondary" aria-label="Ver documentación">
+                        <span>Documentación</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <section id="features" class="section features">
+            <div class="container">
+                <h2 class="section-title">Características de Élite</h2>
+                <div class="grid">
+                    <article class="feature-card">
+                        <svg class="feature-icon" role="img" width="48" height="48" viewBox="0 0 48 48">
+                            <title>Velocidad Cuántica</title>
+                            <circle cx="24" cy="24" r="20" stroke="#8B39E6" stroke-width="2" fill="none"/>
+                        </svg>
+                        <h3>Velocidad Cuántica</h3>
+                        <p>Procesamiento 1000x más rápido que la competencia.</p>
+                    </article>
+                    <article class="feature-card">
+                        <svg class="feature-icon" role="img" width="48" height="48" viewBox="0 0 48 48">
+                            <title>Seguridad Orgánica</title>
+                            <path d="M24 4 L32 12 L32 24 L24 36 L16 24 L16 12 Z" fill="#8B39E6"/>
+                        </svg>
+                        <h3>Seguridad Orgánica</h3>
+                        <p>Encriptación que evoluciona con cada uso.</p>
+                    </article>
+                    <article class="feature-card">
+                        <svg class="feature-icon" role="img" width="48" height="48" viewBox="0 0 48 48">
+                            <title>IA Sintiente</title>
+                            <circle cx="24" cy="24" r="8" fill="none" stroke="#8B39E6" stroke-width="3"/>
+                        </svg>
+                        <h3>IA Sintiente</h3>
+                        <p>Aprende, adapta y predice tu próximo movimiento.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        
+        <section id="core" class="section core">
+            <div class="container">
+                <h2 class="section-title">Núcleo Tecnológico</h2>
+                <p class="section-subtitle">Arquitectura revolucionaria sin precedentes.</p>
+            </div>
+        </section>
+        
+        <section id="ecosystem" class="section ecosystem">
+            <div class="container">
+                <h2 class="section-title">Ecosistema Infinito</h2>
+                <div class="ecosystem-grid">
+                    <div class="eco-item">
+                        <h4>Quantum API</h4>
+                    </div>
+                    <div class="eco-item">
+                        <h4>Void Cloud</h4>
+                    </div>
+                    <div class="eco-item">
+                        <h4>Nexus SDK</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="changelog" class="section changelog">
+            <div class="container">
+                <h2 class="section-title">Evolución Constante</h2>
+                <ul class="changelog-list">
+                    <li class="changelog-item">
+                        <time datetime="2025-01">v2.1.0</time>
+                        <p>UI minimal refinada</p>
+                    </li>
+                    <li class="changelog-item">
+                        <time datetime="2024-12">v2.0.0</time>
+                        <p>Lanzamiento del Núcleo Cuántico</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="faq" class="section faq" aria-labelledby="faq-title">
+            <div class="container">
+                <h2 id="faq-title" class="section-title">Preguntas Cuánticas</h2>
+                <details class="faq-item">
+                    <summary class="faq-question">¿Qué hace único a NexVoid?</summary>
+                    <p class="faq-answer">Combinamos algoritmos cuánticos con diseño orgánico para crear experiencias vivas.</p>
+                </details>
+                <details class="faq-item">
+                    <summary class="faq-question">¿Requiere hardware especial?</summary>
+                    <p class="faq-answer">No, optimizamos para cualquier dispositivo moderno usando WebGL.</p>
+                </details>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <p>&copy; 2025 NexVoid. Creado en el vacío.</p>
+            <nav aria-label="Legal">
+                <a href="#" class="footer-link">Privacidad</a>
+                <a href="#" class="footer-link">Términos</a>
+            </nav>
         </div>
-      </div>
-
-      <div class="tl-item left">
-        <div class="tl-dot" style="top:328px"></div>
-        <div class="tl-card">
-          <div class="tl-head">v2.1 — Core Release</div>
-          <div class="tl-date">Enero 2024</div>
-          <div>Primer lanzamiento estable para producción crítica.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq">
-  <div class="wrap">
-    <h3 class="section-title">Preguntas frecuentes</h3>
-    <div class="faq">
-      <div class="faq-item" tabindex="0">
-        <div class="faq-q"><h4>¿NexVoid es de código abierto?</h4><div aria-hidden="true">+</div></div>
-        <div class="faq-a"><p>El núcleo está bajo licencia Apache 2.0; módulos avanzados pueden ser propietarios con licencias enterprise.</p></div>
-      </div>
-
-      <div class="faq-item" tabindex="0">
-        <div class="faq-q"><h4>¿Es apto para sistemas críticos?</h4><div aria-hidden="true">+</div></div>
-        <div class="faq-a"><p>Sí. Diseñado para telecom, finanzas y servicios médicos con políticas de alta disponibilidad.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="wrap">
-    <div class="footer-links">
-      <a href="#docs">Documentación</a>
-      <a href="#github">GitHub</a>
-      <a href="#license">Licencia</a>
-      <a href="#contact">Contacto</a>
-    </div>
-    <div style="color:var(--muted)">© 2025 NexVoid Project — Precisión y estabilidad.</div>
-  </div>
-</footer>
-
-<!-- =========================
-     SCRIPTS: nebulosa, partículas, animaciones
-     ========================= -->
-<script>
-/* ---------- Util: resize canvas ---------- */
-function fitCanvas(c){ c.width = c.clientWidth * devicePixelRatio; c.height = c.clientHeight * devicePixelRatio; c.style.width = c.clientWidth + 'px'; c.style.height = c.clientHeight + 'px';}
-
-/* ---------- Nebula background (simple procedural gradient + moving blobs) ---------- */
-(function(){ const canvas = document.getElementById('nebula'); if(!canvas) return; const ctx = canvas.getContext('2d'); function draw(){ fitCanvas(canvas); const w = canvas.width, h = canvas.height; ctx.clearRect(0,0,w,h);
-  // base gradient
-  const g = ctx.createLinearGradient(0,0,w,h); g.addColorStop(0,'#0a0211'); g.addColorStop(0.6,'#050006'); g.addColorStop(1,'#000000'); ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
-  // moving soft blobs
-  const t = Date.now() * 0.0003;
-  for(let i=0;i<5;i++){
-    const r = Math.min(w,h)*0.5*(0.15 + i*0.06);
-    const x = w*0.5 + Math.cos(t*(1+i*0.7)+i)*w*0.12;
-    const y = h*0.5 + Math.sin(t*(1.2+i*0.9)-i)*h*0.08;
-    const grd = ctx.createRadialGradient(x,y,r*0.05,x,y,r);
-    grd.addColorStop(0, i%2? 'rgba(168,85,247,0.06)' : 'rgba(126,34,206,0.05)');
-    grd.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = grd;
-    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
-  }
-  requestAnimationFrame(draw);
- } window.addEventListener('resize', ()=>fitCanvas(canvas)); draw();
-})();
-
-/* ---------- Particles: small dots react to cursor (lightweight) ---------- */
-(function(){
-  const canvas = document.getElementById('particles-canvas'); if(!canvas) return;
-  const ctx = canvas.getContext('2d'); let W,H;
-  function init(){ fitCanvas(canvas); W=canvas.width; H=canvas.height; particles = []; for(let i=0;i<80;i++){
-    particles.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+0.6, vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4, color: Math.random()>0.5? '#7e22ce' : '#a855f7' });
-  }}
-  let particles=[]; init(); window.addEventListener('resize', init);
-  let mouse = {x:W/2,y:H/2};
-  window.addEventListener('mousemove', e => { const rect = canvas.getBoundingClientRect(); mouse.x = (e.clientX - rect.left) * devicePixelRatio; mouse.y = (e.clientY - rect.top) * devicePixelRatio; });
-
-  function tick(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    for(const p of particles){
-      const dx = mouse.x - p.x, dy = mouse.y - p.y; const d = Math.hypot(dx,dy)||1;
-      if(d < 300) { const f = (300-d)/300*0.6; p.vx -= dx/d * f * 0.02; p.vy -= dy/d * f * 0.02; }
-      p.x += p.vx; p.y += p.vy;
-      if(p.x < -20) p.x = canvas.width+20; if(p.x > canvas.width+20) p.x=-20;
-      if(p.y < -20) p.y = canvas.height+20; if(p.y > canvas.height+20) p.y=-20;
-      ctx.beginPath(); ctx.fillStyle = p.color; ctx.globalAlpha = 0.9; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); ctx.globalAlpha = 1;
-    }
-    requestAnimationFrame(tick);
-  }
-  tick();
-})();
-
-/* ---------- Core diagram connectors (draw lines between center and nodes) ---------- */
-(function(){
-  const core = document.querySelector('.core-canvas'); if(!core) return;
-  const center = core.querySelector('.core-center');
-  const nodes = [core.querySelector('#node1'), core.querySelector('#node2'), core.querySelector('#node3'), core.querySelector('#node4')];
-  // create svg overlay
-  const svgNS = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(svgNS,'svg'); svg.setAttribute('width','100%'); svg.setAttribute('height','100%'); svg.setAttribute('preserveAspectRatio','none'); svg.style.position='absolute'; svg.style.left=0; svg.style.top=0; svg.style.zIndex=0;
-  core.appendChild(svg);
-  const lines = nodes.map(()=>document.createElementNS(svgNS,'line'));
-  lines.forEach(l=>{ l.setAttribute('stroke', 'rgba(139,92,246,0.65)'); l.setAttribute('stroke-width','2'); svg.appendChild(l); });
-
-  function px(el){ const r = el.getBoundingClientRect(), p = core.getBoundingClientRect(); return {x:(r.left + r.width/2) - p.left, y:(r.top + r.height/2) - p.top };}
-  function tick(){
-    const pC = px(center);
-    svg.setAttribute('viewBox', `0 0 ${core.clientWidth} ${core.clientHeight}`);
-    lines.forEach((l,i)=>{
-      const pN = px(nodes[i]);
-      l.setAttribute('x1', pC.x); l.setAttribute('y1', pC.y); l.setAttribute('x2', pN.x); l.setAttribute('y2', pN.y);
-    });
-    requestAnimationFrame(tick);
-  }
-  window.addEventListener('resize', ()=>{ /* recompute by tick */ });
-  tick();
-})();
-
-/* ---------- FAQ toggles (accessible) ---------- */
-(function(){
-  document.querySelectorAll('.faq-item').forEach(item=>{
-    const q = item.querySelector('.faq-q');
-    const a = item.querySelector('.faq-a');
-    q.addEventListener('click', ()=>{ const expanded = item.classList.toggle('open'); if(item.classList.contains('open')){ a.style.maxHeight = a.scrollHeight + 'px'; } else { a.style.maxHeight = null; }});
-    // keyboard accessibility
-    item.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); q.click(); }});
-  });
-})();
-
-/* ---------- Scroll animations: reveal timeline cards ---------- */
-(function(){
-  const observer = new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting) entry.target.style.transform = 'translateY(0)', entry.target.style.opacity = 1;
-    });
-  }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.tl-card').forEach((el,i)=>{ el.style.transform='translateY(20px)'; el.style.opacity=0; observer.observe(el); });
-})();
-
-/* ---------- Micro-interactions list (console) ---------- */
-console.log("Micro-interactions aplicadas: 1) Hover cards (elevación), 2) CTA hover (gradiente), 3) Particle parallax (cursor), 4) Core line breathing (svg), 5) Fade-in timeline, 6) FAQ accessible accordion");
-</script>
+    </footer>
+    
+    <script src="app.js"></script>
 </body>
 </html>
