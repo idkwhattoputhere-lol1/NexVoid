@@ -3,787 +3,846 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexVoid - Donde la precisión encuentra la estabilidad</title>
+    <title>NexVoid — Donde la precisión encuentra la estabilidad</title>
     <style>
-        /* 
-         * NEXVOID - ESTILO PREMIUM OSCURO
-         * Paleta: Negro profundo, gris grafito, gris carbón
-         * Acento: Morado oscuro, violeta profundo (#7e22ce, #a855f7)
-         * Secundarios: Dorado tenue (#eab308), Rojo vino (#7f1d1d)
-         * Prohibido: Cualquier tono de azul
-        */
-
-        /* === CONFIGURACIÓN GLOBAL === */
+        /* RESET Y ESTILOS BASE */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
         :root {
-            --black-deep: #0a0a0a;
-            --gray-grafito: #1a1a1a;
-            --gray-carbon: #2a2a2a;
-            --gray-medium: #404040;
-            --purple-primary: #7e22ce;
-            --purple-light: #a855f7;
-            --purple-aura: rgba(126, 34, 206, 0.15);
-            --gold-subtle: #eab308;
-            --wine-red: #7f1d1d;
-            --silver-soft: #c0c0c0;
-            --text-primary: #e5e5e5;
-            --text-secondary: #a3a3a3;
-            --transition-smooth: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        html {
-            scroll-behavior: smooth;
+            --negro-profundo: #0a0a0f;
+            --negro-secundario: #121218;
+            --gris-grafito: #1a1a24;
+            --gris-carbon: #2a2a35;
+            --gris-texto: #a0a0b0;
+            --morado-principal: #5a2a82;
+            --morado-acento: #7b3ca6;
+            --morado-suave: #3a1a52;
+            --dorado-tenue: #b8944c;
+            --rojo-vino: #8a2a3a;
+            --plata-suave: #c0c0d0;
+            --blanco-puro: #f0f0f5;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--black-deep);
-            color: var(--text-primary);
+            background-color: var(--negro-profundo);
+            color: var(--blanco-puro);
             overflow-x: hidden;
             line-height: 1.6;
         }
 
-        /* === HERO SECTION === */
-        #hero {
+        .contenedor {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
             position: relative;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--morado-principal), transparent);
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: var(--gris-texto);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: 1px solid var(--morado-principal);
+            color: var(--blanco-puro);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(90, 42, 130, 0.3), transparent);
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            background-color: var(--morado-principal);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(90, 42, 130, 0.3);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* HERO SECTION */
+        .hero {
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            position: relative;
             overflow: hidden;
-            background: radial-gradient(ellipse at center, var(--gray-grafito) 0%, var(--black-deep) 70%);
         }
 
-        /* Canvas para partículas */
-        #particles-canvas {
+        .hero::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
+            background: radial-gradient(circle at center, var(--morado-suave) 0%, transparent 70%);
+            opacity: 0.1;
+            z-index: -2;
         }
 
-        /* Ondas fluidas moradas */
-        .wave-bg {
+        #particles-js {
             position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: radial-gradient(circle at 30% 40%, var(--purple-aura) 0%, transparent 40%),
-                        radial-gradient(circle at 70% 60%, rgba(168, 85, 247, 0.1) 0%, transparent 40%);
-            animation: waveFloat 25s ease-in-out infinite;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .hero-contenido {
+            max-width: 800px;
             z-index: 2;
         }
 
-        @keyframes waveFloat {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-30px, -20px) rotate(180deg); }
+        .hero-subtitulo {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: var(--gris-texto);
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            max-width: 900px;
-            padding: 0 2rem;
-        }
-
-        .hero-title {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 300;
-            letter-spacing: -0.02em;
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--purple-light) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.4rem);
-            color: var(--text-secondary);
-            font-weight: 350;
-            margin-bottom: 3rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.3s forwards;
-        }
-
-        .hero-buttons {
+        .hero-botones {
             display: flex;
-            gap: 1.5rem;
             justify-content: center;
+            gap: 20px;
             flex-wrap: wrap;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.6s forwards;
         }
 
-        .btn-primary, .btn-secondary {
-            padding: 0.9rem 2.5rem;
-            border: 1px solid var(--purple-primary);
-            background: transparent;
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-weight: 450;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: inline-block;
+        /* SECCIÓN ACERCA DE */
+        .acerca {
+            background-color: var(--negro-secundario);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--purple-primary) 0%, var(--purple-light) 100%);
-            border: none;
+        .acerca-contenido {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px var(--purple-aura);
+        .acerca-texto h2 {
+            text-align: left;
         }
 
-        .btn-secondary:hover {
-            background: var(--purple-aura);
-            transform: translateY(-2px);
+        .acerca-texto h2::after {
+            left: 0;
+            transform: none;
         }
 
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-        }
-
-        /* === SECCIÓN GENERAL === */
-        section {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 300;
-            text-align: center;
-            margin-bottom: 4rem;
-            color: var(--text-primary);
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--purple-primary), transparent);
-            margin: 1.5rem auto 0;
-        }
-
-        /* === ACERCA DE NEXVOID === */
-        #about {
-            background: var(--gray-grafito);
-        }
-
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-        }
-
-        .separator-svg {
+        .separador-futurista {
             width: 100%;
-            height: 60px;
-            margin: 4rem 0;
-            opacity: 0.3;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--morado-principal), var(--gris-carbon), transparent);
+            margin: 60px 0;
+            position: relative;
         }
 
-        /* === CARACTERÍSTICAS === */
-        .features-grid {
+        .separador-futurista::before,
+        .separador-futurista::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 2px solid var(--morado-principal);
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .separador-futurista::before {
+            left: 0;
+        }
+
+        .separador-futurista::after {
+            right: 0;
+        }
+
+        /* CARACTERÍSTICAS */
+        .caracteristicas-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
+            gap: 30px;
         }
 
-        .feature-card {
-            background: var(--gray-grafito);
-            border: 1px solid var(--gray-carbon);
-            padding: 2.5rem 2rem;
-            transition: var(--transition-smooth);
+        .caracteristica-card {
+            background-color: var(--gris-grafito);
+            border: 1px solid var(--gris-carbon);
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .feature-card::before {
+        .caracteristica-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 3px;
-            height: 0;
-            background: var(--purple-primary);
-            transition: height 0.4s ease;
-        }
-
-        .feature-card:hover::before {
+            width: 100%;
             height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(90, 42, 130, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--purple-primary);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        .caracteristica-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--morado-principal);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 1.5rem;
-            stroke: var(--purple-primary);
-            fill: none;
-            stroke-width: 1.5;
+        .caracteristica-card:hover::before {
+            opacity: 1;
         }
 
-        .feature-title {
-            font-size: 1.3rem;
-            font-weight: 450;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
+        .caracteristica-icono {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--morado-suave);
+            color: var(--morado-principal);
         }
 
-        .feature-desc {
-            color: var(--text-secondary);
-            font-size: 1rem;
+        /* NÚCLEO TECNOLÓGICO */
+        .nucleo {
+            background-color: var(--negro-secundario);
         }
 
-        /* === NÚCLEO TECNOLÓGICO === */
-        #core {
-            background: var(--black-deep);
-        }
-
-        .core-content {
+        .nucleo-contenido {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 60px;
             align-items: center;
         }
 
-        .core-description {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .core-diagram {
+        .diagrama-container {
             position: relative;
-            width: 100%;
             height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .diagram-circle {
-            width: 200px;
-            height: 200px;
-            border: 2px solid var(--purple-primary);
+        .nucleo-central {
+            width: 120px;
+            height: 120px;
+            background-color: var(--morado-principal);
             border-radius: 50%;
-            position: absolute;
-            animation: rotateSlow 20s linear infinite;
-            box-shadow: 0 0 40px var(--purple-aura);
-        }
-
-        .diagram-center {
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, var(--purple-primary), var(--purple-light));
-            border-radius: 50%;
-            position: absolute;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            box-shadow: 0 0 30px var(--purple-aura);
-        }
-
-        .diagram-node {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: var(--gray-carbon);
-            border: 1px solid var(--purple-primary);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .node-1 { top: -20px; left: 50%; transform: translateX(-50%); }
-        .node-2 { bottom: -20px; left: 50%; transform: translateX(-50%); }
-        .node-3 { top: 50%; right: -20px; transform: translateY(-50%); }
-        .node-4 { top: 50%; left: -20px; transform: translateY(-50%); }
-
-        @keyframes rotateSlow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 30px rgba(90, 42, 130, 0.5);
+            animation: pulse 4s infinite ease-in-out;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
-        /* === ECOSISTEMA === */
-        .ecosystem-grid {
+        .modulo {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-color: var(--gris-grafito);
+            border: 1px solid var(--morado-principal);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modulo:hover {
+            background-color: var(--morado-suave);
+            transform: scale(1.1);
+        }
+
+        .modulo:nth-child(2) { top: 20%; left: 20%; }
+        .modulo:nth-child(3) { top: 20%; right: 20%; }
+        .modulo:nth-child(4) { bottom: 20%; left: 20%; }
+        .modulo:nth-child(5) { bottom: 20%; right: 20%; }
+        .modulo:nth-child(6) { top: 50%; left: 10%; transform: translateY(-50%); }
+        .modulo:nth-child(7) { top: 50%; right: 10%; transform: translateY(-50%); }
+
+        .conexion {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, var(--morado-principal), transparent);
+            z-index: 1;
+        }
+
+        /* ECOSISTEMA */
+        .ecosistema-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            gap: 25px;
         }
 
-        .ecosystem-card {
-            background: var(--gray-grafito);
-            border-left: 4px solid var(--purple-primary);
-            padding: 2rem;
-            transition: var(--transition-smooth);
+        .modulo-card {
+            background-color: var(--gris-grafito);
+            border: 1px solid var(--gris-carbon);
+            border-radius: 8px;
+            padding: 25px;
+            transition: all 0.3s ease;
         }
 
-        .ecosystem-card:hover {
-            background: var(--gray-carbon);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        .modulo-card:hover {
+            border-color: var(--morado-principal);
+            transform: translateY(-5px);
         }
 
-        .ecosystem-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.8rem;
-            color: var(--purple-light);
+        .modulo-titulo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
         }
 
-        /* === CHANGELOG === */
-        #changelog {
-            background: var(--gray-grafito);
+        .modulo-icono {
+            width: 40px;
+            height: 40px;
+            background-color: var(--morado-suave);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--morado-principal);
+        }
+
+        /* CHANGELOG */
+        .changelog {
+            background-color: var(--negro-secundario);
         }
 
         .timeline {
             position: relative;
-            max-width: 700px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
         .timeline::before {
             content: '';
             position: absolute;
+            top: 0;
+            bottom: 0;
             left: 50%;
-            transform: translateX(-50%);
             width: 2px;
-            height: 100%;
-            background: var(--gray-carbon);
+            background: linear-gradient(to bottom, transparent, var(--morado-principal), transparent);
+            transform: translateX(-50%);
         }
 
         .timeline-item {
+            margin-bottom: 50px;
             position: relative;
-            padding: 2rem 0;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
+            width: 50%;
+            padding: 0 40px;
         }
 
-        .timeline-item.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .timeline-item:nth-child(odd) {
+            left: 0;
         }
 
-        .timeline-item::before {
-            content: '';
-            position: absolute;
+        .timeline-item:nth-child(even) {
             left: 50%;
-            transform: translateX(-50%);
-            width: 12px;
-            height: 12px;
-            background: var(--purple-primary);
+        }
+
+        .timeline-punto {
+            position: absolute;
+            top: 0;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            border: 3px solid var(--gray-grafito);
-            z-index: 2;
+            background-color: var(--morado-principal);
+            border: 4px solid var(--negro-secundario);
         }
 
-        .timeline-content {
-            background: var(--gray-carbon);
-            padding: 1.5rem;
-            margin: 0 2rem;
-            width: calc(50% - 40px);
-            position: relative;
-            transition: var(--transition-smooth);
+        .timeline-item:nth-child(odd) .timeline-punto {
+            right: -10px;
         }
 
-        .timeline-content:hover {
-            background: var(--gray-medium);
-            transform: scale(1.02);
+        .timeline-item:nth-child(even) .timeline-punto {
+            left: -10px;
         }
 
-        .timeline-item:nth-child(odd) .timeline-content {
-            margin-left: auto;
-            margin-right: 2rem;
+        .timeline-contenido {
+            background-color: var(--gris-grafito);
+            border-radius: 8px;
+            padding: 25px;
+            border: 1px solid var(--gris-carbon);
+            transition: all 0.3s ease;
         }
 
-        .timeline-version {
-            color: var(--purple-light);
+        .timeline-contenido:hover {
+            border-color: var(--morado-principal);
+        }
+
+        .timeline-fecha {
+            color: var(--morado-principal);
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 10px;
         }
 
-        /* === FAQ === */
+        /* FAQ */
+        .faq-contenedor {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
         .faq-item {
-            background: var(--gray-grafito);
-            border: 1px solid var(--gray-carbon);
-            margin-bottom: 1rem;
-            transition: var(--transition-smooth);
+            margin-bottom: 15px;
+            border: 1px solid var(--gris-carbon);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        .faq-item:hover {
-            border-color: var(--purple-primary);
-        }
-
-        .faq-question {
-            padding: 1.5rem;
+        .faq-pregunta {
+            padding: 20px;
+            background-color: var(--gris-grafito);
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: var(--transition-smooth);
+            transition: background-color 0.3s ease;
         }
 
-        .faq-question:hover {
-            background: var(--gray-carbon);
+        .faq-pregunta:hover {
+            background-color: var(--gris-carbon);
         }
 
-        .faq-question h3 {
-            font-weight: 450;
-            color: var(--text-primary);
-        }
-
-        .faq-icon {
-            color: var(--purple-primary);
+        .faq-pregunta::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--morado-principal);
             transition: transform 0.3s ease;
         }
 
-        .faq-item.active .faq-icon {
+        .faq-item.activo .faq-pregunta::after {
             transform: rotate(45deg);
         }
 
-        .faq-answer {
+        .faq-respuesta {
+            padding: 0 20px;
             max-height: 0;
             overflow: hidden;
-            padding: 0 1.5rem;
-            color: var(--text-secondary);
-            transition: max-height 0.4s ease, padding 0.4s ease;
+            transition: all 0.3s ease;
+            background-color: var(--negro-secundario);
         }
 
-        .faq-item.active .faq-answer {
-            max-height: 300px;
-            padding: 0 1.5rem 1.5rem;
+        .faq-item.activo .faq-respuesta {
+            padding: 20px;
+            max-height: 500px;
         }
 
-        /* === FOOTER === */
+        /* FOOTER */
         footer {
-            background: var(--black-deep);
-            padding: 3rem 2rem;
-            text-align: center;
-            border-top: 1px solid var(--gray-carbon);
+            background-color: var(--negro-profundo);
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--gris-carbon);
         }
 
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
+        .footer-contenido {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
-        .footer-links a {
-            color: var(--text-secondary);
+        .footer-columna h4 {
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-columna h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--morado-principal);
+        }
+
+        .footer-enlaces {
+            list-style: none;
+        }
+
+        .footer-enlaces li {
+            margin-bottom: 10px;
+        }
+
+        .footer-enlaces a {
+            color: var(--gris-texto);
             text-decoration: none;
-            transition: var(--transition-smooth);
-            font-weight: 350;
+            transition: color 0.3s ease;
         }
 
-        .footer-links a:hover {
-            color: var(--purple-light);
-            transform: translateY(-2px);
+        .footer-enlaces a:hover {
+            color: var(--morado-principal);
         }
 
-        .footer-credits {
-            color: var(--text-secondary);
+        .footer-copy {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--gris-carbon);
+            color: var(--gris-texto);
             font-size: 0.9rem;
         }
 
-        /* === UTILIDADES === */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* === RESPONSIVE === */
-        @media (max-width: 768px) {
-            .core-content {
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            .acerca-contenido,
+            .nucleo-contenido {
                 grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .acerca-texto h2 {
+                text-align: center;
+            }
+            
+            .acerca-texto h2::after {
+                left: 50%;
+                transform: translateX(-50%);
             }
             
             .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 0;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-punto {
                 left: 20px;
             }
-            
-            .timeline-item::before {
-                left: 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
             }
             
-            .timeline-content {
-                width: calc(100% - 40px);
-                margin-left: 40px !important;
+            h2 {
+                font-size: 1.8rem;
             }
             
-            .hero-buttons {
+            section {
+                padding: 70px 0;
+            }
+            
+            .hero-botones {
                 flex-direction: column;
-                width: 100%;
+                align-items: center;
             }
             
-            .btn-primary, .btn-secondary {
+            .btn {
                 width: 100%;
+                max-width: 250px;
             }
         }
     </style>
 </head>
 <body>
     <!-- HERO SECTION -->
-    <section id="hero">
-        <canvas id="particles-canvas"></canvas>
-        <div class="wave-bg"></div>
-        
-        <div class="hero-content">
-            <h1 class="hero-title">NexVoid — Donde la precisión encuentra la estabilidad</h1>
-            <p class="hero-subtitle">Tecnología avanzada creada para durar, optimizada para el mundo real.</p>
-            <div class="hero-buttons">
-                <a href="#download" class="btn-primary">Descargar</a>
-                <a href="#docs" class="btn-secondary">Documentación</a>
-                <a href="#features" class="btn-secondary">Ver características</a>
+    <section class="hero">
+        <div id="particles-js"></div>
+        <div class="contenedor hero-contenido">
+            <div>
+                <h1>NexVoid</h1>
+                <p class="hero-subtitulo">Donde la precisión encuentra la estabilidad</p>
+                <p>Tecnología avanzada creada para durar, optimizada para el mundo real.</p>
+                <div class="hero-botones">
+                    <a href="#" class="btn">Descargar</a>
+                    <a href="#" class="btn">Documentación</a>
+                    <a href="#" class="btn">Ver características</a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ACERCA DE NEXVOID -->
-    <section id="about">
-        <h2 class="section-title fade-in">Acerca de NexVoid</h2>
-        <div class="about-content fade-in">
-            <p>NexVoid representa la próxima evolución en arquitectura de software robusto. 
-            Construido desde cero con principios de ingeniería de precisión, cada componente 
-            está diseñado para ofrecer estabilidad inquebrantable en entornos críticos.</p>
-            
-            <p>Nuestro enfoque se centra en eliminar la complejidad innecesaria mientras 
-            maximizamos el rendimiento real. No es solo otro framework; es un estándar 
-            de confiabilidad para sistemas que no pueden fallar.</p>
+    <section class="acerca">
+        <div class="contenedor">
+            <div class="acerca-contenido">
+                <div class="acerca-texto">
+                    <h2>Acerca de NexVoid</h2>
+                    <p>NexVoid es una plataforma tecnológica de vanguardia diseñada para ofrecer soluciones robustas y estables en entornos de alta exigencia. Nuestro enfoque se centra en la precisión, eficiencia y durabilidad de cada componente.</p>
+                    <p>Desarrollado con arquitectura modular y motor de procesamiento avanzado, NexVoid establece nuevos estándares en el sector, proporcionando herramientas que se adaptan a las necesidades más complejas sin comprometer el rendimiento.</p>
+                </div>
+                <div class="acerca-imagen">
+                    <!-- Espacio para gráfico SVG futurista -->
+                    <div style="width: 100%; height: 300px; background-color: var(--gris-grafito); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gris-carbon);">
+                        <p style="color: var(--gris-texto);">Visualización arquitectónica de NexVoid</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <svg class="separator-svg" viewBox="0 0 1200 60" preserveAspectRatio="none">
-            <path d="M0,30 Q300,0 600,30 T1200,30" stroke="rgba(126, 34, 206, 0.3)" stroke-width="1" fill="none"/>
-            <path d="M0,40 Q300,10 600,40 T1200,40" stroke="rgba(168, 85, 247, 0.2)" stroke-width="0.5" fill="none"/>
-        </svg>
+        <div class="separador-futurista"></div>
     </section>
 
     <!-- CARACTERÍSTICAS -->
-    <section id="features">
-        <h2 class="section-title fade-in">Características</h2>
-        <div class="features-grid">
-            <div class="feature-card fade-in">
-                <svg class="feature-icon" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 6v6l4 2"/>
-                </svg>
-                <h3 class="feature-title">Rendimiento Extremo</h3>
-                <p class="feature-desc">Latencia mínima y procesamiento optimizado en núcleo. 
-                No hay trade-offs entre velocidad y estabilidad.</p>
-            </div>
-            
-            <div class="feature-card fade-in">
-                <svg class="feature-icon" viewBox="0 0 24 24">
-                    <polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5"/>
-                    <line x1="12" y1="22" x2="12" y2="8.5"/>
-                </svg>
-                <h3 class="feature-title">Arquitectura Modular</h3>
-                <p class="feature-desc">Diseño desacoplado que permite integración sin fricción. 
-                Usa solo lo que necesitas, cuando lo necesitas.</p>
-            </div>
-            
-            <div class="feature-card fade-in">
-                <svg class="feature-icon" viewBox="0 0 24 24">
-                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    <path d="M9 12l2 2 4-4"/>
-                </svg>
-                <h3 class="feature-title">Validación Predictiva</h3>
-                <p class="feature-desc">Motor de análisis proactivo que detecta patrones 
-                de fallo antes de que ocurran. Estabilidad anticipada.</p>
-            </div>
-            
-            <div class="feature-card fade-in">
-                <svg class="feature-icon" viewBox="0 0 24 24">
-                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                </svg>
-                <h3 class="feature-title">Seguridad Inherente</h3>
-                <p class="feature-desc">Modelo de seguridad de capas sin sobrecarga. 
-                Protección activa sin comprometer el rendimiento.</p>
+    <section class="caracteristicas">
+        <div class="contenedor">
+            <h2>Características Principales</h2>
+            <div class="caracteristicas-grid">
+                <div class="caracteristica-card">
+                    <div class="caracteristica-icono">
+                        <!-- Ícono SVG -->
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M19.4 15C19.2669 15.3286 19.1037 15.6423 18.9131 15.9365C17.9387 17.3974 16.5366 18.5228 14.8944 19.1623C13.2522 19.8018 11.4502 19.9259 9.72736 19.5178C8.00452 19.1097 6.44581 18.1888 5.26407 16.8792C4.08233 15.5696 3.33565 13.9337 3.12345 12.1939C2.91125 10.4541 3.24351 8.69509 4.077 7.14473C4.91049 5.59437 6.20404 4.32753 7.78934 3.51671C9.37464 2.70589 11.1749 2.38965 12.9499 2.60938" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Arquitectura Modular</h3>
+                    <p>Sistema completamente modular que permite personalización y escalabilidad según necesidades específicas.</p>
+                </div>
+                <div class="caracteristica-card">
+                    <div class="caracteristica-icono">
+                        <!-- Ícono SVG -->
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Rendimiento Optimizado</h3>
+                    <p>Motor de procesamiento avanzado que maximiza la eficiencia y minimiza el consumo de recursos.</p>
+                </div>
+                <div class="caracteristica-card">
+                    <div class="caracteristica-icono">
+                        <!-- Ícono SVG -->
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M2 12H4M20 12H22M12 4V6M12 18V20M6.34315 6.34315L7.75736 7.75736M17.6569 17.6569L16.2426 16.2426M6.34315 17.6569L7.75736 16.2426M17.6569 6.34315L16.2426 7.75736" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3>Seguridad Avanzada</h3>
+                    <p>Sistema de protección multicapa con encriptación de última generación para garantizar la integridad de los datos.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- NÚCLEO TECNOLÓGICO -->
-    <section id="core">
-        <h2 class="section-title fade-in">NexVoid Core Engine</h2>
-        <div class="core-content fade-in">
-            <div class="core-description">
-                <p>El corazón de NexVoid es un núcleo híbrido que combina técnicas de 
-                programación nativa con abstracciones de alto nivel. Su diseño de 
-                pipeline multicapa permite procesamiento paralelo inteligente con 
-                gestión automática de recursos.</p>
-                
-                <p>Con un footprint mínimo y footprint de memoria constante, 
-                garantiza comportamiento predecible incluso bajo carga extrema.</p>
-            </div>
-            
-            <div class="core-diagram">
-                <div class="diagram-circle"></div>
-                <div class="diagram-node node-1"></div>
-                <div class="diagram-node node-2"></div>
-                <div class="diagram-node node-3"></div>
-                <div class="diagram-node node-4"></div>
-                <div class="diagram-center">CORE</div>
+    <section class="nucleo">
+        <div class="contenedor">
+            <h2>Núcleo Tecnológico</h2>
+            <div class="nucleo-contenido">
+                <div class="nucleo-texto">
+                    <h3>NexVoid Core Engine</h3>
+                    <p>El motor central de NexVoid representa la culminación de años de investigación y desarrollo en tecnologías de procesamiento avanzado. Diseñado desde cero para ofrecer estabilidad excepcional incluso bajo cargas extremas.</p>
+                    <p>Nuestro sistema de procesamiento paralelo distribuido permite ejecutar múltiples operaciones simultáneamente sin comprometer la integridad del sistema, mientras que la arquitectura de microservicios garantiza aislamiento de fallos y recuperación rápida.</p>
+                    <a href="#" class="btn">Documentación Técnica</a>
+                </div>
+                <div class="diagrama-container">
+                    <div class="nucleo-central">CORE</div>
+                    <div class="modulo">API</div>
+                    <div class="modulo">UI</div>
+                    <div class="modulo">DB</div>
+                    <div class="modulo">NET</div>
+                    <div class="modulo">SEC</div>
+                    <div class="modulo">LOG</div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ECOSISTEMA -->
-    <section id="ecosystem">
-        <h2 class="section-title fade-in">Ecosistema</h2>
-        <div class="ecosystem-grid fade-in">
-            <div class="ecosystem-card">
-                <h3 class="ecosystem-title">UI Framework</h3>
-                <p>Componentes atomicos con estado consistente y rendering optimizado.</p>
-            </div>
-            
-            <div class="ecosystem-card">
-                <h3 class="ecosystem-title">API Core DLL</h3>
-                <p>Interfaz binaria de alta velocidad con binding automático para múltiples lenguajes.</p>
-            </div>
-            
-            <div class="ecosystem-card">
-                <h3 class="ecosystem-title">Sistema de Inyección</h3>
-                <p>Inyección de dependencias sin reflexión con resolución de grafos acíclicos.</p>
-            </div>
-            
-            <div class="ecosystem-card">
-                <h3 class="ecosystem-title">Compatibilidad</h3>
-                <p>Soporte cruzado para Windows, Linux, macOS con comportamiento idéntico.</p>
-            </div>
-            
-            <div class="ecosystem-card">
-                <h3 class="ecosystem-title">Monitoring</h3>
-                <p>Observabilidad en tiempo real con métricas de latencia sub-milisegundo.</p>
-            </div>
-            
-            <div class="ecosystem-card">
-                <h3 class="ecosystem-title">Data Pipeline</h3>
-                <p>Streaming de datos con backpressure automático y garantía de entrega.</p>
+    <section class="ecosistema">
+        <div class="contenedor">
+            <h2>Ecosistema NexVoid</h2>
+            <div class="ecosistema-grid">
+                <div class="modulo-card">
+                    <div class="modulo-titulo">
+                        <div class="modulo-icono">UI</div>
+                        <h3>Interfaz de Usuario</h3>
+                    </div>
+                    <p>Interfaz intuitiva y personalizable diseñada para optimizar el flujo de trabajo y mejorar la productividad.</p>
+                </div>
+                <div class="modulo-card">
+                    <div class="modulo-titulo">
+                        <div class="modulo-icono">API</div>
+                        <h3>API & DLL</h3>
+                    </div>
+                    <p>Bibliotecas de enlace dinámico y API completa para integración con sistemas existentes y desarrollo personalizado.</p>
+                </div>
+                <div class="modulo-card">
+                    <div class="modulo-titulo">
+                        <div class="modulo-icono">INY</div>
+                        <h3>Sistema de Inyección</h3>
+                    </div>
+                    <p>Mecanismo seguro de inyección de módulos con verificación de integridad y aislamiento de procesos.</p>
+                </div>
+                <div class="modulo-card">
+                    <div class="modulo-titulo">
+                        <div class="modulo-icono">COM</div>
+                        <h3>Compatibilidad</h3>
+                    </div>
+                    <p>Soporte multiplataforma y retrocompatibilidad con estándares industriales y protocolos establecidos.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- CHANGELOG -->
-    <section id="changelog">
-        <h2 class="section-title fade-in">Evolución</h2>
-        <div class="timeline">
-            <div class="timeline-item fade-in">
-                <div class="timeline-content">
-                    <div class="timeline-version">v3.2.1 - Diciembre 2024</div>
-                    <p>Optimización de pipeline de eventos. Reducción de latencia en 18%.</p>
+    <section class="changelog">
+        <div class="contenedor">
+            <h2>Historial de Versiones</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-punto"></div>
+                    <div class="timeline-contenido">
+                        <div class="timeline-fecha">v2.1.0 - Enero 2024</div>
+                        <h3>Nuevo Módulo de Análisis</h3>
+                        <p>Implementación del sistema de análisis predictivo con machine learning. Mejoras en la estabilidad del núcleo y optimización de recursos.</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="timeline-item fade-in">
-                <div class="timeline-content">
-                    <div class="timeline-version">v3.2.0 - Noviembre 2024</div>
-                    <p>Nuevo sistema de validación predictiva con modelo de análisis mejorado.</p>
+                <div class="timeline-item">
+                    <div class="timeline-punto"></div>
+                    <div class="timeline-contenido">
+                        <div class="timeline-fecha">v2.0.5 - Octubre 2023</div>
+                        <h3>Actualización de Seguridad</h3>
+                        <p>Parche crítico de seguridad y mejoras en el sistema de encriptación. Nuevas funciones de auditoría y monitoreo.</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="timeline-item fade-in">
-                <div class="timeline-content">
-                    <div class="timeline-version">v3.1.8 - Octubre 2024</div>
-                    <p>Mejoras en gestión de memoria y estabilidad en condiciones de carga extrema.</p>
+                <div class="timeline-item">
+                    <div class="timeline-punto"></div>
+                    <div class="timeline-contenido">
+                        <div class="timeline-fecha">v2.0.0 - Julio 2023</div>
+                        <h3>Lanzamiento Principal</h3>
+                        <p>Versión estable con todas las funciones principales implementadas. Arquitectura modular completamente funcional.</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="timeline-item fade-in">
-                <div class="timeline-content">
-                    <div class="timeline-version">v3.1.0 - Septiembre 2024</div>
-                    <p>Integración de módulos de monitoring en tiempo real.</p>
+                <div class="timeline-item">
+                    <div class="timeline-punto"></div>
+                    <div class="timeline-contenido">
+                        <div class="timeline-fecha">v1.5.0 - Marzo 2023</div>
+                        <h3>Beta Pública</h3>
+                        <p>Primera versión pública con funciones básicas estables. Recopilación de feedback para optimizaciones finales.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ -->
-    <section id="faq">
-        <h2 class="section-title fade-in">Preguntas Frecuentes</h2>
-        <div style="max-width: 800px; margin: 0 auto;">
-            <div class="faq-item fade-in">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>¿Qué hace diferente a NexVoid?</h3>
-                    <span class="faq-icon">+</span>
+    <section class="faq">
+        <div class="contenedor">
+            <h2>Preguntas Frecuentes</h2>
+            <div class="faq-contenedor">
+                <div class="faq-item">
+                    <div class="faq-pregunta">
+                        <h3>¿Qué requisitos de sistema tiene NexVoid?</h3>
+                    </div>
+                    <div class="faq-respuesta">
+                        <p>NexVoid está optimizado para funcionar en sistemas con Windows 10/11 de 64 bits, 8GB de RAM como mínimo (16GB recomendados) y 2GB de espacio libre en disco. No requiere hardware especializado.</p>
+                    </div>
                 </div>
-                <div class="faq-answer">
-                    <p>NexVoid prioriza la estabilidad sistémica sobre features superficiales. 
-                    Cada componente es diseñado con tolerancia a fallos inherente y validación 
-                    matemática de comportamiento.</p>
+                <div class="faq-item">
+                    <div class="faq-pregunta">
+                        <h3>¿Ofrecen soporte técnico?</h3>
+                    </div>
+                    <div class="faq-respuesta">
+                        <p>Sí, ofrecemos soporte técnico completo para todos nuestros usuarios. Contamos con documentación extensa, foros de comunidad y un equipo de soporte especializado disponible mediante tickets.</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>¿Cuál es el overhead de rendimiento?</h3>
-                    <span class="faq-icon">+</span>
+                <div class="faq-item">
+                    <div class="faq-pregunta">
+                        <h3>¿Es compatible con otros softwares?</h3>
+                    </div>
+                    <div class="faq-respuesta">
+                        <p>NexVoid está diseñado con compatibilidad en mente. Ofrecemos API completa y soporte para integración con la mayoría de sistemas empresariales y herramientas de desarrollo populares.</p>
+                    </div>
                 </div>
-                <div class="faq-answer">
-                    <p>Menos del 2% en operaciones de ciclo crítico. La mayoría de optimizaciones 
-                    se aplican en tiempo de compilación, no en runtime.</p>
-                </div>
-            </div>
-            
-            <div class="faq-item fade-in">
-                <div class="faq-question" onclick="toggleFAQ(this)">
-                    <h3>¿Soporta despliegue en producción empresarial?</h3>
-                    <span class="faq-icon">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p>Sí. NexVoid está en producción en entornos críticos de finanzas, 
-                    telecomunicaciones y salud con uptime de 99.999%.</p>
+                <div class="faq-item">
+                    <div class="faq-pregunta">
+                        <h3>¿Cómo se actualiza el software?</h3>
+                    </div>
+                    <div class="faq-respuesta">
+                        <p>Las actualizaciones son automáticas y no invasivas. El sistema verifica periódicamente nuevas versiones y las descarga en segundo plano, solicitando permiso para instalarlas cuando sea conveniente.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -791,111 +850,131 @@
 
     <!-- FOOTER -->
     <footer>
-        <div class="footer-links">
-            <a href="#privacy">Privacidad</a>
-            <a href="#terms">Términos</a>
-            <a href="#contact">Contacto</a>
-            <a href="#support">Soporte</a>
-        </div>
-        <div class="footer-credits">
-            <p>&copy; 2024 NexVoid Systems. Precision Engineered Stability.</p>
+        <div class="contenedor">
+            <div class="footer-contenido">
+                <div class="footer-columna">
+                    <h4>NexVoid</h4>
+                    <p>Tecnología avanzada para soluciones estables y precisas en entornos exigentes.</p>
+                </div>
+                <div class="footer-columna">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul class="footer-enlaces">
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#">Características</a></li>
+                        <li><a href="#">Documentación</a></li>
+                        <li><a href="#">Descargas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-columna">
+                    <h4>Recursos</h4>
+                    <ul class="footer-enlaces">
+                        <li><a href="#">Foro de la Comunidad</a></li>
+                        <li><a href="#">Blog Técnico</a></li>
+                        <li><a href="#">Soporte</a></li>
+                        <li><a href="#">Estado del Servicio</a></li>
+                    </ul>
+                </div>
+                <div class="footer-columna">
+                    <h4>Legal</h4>
+                    <ul class="footer-enlaces">
+                        <li><a href="#">Términos de Uso</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Licencias</a></li>
+                        <li><a href="#">Aviso Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-copy">
+                <p>&copy; 2024 NexVoid. Todos los derechos reservados.</p>
+            </div>
         </div>
     </footer>
 
     <script>
-        // === SISTEMA DE PARTÍCULAS ===
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const particles = [];
-        const particleCount = 80;
-        
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
-                this.radius = Math.random() * 2 + 0.5;
-                this.opacity = Math.random() * 0.4 + 0.1;
-            }
+        // PARTÍCULAS PARA EL HERO
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulación de partículas (en un caso real usaríamos una librería como particles.js)
+            const particlesContainer = document.getElementById('particles-js');
             
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
+            // Crear partículas simples
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 3 + 1 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.backgroundColor = 'rgba(90, 42, 130, ' + (Math.random() * 0.5 + 0.1) + ')';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particlesContainer.appendChild(particle);
                 
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                // Animación simple
+                animateParticle(particle);
             }
             
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(168, 85, 247, ${this.opacity})`;
-                ctx.fill();
+            function animateParticle(particle) {
+                let x = parseFloat(particle.style.left);
+                let y = parseFloat(particle.style.top);
+                let xSpeed = (Math.random() - 0.5) * 0.1;
+                let ySpeed = (Math.random() - 0.5) * 0.1;
+                
+                function move() {
+                    x += xSpeed;
+                    y += ySpeed;
+                    
+                    if (x < 0 || x > 100) xSpeed *= -1;
+                    if (y < 0 || y > 100) ySpeed *= -1;
+                    
+                    particle.style.left = x + '%';
+                    particle.style.top = y + '%';
+                    
+                    requestAnimationFrame(move);
+                }
+                
+                move();
             }
-        }
-        
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-        
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-        
-        // Parallax sutil del cursor
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX / window.innerWidth - 0.5;
-            const y = e.clientY / window.innerHeight - 0.5;
             
-            document.querySelector('.hero-content').style.transform = 
-                `translate(${x * 20}px, ${y * 20}px)`;
-        });
-        
-        // === OBSERVER PARA ANIMACIONES DE SCROLL ===
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+            // FAQ ACORDEÓN
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-pregunta');
+                
+                question.addEventListener('click', () => {
+                    // Cerrar otros items abiertos
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('activo')) {
+                            otherItem.classList.remove('activo');
+                        }
+                    });
+                    
+                    // Alternar el item actual
+                    item.classList.toggle('activo');
+                });
             });
-        }, { threshold: 0.15 });
-        
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-        
-        // === SISTEMA DE FAQ ===
-        function toggleFAQ(element) {
-            const item = element.parentElement;
-            item.classList.toggle('active');
-        }
-        
-        // === TIMELINE ANIMATION ===
-        const timelineObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.classList.add('visible');
-                    }, Array.from(entry.target.parentElement.children).indexOf(entry.target) * 200);
-                }
+            
+            // ANIMACIÓN AL HACER SCROLL
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observar elementos para animación
+            document.querySelectorAll('.caracteristica-card, .timeline-item, .modulo-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(el);
             });
-        }, { threshold: 0.3 });
-        
-        document.querySelectorAll('.timeline-item').forEach(el => timelineObserver.observe(el));
-        
-        // === RESPONSIVE CANVAS ===
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
         });
     </script>
 </body>
