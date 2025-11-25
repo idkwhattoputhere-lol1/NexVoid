@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NexVoid - Innovación en el vacío digital">
     
-    <!-- Paleta de color NexVoid (OBLIGATORIA) -->
+    <!-- Paleta de color NexVoid (OBLIGATORIA - NO MODIFICAR HEX) -->
     <!--
         Fondo: #050407
         Paneles: #141218 / #222025
@@ -16,25 +16,29 @@
         Texto secundario: #A8A0B3
     -->
     
+    <!-- Preload de fuentes críticas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@400;700;900&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
     
     <title>NexVoid | Innovación Cuántica</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Fondo animado sutil -->
-    <div class="bg-ambient" aria-hidden="true">
-        <div class="bg-wave"></div>
-        <div class="bg-particles"></div>
-    </div>
+    <!-- Toggle Modo Dios (Desarrollo) -->
+    <!-- Descomenta para activar: <script>document.documentElement.setAttribute('data-godmode', 'true');</script> -->
     
+    <!-- Canvas de fondo -->
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+    
+    <!-- Skip to content -->
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
     
+    <!-- Header -->
     <header class="site-header" role="banner">
         <div class="container">
-            <div class="logo">
+            <div class="logo" aria-label="NexVoid Logo">
                 <svg class="logo-icon" role="img" width="40" height="40" viewBox="0 0 40 40">
                     <title>NexVoid Logo</title>
                     <path d="M20 5 L35 15 L35 25 L20 35 L5 25 L5 15 Z" fill="#8B39E6"/>
@@ -54,6 +58,7 @@
     </header>
     
     <main id="main-content">
+        <!-- Hero Section -->
         <section id="hero" class="hero" role="region" aria-label="Hero">
             <div class="hero-content container">
                 <h1 class="hero-title">
@@ -66,15 +71,23 @@
                 </p>
                 <div class="hero-actions">
                     <button class="btn btn-primary" aria-label="Explorar demo">
-                        <span>Iniciar Demo</span>
+                        <span>Desatar Energía</span>
+                        <svg class="btn-icon" role="img" width="20" height="20" viewBox="0 0 20 20">
+                            <title>Flecha</title>
+                            <path d="M4 10 L14 10 M10 6 L14 10 L10 14" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
                     </button>
                     <button class="btn btn-secondary" aria-label="Ver documentación">
                         <span>Documentación</span>
                     </button>
                 </div>
             </div>
+            
+            <!-- Smear Lines Container -->
+            <div id="smear-container" aria-hidden="true"></div>
         </section>
         
+        <!-- Features -->
         <section id="features" class="section features">
             <div class="container">
                 <h2 class="section-title">Características de Élite</h2>
@@ -83,6 +96,7 @@
                         <svg class="feature-icon" role="img" width="48" height="48" viewBox="0 0 48 48">
                             <title>Velocidad Cuántica</title>
                             <circle cx="24" cy="24" r="20" stroke="#8B39E6" stroke-width="2" fill="none"/>
+                            <path d="M24 4 L24 10 M24 38 L24 44 M4 24 L10 24 M38 24 L44 24" stroke="#8B39E6" stroke-width="2"/>
                         </svg>
                         <h3>Velocidad Cuántica</h3>
                         <p>Procesamiento 1000x más rápido que la competencia.</p>
@@ -90,7 +104,7 @@
                     <article class="feature-card">
                         <svg class="feature-icon" role="img" width="48" height="48" viewBox="0 0 48 48">
                             <title>Seguridad Orgánica</title>
-                            <path d="M24 4 L32 12 L32 24 L24 36 L16 24 L16 12 Z" fill="#8B39E6"/>
+                            <path d="M24 4 L32 12 L32 24 C32 30 24 36 24 36 C24 36 16 30 16 24 L16 12 Z" fill="#8B39E6"/>
                         </svg>
                         <h3>Seguridad Orgánica</h3>
                         <p>Encriptación que evoluciona con cada uso.</p>
@@ -99,6 +113,7 @@
                         <svg class="feature-icon" role="img" width="48" height="48" viewBox="0 0 48 48">
                             <title>IA Sintiente</title>
                             <circle cx="24" cy="24" r="8" fill="none" stroke="#8B39E6" stroke-width="3"/>
+                            <circle cx="24" cy="24" r="16" fill="none" stroke="#8B39E6" stroke-width="2" opacity="0.5"/>
                         </svg>
                         <h3>IA Sintiente</h3>
                         <p>Aprende, adapta y predice tu próximo movimiento.</p>
@@ -107,37 +122,48 @@
             </div>
         </section>
         
+        <!-- Core -->
         <section id="core" class="section core">
             <div class="container">
                 <h2 class="section-title">Núcleo Tecnológico</h2>
                 <p class="section-subtitle">Arquitectura revolucionaria sin precedentes.</p>
+                <div class="core-visual" aria-hidden="true">
+                    <svg class="core-squiggle" width="100%" height="200" viewBox="0 0 800 200">
+                        <path d="M0 100 Q200 50 400 100 T800 100" stroke="#8B39E6" stroke-width="3" fill="none" opacity="0.3"/>
+                    </svg>
+                </div>
             </div>
         </section>
         
+        <!-- Ecosystem -->
         <section id="ecosystem" class="section ecosystem">
             <div class="container">
                 <h2 class="section-title">Ecosistema Infinito</h2>
                 <div class="ecosystem-grid">
                     <div class="eco-item">
+                        <span class="eco-dot"></span>
                         <h4>Quantum API</h4>
                     </div>
                     <div class="eco-item">
+                        <span class="eco-dot"></span>
                         <h4>Void Cloud</h4>
                     </div>
                     <div class="eco-item">
+                        <span class="eco-dot"></span>
                         <h4>Nexus SDK</h4>
                     </div>
                 </div>
             </div>
         </section>
         
+        <!-- Changelog -->
         <section id="changelog" class="section changelog">
             <div class="container">
                 <h2 class="section-title">Evolución Constante</h2>
                 <ul class="changelog-list">
                     <li class="changelog-item">
                         <time datetime="2025-01">v2.1.0</time>
-                        <p>UI minimal refinada</p>
+                        <p>Integración de smear lines dinámicas</p>
                     </li>
                     <li class="changelog-item">
                         <time datetime="2024-12">v2.0.0</time>
@@ -147,6 +173,7 @@
             </div>
         </section>
         
+        <!-- FAQ -->
         <section id="faq" class="section faq" aria-labelledby="faq-title">
             <div class="container">
                 <h2 id="faq-title" class="section-title">Preguntas Cuánticas</h2>
@@ -162,6 +189,7 @@
         </section>
     </main>
     
+    <!-- Footer -->
     <footer class="site-footer" role="contentinfo">
         <div class="container">
             <p>&copy; 2025 NexVoid. Creado en el vacío.</p>
@@ -171,6 +199,9 @@
             </nav>
         </div>
     </footer>
+    
+    <!-- Burst particles container -->
+    <div id="burst-container" aria-hidden="true"></div>
     
     <script src="app.js"></script>
 </body>
