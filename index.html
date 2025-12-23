@@ -1,919 +1,579 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NexVoid - Experiencia cinemática explosiva">
-    <title>NexVoid - El Vacío Cinético</title>
+// NexVoid - Main JavaScript
+// Animaciones premium y microinteracciones
+
+class NexVoidApp {
+    constructor() {
+        this.isLoaded = false;
+        this.sounds = {};
+        this.init();
+    }
     
-    <!-- PALETA DE COLORES
-    ==========================================
-    Fondo Principal: #050407 (negro profundo)
-    Panel Gray Dark: #141218
-    Panel Gray Light: #222025
-    Acento Morado: #8B39E6 (primario CTA)
-    Acento Púrpura: #5B1EA8 (secundario)
-    Acento Ámbar: #B58F3B (detalles cálidos)
-    Texto Principal: #EDEAF6
-    Texto Secundario: #A8A0B3
-    ========================================== -->
+    init() {
+        this.setupLoadingScreen();
+        this.setupBackgroundAnimation();
+        this.setupScrollAnimations();
+        this.setupNavigation();
+        this.setupSoundEffects();
+        this.setupCustomCursor();
+        this.setupParticleSystem();
+        this.setupSmoothScrolling();
+    }
     
-    <style>
-        /* ============================================
-           RESET Y VARIABLES BASE
-        ============================================ */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            /* Paleta */
-            --bg-deep: #050407;
-            --bg-panel-dark: #141218;
-            --bg-panel-light: #222025;
-            --accent-purple: #8B39E6;
-            --accent-dark-purple: #5B1EA8;
-            --accent-amber: #B58F3B;
-            --text-main: #EDEAF6;
-            --text-secondary: #A8A0B3;
-            
-            /* Espaciado */
-            --space-xs: 0.5rem;
-            --space-sm: 1rem;
-            --space-md: 2rem;
-            --space-lg: 4rem;
-            --space-xl: 6rem;
-            
-            /* Animaciones - ajustables */
-            --anim-speed: 1;
-            --particle-count: 80;
-            --burst-intensity: 1;
-            
-            /* Tipografía */
-            --font-display: 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
-
-        /* Reducir movimiento si el usuario lo prefiere */
-        @media (prefers-reduced-motion: reduce) {
-            :root {
-                --anim-speed: 0.01;
-                --particle-count: 5;
-                --burst-intensity: 0.1;
-            }
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* Tipografías */
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-deep);
-            color: var(--text-main);
-            overflow-x: hidden;
-            line-height: 1.6;
-            position: relative;
-        }
-
-        /* ============================================
-           CANVAS BACKGROUND
-        ============================================ */
-        #bgCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* SVG para smear lines (generadas dinámicamente) */
-        #smearSvg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.7;
-        }
-
-        /* ============================================
-           LAYOUT PRINCIPAL
-        ============================================ */
-        main {
-            position: relative;
-            z-index: 10;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 var(--space-md);
-        }
-
-        /* ============================================
-           HEADER
-        ============================================ */
-        header {
-            padding: var(--space-md) 0;
-            position: relative;
-        }
-
-        .nav-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--accent-purple);
-            text-shadow: 0 0 20px rgba(139, 57, 230, 0.5);
-            letter-spacing: 0.1em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: var(--space-md);
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-purple);
-        }
-
-        .nav-links a:focus {
-            outline: 2px solid var(--accent-purple);
-            outline-offset: 4px;
-        }
-
-        /* ============================================
-           HERO SECTION
-        ============================================ */
-        #hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            padding: var(--space-xl) 0;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 20;
-        }
-
-        .hero-title {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 10vw, 8rem);
-            font-weight: 900;
-            line-height: 1;
-            margin-bottom: var(--space-md);
-            position: relative;
-            display: inline-block;
-        }
-
-        /* Shader noise en el título (simulado con gradient animado) */
-        .hero-title span {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-amber), var(--accent-purple));
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: heroGradient calc(4s / var(--anim-speed)) ease infinite;
-            filter: drop-shadow(0 0 30px rgba(139, 57, 230, 0.6));
-        }
-
-        @keyframes heroGradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            color: var(--text-secondary);
-            margin-bottom: var(--space-lg);
-            font-weight: 300;
-        }
-
-        /* ============================================
-           BOTONES CON RIPPLE Y GLOW
-        ============================================ */
-        .btn {
-            position: relative;
-            padding: 1rem 3rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            border: 2px solid var(--accent-purple);
-            background: transparent;
-            color: var(--text-main);
-            cursor: pointer;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            font-family: var(--font-body);
-            display: inline-block;
-            margin: 0 var(--space-sm);
-        }
-
-        .btn:hover {
-            box-shadow: 0 0 30px rgba(139, 57, 230, 0.5), inset 0 0 20px rgba(139, 57, 230, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .btn:focus {
-            outline: 3px solid var(--accent-amber);
-            outline-offset: 4px;
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        /* Efecto ripple */
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(139, 57, 230, 0.5);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-        }
-
-        .btn:active::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn-primary {
-            background: var(--accent-purple);
-            border-color: var(--accent-purple);
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-dark-purple);
-            box-shadow: 0 0 40px rgba(139, 57, 230, 0.8);
-        }
-
-        /* ============================================
-           SECCIONES DE CONTENIDO
-        ============================================ */
-        section {
-            padding: var(--space-xl) 0;
-            position: relative;
-        }
-
-        .section-title {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 900;
-            margin-bottom: var(--space-lg);
-            text-align: center;
-            color: var(--accent-purple);
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            margin-bottom: var(--space-lg);
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* ============================================
-           FEATURES GRID
-        ============================================ */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-md);
-            margin-top: var(--space-lg);
-        }
-
-        .feature-card {
-            background: var(--bg-panel-dark);
-            padding: var(--space-md);
-            border: 1px solid rgba(139, 57, 230, 0.2);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 10px 40px rgba(139, 57, 230, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .feature-card:hover::before {
-            left: 100%;
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: var(--space-sm);
-            fill: var(--accent-purple);
-        }
-
-        .feature-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: var(--space-sm);
-            color: var(--text-main);
-        }
-
-        .feature-description {
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        /* ============================================
-           FOOTER
-        ============================================ */
-        footer {
-            padding: var(--space-lg) 0;
-            text-align: center;
-            border-top: 1px solid var(--bg-panel-light);
-            color: var(--text-secondary);
-        }
-
-        /* ============================================
-           BURST CONTAINER (efectos de impacto)
-        ============================================ */
-        #burstContainer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 100;
-        }
-
-        .burst {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--accent-purple);
-            box-shadow: 0 0 20px var(--accent-purple);
-            animation: burstAnim 0.8s ease-out forwards;
-        }
-
-        @keyframes burstAnim {
-            0% {
-                transform: scale(0) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(3) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* ============================================
-           GODMODE TOGGLE (oculto, activar con consola)
-        ============================================ */
-        [data-godmode="true"] {
-            animation: cameraShake 0.1s infinite;
-        }
-
-        @keyframes cameraShake {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(-2px, 2px); }
-            50% { transform: translate(2px, -2px); }
-            75% { transform: translate(-2px, -2px); }
-        }
-
-        [data-godmode="true"] .hero-title span {
-            animation-duration: 0.5s;
-            filter: drop-shadow(0 0 50px var(--accent-purple)) 
-                    drop-shadow(0 0 80px var(--accent-amber));
-        }
-
-        /* ============================================
-           RESPONSIVE
-        ============================================ */
-        @media (max-width: 768px) {
-            .nav-links {
-                gap: var(--space-sm);
-                flex-wrap: wrap;
-            }
-            
-            .btn {
-                padding: 0.8rem 2rem;
-                font-size: 1rem;
-                margin: var(--space-xs);
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Canvas para partículas y flowfield -->
-    <canvas id="bgCanvas"></canvas>
-    
-    <!-- SVG para smear lines -->
-    <svg id="smearSvg" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <filter id="glow">
-                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-                <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-            </filter>
-        </defs>
-    </svg>
-    
-    <!-- Contenedor para efectos burst -->
-    <div id="burstContainer"></div>
-
-    <main>
-        <header>
-            <div class="container">
-                <nav class="nav-bar" role="navigation" aria-label="Navegación principal">
-                    <div class="logo">NEXVOID</div>
-                    <ul class="nav-links">
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#core">Core</a></li>
-                        <li><a href="#ecosystem">Ecosystem</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
-
-        <section id="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        <span>NEXVOID</span>
-                    </h1>
-                    <p class="hero-subtitle">El vacío donde la energía cobra forma</p>
-                    <div class="hero-actions">
-                        <button class="btn btn-primary" id="ctaPrimary">Explorar Ahora</button>
-                        <a href="#features" class="btn">Descubrir Más</a>
-                        <button class="btn" id="downloadBtn" aria-label="Descargar código fuente">
-                            <svg style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; margin-right: 8px;" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                            </svg>
-                            Descargar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="features">
-            <div class="container">
-                <h2 class="section-title">Características</h2>
-                <p class="section-subtitle">Potencia cinética al límite de lo posible</p>
-                
-                <div class="features-grid">
-                    <article class="feature-card">
-                        <svg class="feature-icon" role="img" aria-labelledby="icon1-title" viewBox="0 0 24 24">
-                            <title id="icon1-title">Velocidad</title>
-                            <path d="M13 2.05v3.03c3.39.49 6 3.39 6 6.92 0 .9-.18 1.75-.48 2.54l2.6 1.53c.56-1.24.88-2.62.88-4.07 0-5.18-3.95-9.45-9-9.95zM12 19c-3.87 0-7-3.13-7-7 0-3.53 2.61-6.43 6-6.92V2.05c-5.06.5-9 4.76-9 9.95 0 5.52 4.47 10 9.99 10 3.31 0 6.24-1.61 8.06-4.09l-2.6-1.53C16.17 17.98 14.21 19 12 19z"/>
-                        </svg>
-                        <h3 class="feature-title">Velocidad Extrema</h3>
-                        <p class="feature-description">Rendimiento optimizado para experiencias sin latencia. Cada frame cuenta.</p>
-                    </article>
-                    
-                    <article class="feature-card">
-                        <svg class="feature-icon" role="img" aria-labelledby="icon2-title" viewBox="0 0 24 24">
-                            <title id="icon2-title">Energía</title>
-                            <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
-                        </svg>
-                        <h3 class="feature-title">Energía Cinética</h3>
-                        <p class="feature-description">Sistema de partículas procedurales que reaccionan a cada movimiento.</p>
-                    </article>
-                    
-                    <article class="feature-card">
-                        <svg class="feature-icon" role="img" aria-labelledby="icon3-title" viewBox="0 0 24 24">
-                            <title id="icon3-title">Adaptabilidad</title>
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                        <h3 class="feature-title">Adaptabilidad Total</h3>
-                        <p class="feature-description">Diseño responsivo que mantiene la experiencia en cualquier dispositivo.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section id="core">
-            <div class="container">
-                <h2 class="section-title">Core Engine</h2>
-                <p class="section-subtitle">Tecnología de vanguardia para resultados épicos</p>
-            </div>
-        </section>
-
-        <footer>
-            <div class="container">
-                <p>&copy; 2025 NexVoid. Energía sin límites.</p>
-            </div>
-        </footer>
-    </main>
-
-    <script>
-        /* ============================================
-           NEXVOID - OPCIÓN A CINEMÁTICA
-           Motor de animaciones procedurales
-        ============================================ */
-
-        // Configuración global
-        const CONFIG = {
-            particleCount: parseInt(getComputedStyle(document.documentElement)
-                .getPropertyValue('--particle-count')) || 80,
-            animSpeed: parseFloat(getComputedStyle(document.documentElement)
-                .getPropertyValue('--anim-speed')) || 1,
-            burstIntensity: parseFloat(getComputedStyle(document.documentElement)
-                .getPropertyValue('--burst-intensity')) || 1,
-            colors: {
-                purple: '#8B39E6',
-                darkPurple: '#5B1EA8',
-                amber: '#B58F3B'
-            }
-        };
-
-        // Estado del mouse
-        const mouse = { x: 0, y: 0, px: 0, py: 0 };
+    // Loading Screen Artística
+    setupLoadingScreen() {
+        const loadingScreen = document.getElementById('loadingScreen');
+        const loadingLogo = document.getElementById('loadingLogo');
         
-        // Godmode (activar con: document.body.dataset.godmode = 'true')
-        let godmode = false;
-
-        /* ============================================
-           CANVAS - FLOWFIELD Y PARTÍCULAS
-        ============================================ */
-        class Particle {
-            constructor(canvas) {
-                this.canvas = canvas;
-                this.reset();
-                this.hue = Math.random() * 60 + 260; // Rango morado-púrpura
+        // Animar logo al cargar
+        anime({
+            targets: loadingLogo,
+            opacity: [0, 1],
+            scale: [0.8, 1],
+            duration: 2000,
+            easing: 'easeOutElastic(1, .8)',
+            complete: () => {
+                // Esperar un momento antes de ocultar
+                setTimeout(() => {
+                    this.hideLoadingScreen();
+                }, 1500);
             }
-
-            reset() {
-                this.x = Math.random() * this.canvas.width;
-                this.y = Math.random() * this.canvas.height;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.vy = (Math.random() - 0.5) * 2;
-                this.life = 1;
-                this.decay = Math.random() * 0.005 + 0.002;
-                this.size = Math.random() * 3 + 1;
+        });
+        
+        // Animar los anillos de carga
+        anime({
+            targets: '.loading-ring',
+            rotate: 360,
+            duration: 4000,
+            loop: true,
+            easing: 'linear'
+        });
+    }
+    
+    hideLoadingScreen() {
+        const loadingScreen = document.getElementById('loadingScreen');
+        
+        anime({
+            targets: loadingScreen,
+            opacity: [1, 0],
+            duration: 1000,
+            easing: 'easeOutQuart',
+            complete: () => {
+                loadingScreen.style.display = 'none';
+                this.isLoaded = true;
+                this.startEntranceAnimations();
             }
-
-            update(flowfield, mouseInfluence) {
-                // Flowfield influence
-                const fx = Math.floor(this.x / 20);
-                const fy = Math.floor(this.y / 20);
-                const index = fx + fy * Math.floor(this.canvas.width / 20);
-                
-                if (flowfield[index]) {
-                    this.vx += Math.cos(flowfield[index]) * 0.1;
-                    this.vy += Math.sin(flowfield[index]) * 0.1;
-                }
-
-                // Mouse influence
-                const dx = mouse.x - this.x;
-                const dy = mouse.y - this.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                
-                if (dist < 200 * mouseInfluence) {
-                    const force = (200 - dist) / 200;
-                    this.vx += (dx / dist) * force * 0.5;
-                    this.vy += (dy / dist) * force * 0.5;
-                }
-
-                // Aplicar velocidad
-                this.x += this.vx * CONFIG.animSpeed;
-                this.y += this.vy * CONFIG.animSpeed;
-
-                // Fricción
-                this.vx *= 0.95;
-                this.vy *= 0.95;
-
-                // Decay
-                this.life -= this.decay;
-
-                // Limites y reset
-                if (this.x < 0 || this.x > this.canvas.width || 
-                    this.y < 0 || this.y > this.canvas.height || 
-                    this.life <= 0) {
-                    this.reset();
-                }
-            }
-
-            draw(ctx) {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size * this.life, 0, Math.PI * 2);
-                ctx.fillStyle = `hsla(${this.hue}, 80%, 60%, ${this.life * 0.6})`;
-                ctx.fill();
-                
-                // Glow
-                ctx.shadowBlur = 15;
-                ctx.shadowColor = `hsl(${this.hue}, 80%, 60%)`;
-            }
+        });
+    }
+    
+    // Animaciones de entrada
+    startEntranceAnimations() {
+        // Hero title
+        anime({
+            targets: '.hero-title',
+            opacity: [0, 1],
+            translateY: [50, 0],
+            duration: 1500,
+            delay: 300,
+            easing: 'easeOutExpo'
+        });
+        
+        // Stagger para otros elementos del hero
+        anime({
+            targets: '#hero .section',
+            opacity: [0, 1],
+            translateY: [30, 0],
+            duration: 1200,
+            delay: anime.stagger(200, {start: 600}),
+            easing: 'easeOutExpo'
+        });
+    }
+    
+    // Sistema de partículas de fondo
+    setupParticleSystem() {
+        const bgAnimation = document.getElementById('bgAnimation');
+        const particleCount = 50;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            bgAnimation.appendChild(particle);
+            
+            // Animar partículas
+            anime({
+                targets: particle,
+                translateX: () => anime.random(-200, 200),
+                translateY: () => anime.random(-200, 200),
+                scale: [0, 1, 0],
+                opacity: [0, 0.7, 0],
+                duration: () => anime.random(8000, 15000),
+                loop: true,
+                delay: () => anime.random(0, 5000),
+                easing: 'easeInOutSine'
+            });
         }
-
-        class FlowfieldEngine {
-            constructor() {
-                this.canvas = document.getElementById('bgCanvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.particles = [];
-                this.flowfield = [];
-                this.time = 0;
-                
-                this.resize();
-                this.init();
-                this.animate();
-                
-                window.addEventListener('resize', () => this.resize());
-            }
-
-            resize() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-                this.createFlowfield();
-            }
-
-            createFlowfield() {
-                this.flowfield = [];
-                const cols = Math.floor(this.canvas.width / 20);
-                const rows = Math.floor(this.canvas.height / 20);
-                
-                for (let y = 0; y < rows; y++) {
-                    for (let x = 0; x < cols; x++) {
-                        const angle = Math.cos(x * 0.05) + Math.sin(y * 0.05);
-                        this.flowfield.push(angle);
+        
+        // Conectar partículas cercanas con líneas
+        this.setupParticleConnections();
+    }
+    
+    setupParticleConnections() {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.style.position = 'absolute';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.opacity = '0.1';
+        
+        const bgAnimation = document.getElementById('bgAnimation');
+        bgAnimation.appendChild(canvas);
+        
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        const particles = Array.from(document.querySelectorAll('.particle'));
+        
+        const drawConnections = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#3CF2FF';
+            ctx.lineWidth = 1;
+            
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p1 = particles[i];
+                    const p2 = particles[j];
+                    
+                    const rect1 = p1.getBoundingClientRect();
+                    const rect2 = p2.getBoundingClientRect();
+                    
+                    const dx = rect1.left - rect2.left;
+                    const dy = rect1.top - rect2.top;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 150) {
+                        ctx.globalAlpha = (150 - distance) / 150 * 0.3;
+                        ctx.beginPath();
+                        ctx.moveTo(rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
+                        ctx.lineTo(rect2.left + rect2.width / 2, rect2.top + rect2.height / 2);
+                        ctx.stroke();
                     }
                 }
             }
-
-            init() {
-                for (let i = 0; i < CONFIG.particleCount; i++) {
-                    this.particles.push(new Particle(this.canvas));
-                }
-            }
-
-            animate() {
-                this.ctx.fillStyle = 'rgba(5, 4, 7, 0.1)';
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                this.time += 0.01 * CONFIG.animSpeed;
-                
-                // Update flowfield con noise
-                const cols = Math.floor(this.canvas.width / 20);
-                this.flowfield = this.flowfield.map((angle, i) => {
-                    const x = i % cols;
-                    const y = Math.floor(i / cols);
-                    return Math.cos(x * 0.05 + this.time) + Math.sin(y * 0.05 + this.time);
-                });
-
-                // Mouse influence
-                const mouseSpeed = Math.sqrt(
-                    Math.pow(mouse.x - mouse.px, 2) + 
-                    Math.pow(mouse.y - mouse.py, 2)
+            
+            requestAnimationFrame(drawConnections);
+        };
+        
+        drawConnections();
+    }
+    
+    // Animaciones de scroll con GSAP
+    setupScrollAnimations() {
+        // Esperar a que GSAP esté disponible
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Animar secciones al entrar
+            gsap.utils.toArray('.section').forEach((section, index) => {
+                gsap.fromTo(section, 
+                    {
+                        opacity: 0,
+                        y: 50,
+                        filter: 'blur(10px)'
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        filter: 'blur(0px)',
+                        duration: 1.2,
+                        ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                        scrollTrigger: {
+                            trigger: section,
+                            start: 'top 95%',
+                            end: 'bottom 5%',
+                            toggleActions: 'play none none reverse'
+                        }
+                    }
                 );
-                const mouseInfluence = Math.min(mouseSpeed / 10, 3);
-
-                // Update y draw particles
-                this.particles.forEach(p => {
-                    p.update(this.flowfield, mouseInfluence);
-                    p.draw(this.ctx);
-                });
-
-                this.ctx.shadowBlur = 0;
-                
-                requestAnimationFrame(() => this.animate());
-            }
-        }
-
-        /* ============================================
-           SMEAR LINES (SVG animadas)
-        ============================================ */
-        class SmearLineSystem {
-            constructor() {
-                this.svg = document.getElementById('smearSvg');
-                this.lines = [];
-                this.maxLines = 5;
-                this.createLines();
-            }
-
-            createLines() {
-                for (let i = 0; i < this.maxLines; i++) {
-                    setTimeout(() => this.addLine(), i * 2000);
+            });
+            
+            // Parallax suave para el hero
+            gsap.to('#hero img', {
+                yPercent: -50,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#hero',
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
                 }
-            }
-
-            addLine() {
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                const startX = Math.random() * window.innerWidth;
-                const startY = Math.random() * window.innerHeight;
-                const endX = startX + (Math.random() - 0.5) * 400;
-                const endY = startY + (Math.random() - 0.5) * 400;
-                
-                const d = `M ${startX} ${startY} Q ${(startX + endX) / 2} ${startY - 100} ${endX} ${endY}`;
-                
-                line.setAttribute('d', d);
-                line.setAttribute('stroke', Math.random() > 0.5 ? CONFIG.colors.purple : CONFIG.colors.amber);
-                line.setAttribute('stroke-width', Math.random() * 3 + 1);
-                line.setAttribute('fill', 'none');
-                line.setAttribute('filter', 'url(#glow)');
-                line.style.opacity = '0';
-                line.style.transition = 'opacity 0.5s ease';
-                
-                this.svg.appendChild(line);
-                
-                // Animar
-                setTimeout(() => {
-                    line.style.opacity = Math.random() * 0.6 + 0.2;
-                }, 100);
-                
-                // Remover después
-                setTimeout(() => {
-                    line.style.opacity = '0';
-                    setTimeout(() => {
-                        this.svg.removeChild(line);
-                        if (CONFIG.animSpeed > 0.5) this.addLine(); // Regenerar
-                    }, 500);
-                }, Math.random() * 3000 + 2000);
-            }
-        }
-
-        /* ============================================
-           BURST EFFECTS (impacto al hacer clic)
-        ============================================ */
-        function createBurst(x, y) {
-            const container = document.getElementById('burstContainer');
-            const particleCount = Math.floor(20 * CONFIG.burstIntensity);
+            });
             
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'burst';
-                particle.style.left = x + 'px';
-                particle.style.top = y + 'px';
-                
-                const angle = (Math.PI * 2 * i) / particleCount;
-                const velocity = Math.random() * 100 + 50;
-                const tx = Math.cos(angle) * velocity;
-                const ty = Math.sin(angle) * velocity;
-                
-                particle.style.setProperty('--tx', tx + 'px');
-                particle.style.setProperty('--ty', ty + 'px');
-                
-                particle.style.animation = `burstAnim ${0.8 / CONFIG.animSpeed}s ease-out forwards`;
-                
-                container.appendChild(particle);
-                
-                setTimeout(() => container.removeChild(particle), 800);
-            }
-        }
-
-        /* ============================================
-           PARALLAX DEL MOUSE
-        ============================================ */
-        function updateParallax() {
-            const moveX = (mouse.x / window.innerWidth - 0.5) * 20;
-            const moveY = (mouse.y / window.innerHeight - 0.5) * 20;
+            // Animar feature cards con stagger
+            gsap.fromTo('.feature-card', 
+                {
+                    opacity: 0,
+                    y: 40,
+                    scale: 0.95
+                },
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                    scrollTrigger: {
+                        trigger: '.feature-grid',
+                        start: 'top 95%'
+                    }
+                }
+            );
             
-            document.querySelector('.hero-content').style.transform = 
-                `translate(${moveX}px, ${moveY}px)`;
+            // Timeline para changelog
+            gsap.fromTo('.changelog-item', 
+                {
+                    opacity: 0,
+                    x: -50
+                },
+                {
+                    opacity: 1,
+                    x: 0,
+                    duration: 0.8,
+                    stagger: 0.3,
+                    ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                    scrollTrigger: {
+                        trigger: '#changelog',
+                        start: 'top 95%'
+                    }
+                }
+            );
         }
-
-        /* ============================================
-           EVENT LISTENERS
-        ============================================ */
+    }
+    
+    // Navegación suave
+    setupNavigation() {
+        const navLinks = document.querySelectorAll('a[href^="#"]');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 80; // Ajustar por navbar
+                    
+                    anime({
+                        targets: document.documentElement,
+                        scrollTop: offsetTop,
+                        duration: 1500,
+                        easing: 'cubic-bezier(0.16, 1, 0.3, 1)'
+                    });
+                }
+            });
+        });
+        
+        // Navbar glass effect on scroll
+        let lastScrollY = window.scrollY;
+        const navbar = document.querySelector('nav');
+        
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 100) {
+                navbar.style.background = 'rgba(11, 19, 36, 0.9)';
+                navbar.style.backdropFilter = 'blur(30px)';
+            } else {
+                navbar.style.background = 'var(--glass-bg)';
+                navbar.style.backdropFilter = 'blur(20px)';
+            }
+            
+            lastScrollY = currentScrollY;
+        });
+    }
+    
+    // Efectos de sonido
+    setupSoundEffects() {
+        // Crear contexto de audio
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Generar sonidos procedimentalmente
+        this.createClickSound();
+        this.createHoverSound();
+    }
+    
+    createClickSound() {
+        // Crear un sonido suave de click
+        const duration = 0.1;
+        const sampleRate = this.audioContext.sampleRate;
+        const buffer = this.audioContext.createBuffer(1, duration * sampleRate, sampleRate);
+        const data = buffer.getChannelData(0);
+        
+        for (let i = 0; i < data.length; i++) {
+            const t = i / sampleRate;
+            data[i] = Math.sin(2 * Math.PI * 800 * t) * Math.exp(-t * 10) * 0.1;
+        }
+        
+        this.sounds.click = buffer;
+    }
+    
+    createHoverSound() {
+        // Crear un sonido sutil de hover
+        const duration = 0.15;
+        const sampleRate = this.audioContext.sampleRate;
+        const buffer = this.audioContext.createBuffer(1, duration * sampleRate, sampleRate);
+        const data = buffer.getChannelData(0);
+        
+        for (let i = 0; i < data.length; i++) {
+            const t = i / sampleRate;
+            data[i] = Math.sin(2 * Math.PI * 600 * t) * Math.exp(-t * 8) * 0.05;
+        }
+        
+        this.sounds.hover = buffer;
+    }
+    
+    playSound(soundName) {
+        if (!this.audioContext || !this.sounds[soundName]) return;
+        
+        const source = this.audioContext.createBufferSource();
+        const gainNode = this.audioContext.createGain();
+        
+        source.buffer = this.sounds[soundName];
+        source.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
+        
+        source.start();
+    }
+    
+    // Cursor personalizado
+    setupCustomCursor() {
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+        cursor.style.cssText = `
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--cian-neon);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.1s ease;
+            opacity: 0.7;
+        `;
+        
+        document.body.appendChild(cursor);
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
+        
         document.addEventListener('mousemove', (e) => {
-            mouse.px = mouse.x;
-            mouse.py = mouse.y;
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-            
-            requestAnimationFrame(updateParallax);
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
-
-        // Click burst effects
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = rect.left + rect.width / 2;
-                const y = rect.top + rect.height / 2;
-                createBurst(x, y);
+        
+        const updateCursor = () => {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            
+            cursor.style.left = cursorX - 10 + 'px';
+            cursor.style.top = cursorY - 10 + 'px';
+            
+            requestAnimationFrame(updateCursor);
+        };
+        
+        updateCursor();
+        
+        // Efecto de hover en elementos interactivos
+        const interactiveElements = document.querySelectorAll('a, button, .feature-card');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursor.style.background = 'rgba(60, 242, 255, 0.2)';
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.background = 'transparent';
             });
         });
-
-        // Botón de descarga
-        document.getElementById('downloadBtn').addEventListener('click', function() {
-            const htmlContent = document.documentElement.outerHTML;
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'nexvoid-opcion-a-cinematica.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            console.log('✅ Descarga iniciada: nexvoid-opcion-a-cinematica.html');
-        });
-
-        // Intersection Observer para animaciones al scroll
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -100px 0px'
+    }
+    
+    // Scroll suave
+    setupSmoothScrolling() {
+        // Prevenir scroll momentum en iOS
+        let ticking = false;
+        
+        const updateScroll = () => {
+            ticking = false;
         };
+        
+        const requestScrollUpdate = () => {
+            if (!ticking) {
+                requestAnimationFrame(updateScroll);
+                ticking = true;
+            }
+        };
+        
+        window.addEventListener('scroll', requestScrollUpdate);
+    }
+    
+    // Animación de fondo
+    setupBackgroundAnimation() {
+        // Crear gradiente animado de fondo
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = '-2';
+        canvas.style.opacity = '0.3';
+        
+        document.body.appendChild(canvas);
+        
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        let time = 0;
+        
+        const animateBackground = () => {
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            
+            const hue1 = (time * 0.01) % 360;
+            const hue2 = (time * 0.01 + 60) % 360;
+            
+            gradient.addColorStop(0, `hsla(${hue1}, 70%, 20%, 0.1)`);
+            gradient.addColorStop(1, `hsla(${hue2}, 70%, 20%, 0.1)`);
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            time++;
+            requestAnimationFrame(animateBackground);
+        };
+        
+        animateBackground();
+    }
+}
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+// Funciones globales para eventos
+function playClickSound() {
+    if (window.nexVoidApp) {
+        window.nexVoidApp.playSound('click');
+    }
+}
+
+function playHoverSound() {
+    if (window.nexVoidApp) {
+        window.nexVoidApp.playSound('hover');
+    }
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    window.nexVoidApp = new NexVoidApp();
+    
+    // Añadir eventos de hover a todos los botones
+    const buttons = document.querySelectorAll('a, button');
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', playHoverSound);
+    });
+    
+    // Prevenir el menú contextual en el cursor personalizado
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+    
+    // Añadir efecto de glitch ocasional al logo
+    const logo = document.querySelector('img[alt="NexVoid"]');
+    if (logo) {
+        setInterval(() => {
+            if (Math.random() < 0.1) { // 10% de probabilidad
+                anime({
+                    targets: logo,
+                    translateX: [0, 2, -2, 0],
+                    duration: 100,
+                    easing: 'easeInOutQuad'
+                });
+            }
+        }, 3000);
+    }
+    
+    // Efecto de respiración en el botón principal
+    const primaryButtons = document.querySelectorAll('.btn-primary');
+    primaryButtons.forEach(button => {
+        anime({
+            targets: button,
+            scale: [1, 1.02, 1],
+            duration: 3000,
+            loop: true,
+            easing: 'easeInOutSine'
+        });
+    });
+});
+
+// Preloader para imágenes
+window.addEventListener('load', () => {
+    const images = document.querySelectorAll('img');
+    let loadedImages = 0;
+    
+    images.forEach(img => {
+        if (img.complete) {
+            loadedImages++;
+        } else {
+            img.addEventListener('load', () => {
+                loadedImages++;
+                if (loadedImages === images.length) {
+                    // Todas las imágenes cargadas
+                    document.body.classList.add('images-loaded');
                 }
             });
-        }, observerOptions);
-
-        document.querySelectorAll('.feature-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(50px)';
-            card.style.transition = 'all 0.6s ease';
-            observer.observe(card);
-        });
-
-        /* ============================================
-           INICIALIZACIÓN
-        ============================================ */
-        // Detectar reduced motion
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReducedMotion) {
-            console.log('⚡ Modo reducido de movimiento activado');
         }
+    });
+    
+    if (loadedImages === images.length) {
+        document.body.classList.add('images-loaded');
+    }
+});
 
-        // Iniciar engines
-        const flowfield = new FlowfieldEngine();
-        const smearLines = new SmearLineSystem();
+// Optimización de rendimiento
+let ticking = false;
 
-        // Godmode toggle (para desarrollo)
-        // Activar con: toggleGodmode()
-        window.toggleGodmode = function() {
-            godmode = !godmode;
-            document.body.dataset.godmode = godmode;
-            console.log('🔥 Godmode:', godmode ? 'ACTIVADO' : 'Desactivado');
-        };
+function updateAnimations() {
+    // Actualizar animaciones que dependen del scroll
+    ticking = false;
+}
 
-        console.log(`
-╔═══════════════════════════════════════╗
-║      NEXVOID - OPCIÓN A LOADED       ║
-║   Cinemática Explosiva v1.0          ║
-╠═══════════════════════════════════════╣
-║ • Partículas activas: ${CONFIG.particleCount}
-║ • Velocidad anim: ${CONFIG.animSpeed}x
-║ • Burst intensity: ${CONFIG.burstIntensity}
-║                                       ║
-║ Comandos:                             ║
-║ → toggleGodmode()  (modo desarrollo) ║
-╚═══════════════════════════════════════╝
-        `);
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        requestAnimationFrame(updateAnimations);
+        ticking = true;
+    }
+});
 
-    </script>
-</body>
-</html>
+// Detección de preferencias del usuario
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Reducir animaciones si el usuario lo prefiere
+    document.documentElement.style.setProperty('--animation-duration', '0.01s');
+}
