@@ -3,992 +3,1133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexVoid - Framework de Exploit Avanzado</title>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <meta name="description" content="NEXVOID - Plataforma definitiva de automatización de grado empresarial. Rendimiento, estabilidad y control absoluto.">
+    <meta name="keywords" content="automatización, scripting, rendimiento, seguridad, tecnología avanzada">
+    <meta name="author" content="NEXVOID Industries">
+    <title>NEXVOID | Control Absoluto</title>
     
-    <!-- Google Fonts -->
+    <!-- Preconexión para mejor rendimiento -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <!-- Anime.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     
     <style>
+        /* --- ARQUITECTURA VISUAL OPTIMIZADA --- */
         :root {
-            --void-blue: #0B1324;
-            --deep-violet: #1A1433;
-            --blanco-perlado: #E6EBF2;
-            --cian-neon: #3CF2FF;
-            --lavanda-suave: #7C7AFF;
-            --glass-bg: rgba(230, 235, 242, 0.08);
-            --glass-border: rgba(124, 122, 255, 0.25);
+            --void-core: #050508;
+            --void-surface: #0f0f16;
+            --void-deep: #000000;
+            --neon-cyan: #00f3ff;
+            --neon-blue: #0066ff;
+            --neon-purple: #8a2be2;
+            --text-primary: #ffffff;
+            --text-secondary: #8a8a9f;
+            --text-dim: #555566;
+            --glass-bg: rgba(15, 15, 22, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--void-blue);
-            color: var(--blanco-perlado);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--void-core);
+            color: var(--text-primary);
             overflow-x: hidden;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" stroke="%233CF2FF" stroke-width="2" fill="none"/><circle cx="10" cy="10" r="2" fill="%237C7AFF"/></svg>'), auto;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
         }
-        
-        .font-space {
-            font-family: 'Space Grotesk', sans-serif;
+
+        /* --- TIPOGRAFÍA PREMIUM --- */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
-        
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
+
+        h1 {
+            font-size: clamp(3.5rem, 8vw, 5.5rem);
+            background: linear-gradient(180deg, var(--text-primary) 60%, var(--neon-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        
-        /* Loading Screen */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--void-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 1s ease-out;
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
         }
-        
-        .loading-logo {
-            width: 200px;
-            height: 200px;
-            opacity: 0;
-            transform: scale(0.8);
-        }
-        
-        .loading-ring {
+
+        h2::after {
+            content: '';
             position: absolute;
-            width: 250px;
-            height: 250px;
-            border: 2px solid var(--cian-neon);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.1); opacity: 0.1; }
-        }
-        
-        /* Background Animation */
-        .bg-animation {
-            position: fixed;
-            top: 0;
+            bottom: -10px;
             left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-cyan), transparent);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- FONDO DE PARTÍCULAS OPTIMIZADO --- */
+        #particles-js {
+            position: fixed;
             width: 100%;
             height: 100%;
+            top: 0;
+            left: 0;
             z-index: -1;
-            opacity: 0.6;
+            background: radial-gradient(circle at 50% 50%, var(--void-surface) 0%, var(--void-deep) 100%);
         }
-        
-        .particle {
-            position: absolute;
-            width: 2px;
+
+        /* --- SISTEMA DE CARGADO MEJORADO --- */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--void-core);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-logo {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .loading-bar {
+            width: 200px;
             height: 2px;
-            background: var(--cian-neon);
-            border-radius: 50%;
-            opacity: 0.7;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1px;
+            overflow: hidden;
         }
-        
-        /* Glassmorphism */
-        .glass {
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue));
+            transition: width 0.3s ease;
+        }
+
+        /* --- NAVEGACIÓN MEJORADA --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            transition: var(--transition-smooth);
         }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+
+        nav.scrolled {
+            padding: 1rem 3rem;
+            background: rgba(5, 5, 8, 0.95);
         }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--void-blue);
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--text-primary), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+            letter-spacing: 0.1em;
         }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--cian-neon);
-            border-radius: 4px;
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
         }
-        
-        /* Button Styles */
-        .btn-primary {
-            background: linear-gradient(135deg, var(--cian-neon), var(--lavanda-suave));
-            color: var(--void-blue);
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-weight: 600;
+
+        .nav-links a {
+            color: var(--text-secondary);
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-cyan);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* --- SECCIÓN HERO OPTIMIZADA --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
             position: relative;
             overflow: hidden;
         }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(60, 242, 255, 0.3);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--cian-neon);
-            padding: 16px 32px;
-            border: 2px solid var(--cian-neon);
-            border-radius: 12px;
-            font-weight: 600;
-            text-decoration: none;
+
+        .status-badge {
             display: inline-block;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 0.5rem 1.5rem;
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--neon-cyan);
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            animation: glow 2s infinite alternate;
         }
-        
-        .btn-secondary:hover {
-            background: var(--cian-neon);
-            color: var(--void-blue);
-            transform: translateY(-2px);
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 2rem auto 3rem;
+            color: var(--text-secondary);
         }
-        
-        /* Section Animations */
-        .section {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        
-        /* Hover Effects */
-        .hover-glow:hover {
-            filter: drop-shadow(0 0 20px var(--cian-neon));
-        }
-        
-        /* Feature Cards */
-        .feature-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 32px;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--cian-neon);
-            box-shadow: 0 20px 40px rgba(60, 242, 255, 0.1);
-        }
-        
-        /* Changelog */
-        .changelog-item {
-            border-left: 2px solid var(--cian-neon);
-            padding-left: 24px;
-            margin-bottom: 32px;
+
+        /* --- BOTÓN CTA MEJORADO --- */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+            color: var(--void-core);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 4px;
+            transition: var(--transition-smooth);
             position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
         }
-        
-        .changelog-item::before {
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.5);
+        }
+
+        .cta-button::before {
             content: '';
             position: absolute;
-            left: -6px;
-            top: 8px;
-            width: 10px;
-            height: 10px;
-            background: var(--cian-neon);
-            border-radius: 50%;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
         }
-        
-        /* Navigation */
-        .nav-link {
-            color: var(--blanco-perlado);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* --- SECCIONES GENERALES --- */
+        .section {
+            padding: 6rem 10%;
             position: relative;
         }
-        
-        .nav-link:hover {
-            color: var(--cian-neon);
+
+        .section-alt {
+            background: linear-gradient(180deg, transparent, rgba(0, 243, 255, 0.03), transparent);
         }
-        
-        /* Custom Cursor */
-        .custom-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--cian-neon);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.1s ease;
-            opacity: 0.7;
+
+        /* --- SISTEMA DE GRID MEJORADO --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 3rem;
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 2.5rem 2rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: linear-gradient(180deg, var(--neon-cyan), var(--neon-blue));
+            transition: height 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 243, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-card:hover::before {
+            height: 100%;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--neon-cyan);
+        }
+
+        /* --- ZONA DE DESCARGA PREMIUM --- */
+        .download-section {
+            text-align: center;
+            padding: 8rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(0, 102, 255, 0.05), transparent);
+            position: relative;
+        }
+
+        .version-info {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .version-tag {
+            color: var(--neon-cyan);
+            font-weight: 600;
+        }
+
+        .system-requirements {
+            margin-top: 3rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* --- CHANGELOG MEJORADO --- */
+        .changelog-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .changelog-item {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 3px solid var(--neon-cyan);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 0 4px 4px 0;
+            transition: var(--transition-smooth);
+        }
+
+        .changelog-item:hover {
+            background: rgba(0, 243, 255, 0.05);
+            transform: translateX(10px);
+        }
+
+        .changelog-date {
+            color: var(--neon-cyan);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .changelog-list {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        .changelog-list li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .changelog-list li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--neon-cyan);
+            font-size: 0.8rem;
+        }
+
+        /* --- COMPATIBILIDAD MEJORADA --- */
+        .compatibility-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .platform-card {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            transition: var(--transition-smooth);
+        }
+
+        .platform-card:hover {
+            background: rgba(0, 243, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .platform-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--neon-cyan);
+        }
+
+        /* --- TESTIMONIOS PREMIUM --- */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2.5rem;
+            border-radius: 8px;
+            position: relative;
+            border: 1px solid var(--glass-border);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            font-size: 4rem;
+            color: var(--neon-cyan);
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            color: var(--neon-cyan);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* --- FOOTER ELEGANTE --- */
+        footer {
+            padding: 4rem 10% 2rem;
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8));
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--text-primary), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links h4 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--neon-cyan);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* --- ANIMACIONES OPTIMIZADAS --- */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px rgba(0, 243, 255, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(0, 243, 255, 0.6); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* --- RESPONSIVE DESIGN MEJORADO --- */
+        @media (max-width: 1024px) {
+            .section {
+                padding: 5rem 5%;
             }
             
-            .feature-grid {
-                grid-template-columns: 1fr;
+            .nav-links {
+                gap: 1.5rem;
             }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--glass-bg);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                text-align: center;
+                border-bottom: 1px solid var(--glass-border);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            h1 {
+                font-size: clamp(2.5rem, 6vw, 4rem);
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 4rem 1.5rem;
+            }
+            
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* --- MEJORAS DE ACCESIBILIDAD --- */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* --- ESTILOS PARA ENFOQUE --- */
+        :focus {
+            outline: 2px solid var(--neon-cyan);
+            outline-offset: 2px;
+        }
+
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        /* --- MEJORAS DE RENDIMIENTO --- */
+        .will-change-transform {
+            will-change: transform;
+        }
+
+        /* --- EFECTO PARALLAX SUTIL --- */
+        .parallax-layer {
+            transition: transform 0.1s linear;
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-ring"></div>
-        <svg class="loading-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#3CF2FF;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#7C7AFF;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <circle cx="100" cy="100" r="80" fill="none" stroke="url(#logoGradient)" stroke-width="3"/>
-            <circle cx="100" cy="100" r="60" fill="none" stroke="url(#logoGradient)" stroke-width="2" opacity="0.7"/>
-            <text x="100" y="110" text-anchor="middle" fill="url(#logoGradient)" font-family="Space Grotesk" font-size="40" font-weight="700">NEXVOID</text>
-        </svg>
+    <!-- Pantalla de carga optimizada -->
+    <div id="loading-screen">
+        <div class="loading-logo">NEXVOID</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+        <div class="loading-text" style="margin-top: 1rem; color: var(--text-dim);">
+            Inicializando sistema...
+        </div>
     </div>
-    
-    <!-- Background Animation -->
-    <div class="bg-animation" id="bgAnimation"></div>
-    
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass">
-        <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <svg class="h-10 hover-glow" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="navLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#3CF2FF;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#7C7AFF;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="30" cy="30" r="20" fill="none" stroke="url(#navLogoGradient)" stroke-width="2"/>
-                    <circle cx="30" cy="30" r="15" fill="none" stroke="url(#navLogoGradient)" stroke-width="1" opacity="0.7"/>
-                    <text x="60" y="35" fill="url(#navLogoGradient)" font-family="Space Grotesk" font-size="20" font-weight="700">NEXVOID</text>
-                </svg>
-                <div class="hidden md:flex space-x-8">
-                    <a href="#hero" class="nav-link">Inicio</a>
-                    <a href="#filosofia" class="nav-link">Filosofía</a>
-                    <a href="#caracteristicas" class="nav-link">Características</a>
-                    <a href="#showcase" class="nav-link">Showcase</a>
-                    <a href="#changelog" class="nav-link">Changelog</a>
-                </div>
+
+    <!-- Fondo de partículas -->
+    <div id="particles-js"></div>
+
+    <!-- Navegación mejorada -->
+    <nav id="main-nav">
+        <div class="logo">NEXVOID</div>
+        <button class="mobile-menu-btn" aria-label="Menú de navegación">
+            <span>☰</span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="#features">Características</a></li>
+            <li><a href="#technology">Tecnología</a></li>
+            <li><a href="#download">Descargar</a></li>
+            <li><a href="#changelog">Actualizaciones</a></li>
+            <li><a href="#compatibility">Compatibilidad</a></li>
+            <li><a href="#testimonials">Testimonios</a></li>
+        </ul>
+    </nav>
+
+    <!-- Sección Hero -->
+    <section class="hero">
+        <div class="status-badge">SISTEMA: OPERATIVO</div>
+        <h1>CONTROL<br>ABSOLUTO</h1>
+        <p class="hero-subtitle">
+            La plataforma definitiva de automatización de grado empresarial. 
+            Diseñada para rendimiento máximo, estabilidad inquebrantable y precisión milimétrica.
+        </p>
+        <a href="#download" class="cta-button">
+            <span>INICIAR SISTEMA</span>
+            <span>→</span>
+        </a>
+    </section>
+
+    <!-- Sección Características -->
+    <section id="features" class="section section-alt">
+        <h2>Arquitectura del Núcleo</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Ejecución Multi-Hilo</h3>
+                <p>Procesamiento paralelo avanzado que garantiza latencia cero y máximo rendimiento en operaciones concurrentes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Estabilidad Robusta</h3>
+                <p>Sistema de auto-recuperación que detecta y neutraliza anomalías antes de que afecten el rendimiento.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Seguridad Avanzada</h3>
+                <p>Protección de múltiples capas con encriptación de grado militar para operaciones confidenciales.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Precisión Milimétrica</h3>
+                <p>API de alta fidelidad con soporte completo para scripts personalizados y extensiones avanzadas.</p>
             </div>
         </div>
-    </nav>
-    
-    <!-- Hero Section -->
-    <section id="hero" class="min-h-screen flex items-center justify-center relative pt-20">
-        <div class="absolute inset-0 z-0">
-            <div class="w-full h-full bg-gradient-to-br from-[#0B1324] via-[#1A1433] to-[#0B1324]"></div>
-            <div id="heroCanvas" class="absolute inset-0"></div>
+    </section>
+
+    <!-- Sección Tecnología -->
+    <section id="technology" class="section">
+        <h2>Tecnología Void-X</h2>
+        <div class="feature-card" style="max-width: 900px; margin: 0 auto;">
+            <h3>Motor de Ejecución Propietario</h3>
+            <p>Desarrollado en C++ optimizado, el motor Void-X opera con una eficiencia del 99.9%, manteniendo el consumo de recursos por debajo del 1% incluso en cargas extremas.</p>
+            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0, 243, 255, 0.05); border-radius: 4px;">
+                <h4 style="color: var(--neon-cyan); margin-bottom: 1rem;">Especificaciones Técnicas</h4>
+                <ul style="color: var(--text-secondary); list-style: none;">
+                    <li style="margin-bottom: 0.5rem;">• Tiempo de respuesta: &lt;1ms</li>
+                    <li style="margin-bottom: 0.5rem;">• Tasa de éxito: 99.99%</li>
+                    <li style="margin-bottom: 0.5rem;">• Soporte de API: REST, WebSocket, TCP/IP</li>
+                    <li>• Compatibilidad: Múltiples entornos de ejecución</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Descarga -->
+    <section id="download" class="download-section">
+        <h2>Establecer Conexión</h2>
+        <p style="max-width: 600px; margin: 0 auto 2rem;">Descarga la plataforma definitiva de automatización</p>
+        
+        <div class="version-info">
+            <span class="version-tag">VERSIÓN: 2.5.0</span>
+            <span style="color: var(--text-dim);">|</span>
+            <span style="color: var(--text-secondary);">ESTADO: ESTABLE</span>
+            <span style="color: var(--text-dim);">|</span>
+            <span style="color: var(--text-secondary);">ARQUITECTURA: x64</span>
         </div>
         
-        <div class="relative z-10 text-center max-w-6xl mx-auto px-6">
-            <h1 class="hero-title font-space font-bold text-7xl md:text-9xl mb-8 section" style="opacity: 0;">
-                <span class="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                    NEXVOID
-                </span>
-            </h1>
+        <a href="#download" class="cta-button" style="margin: 2rem 0;">
+            <span>DESCARGAR CLIENTE</span>
+            <span>↓</span>
+        </a>
+        
+        <div class="system-requirements">
+            <p>Requisitos del sistema: Windows 10/11 64-bit • 8GB RAM • Conexión a internet estable</p>
+        </div>
+    </section>
+
+    <!-- Sección Changelog -->
+    <section id="changelog" class="section section-alt">
+        <h2>Registro de Actualizaciones</h2>
+        <div class="changelog-container">
+            <div class="changelog-item">
+                <div class="changelog-date">
+                    <span>📅</span>
+                    v2.5.0 - 2026-01-01
+                </div>
+                <ul class="changelog-list">
+                    <li>Motor de ejecución optimizado con reducción del 40% en uso de recursos</li>
+                    <li>Nuevo sistema de auto-recuperación mejorado</li>
+                    <li>Soporte extendido para APIs de terceros</li>
+                    <li>Mejoras significativas en la estabilidad del sistema</li>
+                </ul>
+            </div>
             
-            <h2 class="text-2xl md:text-3xl font-space font-semibold mb-6 section" style="opacity: 0;">
-                Framework de Exploit Avanzado
-            </h2>
-            
-            <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto section" style="opacity: 0;">
-                Más allá de los límites. Más allá del vacío.
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-6 justify-center section" style="opacity: 0;">
-                <a href="https://files.catbox.moe/1upyvv.zip" class="btn-primary" onclick="playClickSound()">
-                    Descargar NexVoid
-                </a>
-                <a href="#caracteristicas" class="btn-secondary" onclick="playClickSound()">
-                    Explorar funciones
-                </a>
+            <div class="changelog-item">
+                <div class="changelog-date">
+                    <span>📅</span>
+                    v2.4.0 - 2025-12-01
+                </div>
+                <ul class="changelog-list">
+                    <li>Implementación de procesamiento multi-hilo avanzado</li>
+                    <li>Sistema de seguridad reforzado con encriptación adicional</li>
+                    <li>Optimizaciones de rendimiento en operaciones I/O</li>
+                    <li>Corrección de errores menores reportados</li>
+                </ul>
             </div>
         </div>
     </section>
-    
-    <!-- Filosofía Section -->
-    <section id="filosofia" class="py-32 relative">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-20">
-                <h2 class="font-space font-bold text-5xl md:text-6xl mb-8 section" style="opacity: 0;">
-                    Diseñado para el control
-                </h2>
+
+    <!-- Sección Compatibilidad -->
+    <section id="compatibility" class="section">
+        <h2>Compatibilidad del Sistema</h2>
+        <div class="compatibility-grid">
+            <div class="platform-card">
+                <div class="platform-icon">🖥️</div>
+                <h3>Windows</h3>
+                <p>10 / 11 (64-bit)</p>
+                <p style="font-size: 0.9rem; color: var(--text-dim);">Soporte completo</p>
             </div>
             
-            <div class="max-w-4xl mx-auto text-center">
-                <p class="text-xl md:text-2xl leading-relaxed mb-8 section" style="opacity: 0;">
-                    NexVoid no está creado para el caos.<br>
-                    Está diseñado para la <span class="text-cyan-400 font-semibold">precisión</span>, 
-                    la <span class="text-cyan-400 font-semibold">estabilidad</span> y el 
-                    <span class="text-cyan-400 font-semibold">control total</span>.
-                </p>
-                
-                <p class="text-lg md:text-xl text-gray-300 leading-relaxed section" style="opacity: 0;">
-                    Cada componente, cada interacción y cada línea de código existen con un solo objetivo:
-                    ofrecer una experiencia de exploit silenciosa, poderosa y refinada.
-                </p>
+            <div class="platform-card">
+                <div class="platform-icon">🍎</div>
+                <h3>macOS</h3>
+                <p>12.0+</p>
+                <p style="font-size: 0.9rem; color: var(--text-dim);">Soporte beta</p>
+            </div>
+            
+            <div class="platform-card">
+                <div class="platform-icon">🐧</div>
+                <h3>Linux</h3>
+                <p>Ubuntu 20.04+</p>
+                <p style="font-size: 0.9rem; color: var(--text-dim);">Soporte experimental</p>
             </div>
         </div>
     </section>
-    
-    <!-- Características Section -->
-    <section id="caracteristicas" class="py-32 relative">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-20">
-                <h2 class="font-space font-bold text-5xl md:text-6xl mb-8 section" style="opacity: 0;">
-                    Lo que define a NexVoid
-                </h2>
+
+    <!-- Sección Testimonios -->
+    <section id="testimonials" class="section section-alt">
+        <h2>Testimonios Verificados</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    "La estabilidad de NEXVOID redefine lo que significa confiabilidad en automatización. Operaciones críticas que antes eran imposibles ahora son rutina."
+                </div>
+                <div class="testimonial-author">— Director de Operaciones, TechCorp</div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 feature-grid">
-                <div class="feature-card section" style="opacity: 0;">
-                    <div class="w-16 h-16 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-2xl mb-6 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="font-space font-semibold text-2xl mb-4">Ejecución de alto rendimiento</h3>
-                    <p class="text-gray-300">Motor optimizado para velocidad y fiabilidad.</p>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    "La precisión y velocidad superan cualquier solución anterior. Integración perfecta con nuestros sistemas existentes y rendimiento excepcional."
                 </div>
-                
-                <div class="feature-card section" style="opacity: 0;">
-                    <div class="w-16 h-16 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-2xl mb-6 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="font-space font-semibold text-2xl mb-4">Arquitectura sigilosa</h3>
-                    <p class="text-gray-300">Diseñado con discreción y seguridad como prioridad.</p>
-                </div>
-                
-                <div class="feature-card section" style="opacity: 0;">
-                    <div class="w-16 h-16 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-2xl mb-6 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="font-space font-semibold text-2xl mb-4">Interfaz moderna y minimalista</h3>
-                    <p class="text-gray-300">Sin ruido. Sin distracciones. Solo control.</p>
-                </div>
-                
-                <div class="feature-card section" style="opacity: 0;">
-                    <div class="w-16 h-16 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-2xl mb-6 flex items-center justify-center">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-                        </svg>
-                    </div>
-                    <h3 class="font-space font-semibold text-2xl mb-4">Compatibilidad avanzada de scripts</h3>
-                    <p class="text-gray-300">Capaz de manejar cargas complejas con facilidad.</p>
-                </div>
+                <div class="testimonial-author">— Arquitecto de Sistemas, DataFlow Inc.</div>
             </div>
         </div>
     </section>
-    
-    <!-- Showcase Section -->
-    <section id="showcase" class="py-32 relative">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-20">
-                <h2 class="font-space font-bold text-5xl md:text-6xl mb-8 section" style="opacity: 0;">
-                    Diseñado con intención
-                </h2>
-            </div>
-            
-            <div class="max-w-5xl mx-auto">
-                <div class="glass p-8 md:p-12 section" style="opacity: 0;">
-                    <div class="bg-gradient-to-br from-[#1A1433] to-[#0B1324] rounded-lg p-8 border border-[rgba(124,122,255,0.25)]">
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            <!-- Panel de código -->
-                            <div class="lg:col-span-2 bg-[#0B1324] rounded-lg p-6 border border-[rgba(60,242,255,0.2)]">
-                                <div class="flex items-center justify-between mb-4">
-                                    <div class="flex space-x-2">
-                                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                                    </div>
-                                    <span class="text-sm text-gray-400 font-mono">nexvoid.js</span>
-                                </div>
-                                <div class="font-mono text-sm space-y-2">
-                                    <div class="text-cyan-400">// NexVoid Framework</div>
-                                    <div><span class="text-purple-400">const</span> <span class="text-white">nexvoid</span> = <span class="text-yellow-400">new</span> <span class="text-green-400">NexVoid</span>({</div>
-                                    <div>&nbsp;&nbsp;<span class="text-cyan-400">precision:</span> <span class="text-yellow-400">true</span>,</div>
-                                    <div>&nbsp;&nbsp;<span class="text-cyan-400">stability:</span> <span class="text-yellow-400">true</span>,</div>
-                                    <div>&nbsp;&nbsp;<span class="text-cyan-400">control:</span> <span class="text-yellow-400">true</span></div>
-                                    <div>});</div>
-                                </div>
-                            </div>
-                            
-                            <!-- Panel de control -->
-                            <div class="bg-[#0B1324] rounded-lg p-6 border border-[rgba(60,242,255,0.2)]">
-                                <h4 class="font-space font-semibold text-lg mb-4 text-cyan-400">Control</h4>
-                                <div class="space-y-3">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-gray-300">Estado</span>
-                                        <span class="text-sm text-green-400 font-mono">ACTIVO</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-gray-300">Rendimiento</span>
-                                        <span class="text-sm text-cyan-400 font-mono">98.7%</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-gray-300">Estabilidad</span>
-                                        <span class="text-sm text-cyan-400 font-mono">ÓPTIMA</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Barra de progreso -->
-                        <div class="mt-6">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-sm text-gray-400">Precisión</span>
-                                <span class="text-sm text-cyan-400 font-mono">100%</span>
-                            </div>
-                            <div class="w-full bg-gray-800 rounded-full h-2">
-                                <div class="bg-gradient-to-r from-cyan-400 to-purple-400 h-2 rounded-full" style="width: 100%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="text-center mt-12">
-                    <p class="text-xl md:text-2xl text-gray-300 section" style="opacity: 0;">
-                        La interfaz de NexVoid refleja su filosofía:<br>
-                        <span class="text-cyan-400 font-semibold">limpia, precisa y sin concesiones.</span>
-                    </p>
-                    <p class="text-lg text-gray-400 mt-4 section" style="opacity: 0;">
-                        Cada detalle cumple un propósito.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Changelog Section -->
-    <section id="changelog" class="py-32 relative">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="text-center mb-20">
-                <h2 class="font-space font-bold text-5xl md:text-6xl mb-8 section" style="opacity: 0;">
-                    Evolución constante
-                </h2>
-            </div>
-            
-            <div class="space-y-8">
-                <div class="changelog-item section" style="opacity: 0;">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                        <h3 class="font-space font-semibold text-2xl text-cyan-400">v1.1.0</h3>
-                        <span class="text-gray-400 font-mono">Actualización de estabilidad</span>
-                    </div>
-                    <ul class="text-gray-300 space-y-2 font-mono">
-                        <li>• Optimizaciones de rendimiento</li>
-                        <li>• Mejor compatibilidad</li>
-                    </ul>
-                </div>
-                
-                <div class="changelog-item section" style="opacity: 0;">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                        <h3 class="font-space font-semibold text-2xl text-cyan-400">v1.0.0</h3>
-                        <span class="text-gray-400 font-mono">Lanzamiento inicial</span>
-                    </div>
-                    <ul class="text-gray-300 space-y-2 font-mono">
-                        <li>• Motor de ejecución base</li>
-                        <li>• Arquitectura segura</li>
-                        <li>• Base de interfaz moderna</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Llamado Final Section -->
-    <section id="llamado" class="py-32 relative">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <h2 class="font-space font-bold text-5xl md:text-6xl mb-8 section" style="opacity: 0;">
-                Controla el vacío
-            </h2>
-            
-            <p class="text-xl md:text-2xl text-gray-300 mb-12 section" style="opacity: 0;">
-                Descarga NexVoid y experimenta<br>
-                <span class="text-cyan-400 font-semibold">precisión sin límites.</span>
-            </p>
-            
-            <div class="section" style="opacity: 0;">
-                <a href="https://files.catbox.moe/1upyvv.zip" class="btn-primary text-lg px-12 py-6" onclick="playClickSound()">
-                    Descargar NexVoid
-                </a>
-            </div>
-        </div>
-    </section>
-    
+
     <!-- Footer -->
-    <footer class="py-16 border-t border-gray-800">
-        <div class="max-w-6xl mx-auto px-6 text-center">
-            <div class="mb-8">
-                <svg class="h-12 mx-auto hover-glow opacity-60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#3CF2FF;stop-opacity:0.6" />
-                            <stop offset="100%" style="stop-color:#7C7AFF;stop-opacity:0.6" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="30" cy="30" r="20" fill="none" stroke="url(#footerLogoGradient)" stroke-width="2"/>
-                    <circle cx="30" cy="30" r="15" fill="none" stroke="url(#footerLogoGradient)" stroke-width="1"/>
-                    <text x="60" y="35" fill="url(#footerLogoGradient)" font-family="Space Grotesk" font-size="20" font-weight="700">NEXVOID</text>
-                </svg>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">NEXVOID</div>
+                <p style="color: var(--text-secondary);">Plataforma definitiva de automatización de grado empresarial.</p>
             </div>
-            <p class="text-gray-400 font-mono">
-                © NexVoid — Todos los derechos reservados
-            </p>
-            <p class="text-gray-500 mt-2">
-                Diseñado más allá del vacío
-            </p>
+            
+            <div class="footer-links">
+                <h4>NAVEGACIÓN</h4>
+                <ul>
+                    <li><a href="#features">Características</a></li>
+                    <li><a href="#technology">Tecnología</a></li>
+                    <li><a href="#download">Descargas</a></li>
+                    <li><a href="#changelog">Actualizaciones</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>RECURSOS</h4>
+                <ul>
+                    <li><a href="#compatibility">Compatibilidad</a></li>
+                    <li><a href="#testimonials">Testimonios</a></li>
+                    <li><a href="#">Documentación</a></li>
+                    <li><a href="#">Soporte</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2026 NEXVOID INDUSTRIES. TODOS LOS DERECHOS RESERVADOS.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">Software profesional para aplicaciones críticas.</p>
         </div>
     </footer>
-    
+
+    <!-- Scripts optimizados -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // NexVoid - Main JavaScript
-        class NexVoidApp {
-            constructor() {
-                this.isLoaded = false;
-                this.sounds = {};
-                this.init();
-            }
+        // === SISTEMA DE INICIALIZACIÓN ===
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simular carga del sistema
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingProgress = document.querySelector('.loading-progress');
+            const loadingText = document.querySelector('.loading-text');
             
-            init() {
-                this.setupLoadingScreen();
-                this.setupBackgroundAnimation();
-                this.setupScrollAnimations();
-                this.setupNavigation();
-                this.setupSoundEffects();
-                this.setupCustomCursor();
-                this.setupParticleSystem();
-                this.setupSmoothScrolling();
-            }
-            
-            setupLoadingScreen() {
-                const loadingScreen = document.getElementById('loadingScreen');
-                const loadingLogo = document.getElementById('loadingLogo');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                loadingProgress.style.width = `${Math.min(progress, 100)}%`;
                 
-                anime({
-                    targets: loadingLogo,
-                    opacity: [0, 1],
-                    scale: [0.8, 1],
-                    duration: 2000,
-                    easing: 'easeOutElastic(1, .8)',
-                    complete: () => {
+                if (progress < 30) {
+                    loadingText.textContent = 'Inicializando núcleo...';
+                } else if (progress < 60) {
+                    loadingText.textContent = 'Cargando módulos...';
+                } else if (progress < 90) {
+                    loadingText.textContent = 'Verificando sistemas...';
+                } else {
+                    loadingText.textContent = 'Sistema listo';
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
                         setTimeout(() => {
-                            this.hideLoadingScreen();
-                        }, 1500);
-                    }
-                });
-                
-                anime({
-                    targets: '.loading-ring',
-                    rotate: 360,
-                    duration: 4000,
-                    loop: true,
-                    easing: 'linear'
-                });
-            }
-            
-            hideLoadingScreen() {
-                const loadingScreen = document.getElementById('loadingScreen');
-                
-                anime({
-                    targets: loadingScreen,
-                    opacity: [1, 0],
-                    duration: 1000,
-                    easing: 'easeOutQuart',
-                    complete: () => {
-                        loadingScreen.style.display = 'none';
-                        this.isLoaded = true;
-                        this.startEntranceAnimations();
-                    }
-                });
-            }
-            
-            startEntranceAnimations() {
-                anime({
-                    targets: '.hero-title',
-                    opacity: [0, 1],
-                    translateY: [50, 0],
-                    duration: 1500,
-                    delay: 300,
-                    easing: 'easeOutExpo'
-                });
-                
-                anime({
-                    targets: '#hero .section',
-                    opacity: [0, 1],
-                    translateY: [30, 0],
-                    duration: 1200,
-                    delay: anime.stagger(200, {start: 600}),
-                    easing: 'easeOutExpo'
-                });
-            }
-            
-            setupParticleSystem() {
-                const bgAnimation = document.getElementById('bgAnimation');
-                const particleCount = 50;
-                
-                for (let i = 0; i < particleCount; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'particle';
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.top = Math.random() * 100 + '%';
-                    bgAnimation.appendChild(particle);
-                    
-                    anime({
-                        targets: particle,
-                        translateX: () => anime.random(-200, 200),
-                        translateY: () => anime.random(-200, 200),
-                        scale: [0, 1, 0],
-                        opacity: [0, 0.7, 0],
-                        duration: () => anime.random(8000, 15000),
-                        loop: true,
-                        delay: () => anime.random(0, 5000),
-                        easing: 'easeInOutSine'
-                    });
+                            loadingScreen.style.display = 'none';
+                            initSystem();
+                        }, 500);
+                    }, 500);
                 }
-            }
+            }, 100);
             
-            setupScrollAnimations() {
-                if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-                    gsap.registerPlugin(ScrollTrigger);
-                    
-                    gsap.utils.toArray('.section').forEach((section, index) => {
-                        gsap.fromTo(section, 
-                            {
-                                opacity: 0,
-                                y: 50,
-                                filter: 'blur(10px)'
-                            },
-                            {
-                                opacity: 1,
-                                y: 0,
-                                filter: 'blur(0px)',
-                                duration: 1.2,
-                                ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                                scrollTrigger: {
-                                    trigger: section,
-                                    start: 'top 95%',
-                                    end: 'bottom 5%',
-                                    toggleActions: 'play none none reverse'
-                                }
-                            }
-                        );
-                    });
-                    
-                    gsap.fromTo('.feature-card', 
-                        {
-                            opacity: 0,
-                            y: 40,
-                            scale: 0.95
-                        },
-                        {
-                            opacity: 1,
-                            y: 0,
-                            scale: 1,
-                            duration: 0.8,
-                            stagger: 0.2,
-                            ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                            scrollTrigger: {
-                                trigger: '.feature-grid',
-                                start: 'top 95%'
-                            }
-                        }
-                    );
-                    
-                    gsap.fromTo('.changelog-item', 
-                        {
-                            opacity: 0,
-                            x: -50
-                        },
-                        {
-                            opacity: 1,
-                            x: 0,
-                            duration: 0.8,
-                            stagger: 0.3,
-                            ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                            scrollTrigger: {
-                                trigger: '#changelog',
-                                start: 'top 95%'
-                            }
-                        }
-                    );
-                }
-            }
+            // Menú móvil
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
             
-            setupNavigation() {
-                const navLinks = document.querySelectorAll('a[href^="#"]');
-                
-                navLinks.forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const targetId = link.getAttribute('href');
-                        const targetElement = document.querySelector(targetId);
-                        
-                        if (targetElement) {
-                            const offsetTop = targetElement.offsetTop - 80;
-                            
-                            anime({
-                                targets: document.documentElement,
-                                scrollTop: offsetTop,
-                                duration: 1500,
-                                easing: 'cubic-bezier(0.16, 1, 0.3, 1)'
-                            });
-                        }
-                    });
-                });
-                
-                let lastScrollY = window.scrollY;
-                const navbar = document.querySelector('nav');
-                
-                window.addEventListener('scroll', () => {
-                    const currentScrollY = window.scrollY;
-                    
-                    if (currentScrollY > 100) {
-                        navbar.style.background = 'rgba(11, 19, 36, 0.9)';
-                        navbar.style.backdropFilter = 'blur(30px)';
-                    } else {
-                        navbar.style.background = 'var(--glass-bg)';
-                        navbar.style.backdropFilter = 'blur(20px)';
-                    }
-                    
-                    lastScrollY = currentScrollY;
-                });
-            }
+            menuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                menuBtn.setAttribute('aria-expanded', 
+                    navLinks.classList.contains('active').toString());
+            });
             
-            setupSoundEffects() {
-                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                
-                const duration = 0.1;
-                const sampleRate = this.audioContext.sampleRate;
-                const buffer = this.audioContext.createBuffer(1, duration * sampleRate, sampleRate);
-                const data = buffer.getChannelData(0);
-                
-                for (let i = 0; i < data.length; i++) {
-                    const t = i / sampleRate;
-                    data[i] = Math.sin(2 * Math.PI * 800 * t) * Math.exp(-t * 10) * 0.1;
-                }
-                
-                this.sounds.click = buffer;
-            }
-            
-            playSound(soundName) {
-                if (!this.audioContext || !this.sounds[soundName]) return;
-                
-                const source = this.audioContext.createBufferSource();
-                const gainNode = this.audioContext.createGain();
-                
-                source.buffer = this.sounds[soundName];
-                source.connect(gainNode);
-                gainNode.connect(this.audioContext.destination);
-                
-                gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.1);
-                
-                source.start();
-            }
-            
-            setupCustomCursor() {
-                const cursor = document.createElement('div');
-                cursor.className = 'custom-cursor';
-                document.body.appendChild(cursor);
-                
-                let mouseX = 0;
-                let mouseY = 0;
-                let cursorX = 0;
-                let cursorY = 0;
-                
-                document.addEventListener('mousemove', (e) => {
-                    mouseX = e.clientX;
-                    mouseY = e.clientY;
-                });
-                
-                const updateCursor = () => {
-                    cursorX += (mouseX - cursorX) * 0.1;
-                    cursorY += (mouseY - cursorY) * 0.1;
-                    
-                    cursor.style.left = cursorX - 10 + 'px';
-                    cursor.style.top = cursorY - 10 + 'px';
-                    
-                    requestAnimationFrame(updateCursor);
-                };
-                
-                updateCursor();
-                
-                const interactiveElements = document.querySelectorAll('a, button, .feature-card');
-                
-                interactiveElements.forEach(element => {
-                    element.addEventListener('mouseenter', () => {
-                        cursor.style.transform = 'scale(1.5)';
-                        cursor.style.background = 'rgba(60, 242, 255, 0.2)';
-                    });
-                    
-                    element.addEventListener('mouseleave', () => {
-                        cursor.style.transform = 'scale(1)';
-                        cursor.style.background = 'transparent';
-                    });
-                });
-            }
-            
-            setupBackgroundAnimation() {
-                const heroCanvas = document.getElementById('heroCanvas');
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.style.position = 'absolute';
-                canvas.style.top = '0';
-                canvas.style.left = '0';
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                heroCanvas.appendChild(canvas);
-                
-                const resizeCanvas = () => {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                };
-                
-                resizeCanvas();
-                window.addEventListener('resize', resizeCanvas);
-                
-                let time = 0;
-                
-                const animateBackground = () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    
-                    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-                    gradient.addColorStop(0, `hsla(${time * 0.01}, 70%, 20%, 0.1)`);
-                    gradient.addColorStop(1, `hsla(${time * 0.01 + 60}, 70%, 20%, 0.1)`);
-                    
-                    ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    
-                    time++;
-                    requestAnimationFrame(animateBackground);
-                };
-                
-                animateBackground();
-            }
-            
-            setupSmoothScrolling() {
-                let ticking = false;
-                
-                const updateScroll = () => {
-                    ticking = false;
-                };
-                
-                window.addEventListener('scroll', () => {
-                    if (!ticking) {
-                        requestAnimationFrame(updateScroll);
-                        ticking = true;
-                    }
-                });
-            }
-        }
-        
-        function playClickSound() {
-            if (window.nexVoidApp) {
-                window.nexVoidApp.playSound('click');
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            window.nexVoidApp = new NexVoidApp();
-            
-            const buttons = document.querySelectorAll('a, button');
-            buttons.forEach(button => {
-                button.addEventListener('mouseenter', () => {
-                    if (window.nexVoidApp && window.nexVoidApp.audioContext) {
-                        const oscillator = window.nexVoidApp.audioContext.createOscillator();
-                        const gainNode = window.nexVoidApp.audioContext.createGain();
-                        
-                        oscillator.connect(gainNode);
-                        gainNode.connect(window.nexVoidApp.audioContext.destination);
-                        
-                        oscillator.frequency.setValueAtTime(600, window.nexVoidApp.audioContext.currentTime);
-                        gainNode.gain.setValueAtTime(0.05, window.nexVoidApp.audioContext.currentTime);
-                        gainNode.gain.exponentialRampToValueAtTime(0.01, window.nexVoidApp.audioContext.currentTime + 0.15);
-                        
-                        oscillator.start();
-                        oscillator.stop(window.nexVoidApp.audioContext.currentTime + 0.15);
-                    }
+            // Cerrar menú al hacer clic en enlace
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    menuBtn.setAttribute('aria-expanded', 'false');
                 });
             });
             
-            document.addEventListener('contextmenu', (e) => {
+            // Efecto scroll en navegación
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('main-nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+        
+        // === INICIALIZACIÓN DEL SISTEMA ===
+        function initSystem() {
+            // Configurar partículas
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#00f3ff" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.3, random: true },
+                    size: { value: 2, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#00f3ff",
+                        opacity: 0.1,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" }
+                    }
+                },
+                retina_detect: true
+            });
+            
+            // Parallax sutil
+            document.addEventListener('mousemove', (e) => {
+                const x = (window.innerWidth / 2 - e.clientX) / 50;
+                const y = (window.innerHeight / 2 - e.clientY) / 50;
+                document.querySelector('.hero').style.transform = 
+                    `translate(${x}px, ${y}px)`;
+            });
+            
+            // Animación de elementos al hacer scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observar elementos para animación
+            document.querySelectorAll('.feature-card, .changelog-item, .platform-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+            
+            // Efecto hover en tarjetas
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Sistema de notificación para descarga
+            const downloadBtn = document.querySelector('a[href="#download"]');
+            downloadBtn.addEventListener('click', function(e) {
                 e.preventDefault();
+                showNotification('Sistema de descarga inicializado. Preparando cliente...');
             });
             
-            const logo = document.querySelector('svg[class*="hover-glow"]');
-            if (logo) {
-                setInterval(() => {
-                    if (Math.random() < 0.1) {
-                        anime({
-                            targets: logo,
-                            translateX: [0, 2, -2, 0],
-                            duration: 100,
-                            easing: 'easeInOutQuad'
-                        });
-                    }
+            // Función de notificación
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    bottom: 30px;
+                    right: 30px;
+                    background: rgba(0, 243, 255, 0.1);
+                    backdrop-filter: blur(10px);
+                    color: var(--neon-cyan);
+                    padding: 1rem 1.5rem;
+                    border-radius: 4px;
+                    border: 1px solid rgba(0, 243, 255, 0.3);
+                    z-index: 10000;
+                    transform: translateY(100px);
+                    opacity: 0;
+                    transition: all 0.3s ease;
+                    font-size: 0.9rem;
+                    max-width: 300px;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateY(0)';
+                    notification.style.opacity = '1';
+                }, 10);
+                
+                setTimeout(() => {
+                    notification.style.transform = 'translateY(100px)';
+                    notification.style.opacity = '0';
+                    setTimeout(() => notification.remove(), 300);
                 }, 3000);
             }
             
-            const primaryButtons = document.querySelectorAll('.btn-primary');
-            primaryButtons.forEach(button => {
-                anime({
-                    targets: button,
-                    scale: [1, 1.02, 1],
-                    duration: 3000,
-                    loop: true,
-                    easing: 'easeInOutSine'
-                });
-            });
-        });
-        
-        let ticking = false;
-        
-        function updateAnimations() {
-            ticking = false;
+            // Efecto de escritura en título
+            const title = document.querySelector('.hero h1');
+            const originalText = title.innerHTML;
+            title.innerHTML = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < originalText.length) {
+                    title.innerHTML += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            }
+            
+            setTimeout(typeWriter, 500);
         }
         
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(updateAnimations);
-                ticking = true;
+        // === MANEJO DE ERRORES ===
+        window.addEventListener('error', function(e) {
+            console.error('Error del sistema:', e.error);
+            // Sistema de recuperación automática
+            if (e.error.message.includes('particles')) {
+                document.getElementById('particles-js').style.display = 'none';
             }
         });
         
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.documentElement.style.setProperty('--animation-duration', '0.01s');
-        }
+        // === OPTIMIZACIONES DE RENDIMIENTO ===
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { 
+                            value: Math.min(80, Math.floor(window.innerWidth / 20))
+                        }
+                    }
+                });
+            }, 250);
+        });
     </script>
 </body>
 </html>
