@@ -1,1134 +1,1470 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="NEXVOID - Plataforma definitiva de automatización de grado empresarial. Rendimiento, estabilidad y control absoluto.">
-    <meta name="keywords" content="automatización, scripting, rendimiento, seguridad, tecnología avanzada">
-    <meta name="author" content="NEXVOID Industries">
-    <title>NEXVOID | Control Absoluto</title>
+    <meta name="description" content="NEXVOID | Absolute Control Interface - Precision engineered exploitation framework">
+    <title>NEXVOID | Absolute Control Interface</title>
     
-    <!-- Preconexión para mejor rendimiento -->
+    <!-- Resource Hints -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Fonts with display:swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     
     <style>
-        /* --- ARQUITECTURA VISUAL OPTIMIZADA --- */
+        /* Critical CSS (Above-the-fold) */
         :root {
-            --void-core: #050508;
-            --void-surface: #0f0f16;
-            --void-deep: #000000;
-            --neon-cyan: #00f3ff;
-            --neon-blue: #0066ff;
-            --neon-purple: #8a2be2;
-            --text-primary: #ffffff;
-            --text-secondary: #8a8a9f;
-            --text-dim: #555566;
-            --glass-bg: rgba(15, 15, 22, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a26;
+            --accent-primary: #00d9ff;
+            --accent-secondary: #6366f1;
+            --accent-danger: #ff0066;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(160, 160, 184, 0.7);
+            --text-tertiary: rgba(96, 96, 112, 0.6); /* Increased opacity for WCAG */
+            
+            /* Spacing System (8px base) */
+            --space-1: 8px; --space-2: 16px; --space-3: 24px; --space-4: 32px;
+            --space-5: 48px; --space-6: 64px; --space-7: 96px; --space-8: 128px; --space-9: 160px;
+            
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: 300ms var(--ease);
         }
-
+        
+        /* Reduced Motion Support - MANDATORY */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .hero-grid, .hero-particles, .spotlight { display: none !important; }
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--void-core);
+            background-color: var(--bg-primary);
             color: var(--text-primary);
+            font-family: var(--font-primary);
             overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: var(--bg-primary);
             line-height: 1.6;
-            min-height: 100vh;
-            position: relative;
+            overflow-x: hidden;
         }
-
-        /* --- TIPOGRAFÍA PREMIUM --- */
-        h1, h2, h3, h4 {
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
+        
+        /* Focus-visible for keyboard navigation */
+        a:focus-visible,
+        button:focus-visible,
+        [tabindex]:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+            border-radius: 2px;
         }
-
-        h1 {
-            font-size: clamp(3.5rem, 8vw, 5.5rem);
-            background: linear-gradient(180deg, var(--text-primary) 60%, var(--neon-cyan) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        h2 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            margin-bottom: 3rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        h2::after {
-            content: '';
+        
+        /* Semantic Layout Containers */
+        .skip-link {
             position: absolute;
-            bottom: -10px;
+            top: -40px;
             left: 0;
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--neon-cyan), transparent);
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            padding: var(--space-2);
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 1001;
         }
-
-        h3 {
-            font-size: 1.5rem;
-            color: var(--neon-cyan);
-            margin-bottom: 1rem;
-        }
-
-        p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-
-        /* --- FONDO DE PARTÍCULAS OPTIMIZADO --- */
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
+        
+        .skip-link:focus-visible {
             top: 0;
-            left: 0;
-            z-index: -1;
-            background: radial-gradient(circle at 50% 50%, var(--void-surface) 0%, var(--void-deep) 100%);
         }
-
-        /* --- SISTEMA DE CARGADO MEJORADO --- */
-        #loading-screen {
+        
+        /* Navigation - NEW COMPONENT */
+        header[role="banner"] {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: var(--void-core);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease-out;
+            padding: var(--space-3) var(--space-6);
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(10, 10, 15, 0.8), transparent);
+            backdrop-filter: blur(10px);
+            contain: layout style paint;
         }
-
-        .loading-logo {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 2rem;
-            animation: pulse 2s infinite;
-        }
-
-        .loading-bar {
-            width: 200px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 1px;
-            overflow: hidden;
-        }
-
-        .loading-progress {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue));
-            transition: width 0.3s ease;
-        }
-
-        /* --- NAVEGACIÓN MEJORADA --- */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 3rem;
+        
+        .nav-container {
+            max-width: 1440px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 1000;
-            transition: var(--transition-smooth);
         }
-
-        nav.scrolled {
-            padding: 1rem 3rem;
-            background: rgba(5, 5, 8, 0.95);
-        }
-
+        
         .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--text-primary), var(--neon-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
-            letter-spacing: 0.1em;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--accent-primary);
+            height: 40px; /* Spec requirement */
+            line-height: 40px;
+            letter-spacing: -0.02em;
         }
-
-        .nav-links {
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--accent-primary);
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            border-radius: var(--radius-sm);
+        }
+        
+        .nav-menu {
             display: flex;
-            gap: 2.5rem;
+            gap: var(--space-5);
             list-style: none;
         }
-
-        .nav-links a {
+        
+        .nav-menu a {
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color var(--transition);
+            padding: var(--space-2) 0;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a:focus-visible {
+            color: var(--accent-primary);
+            border-bottom-color: var(--accent-primary);
+        }
+        
+        /* Typography */
+        .display {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        
+        .h1 {
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+        
+        .h2 {
+            font-size: clamp(28px, 4vw, 40px);
             font-weight: 600;
+            letter-spacing: -0.005em;
+            line-height: 1.3;
+        }
+        
+        .h3 {
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .body-large {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+        
+        .body-standard {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        .caption {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.005em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+        
+        .eyebrow {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-primary);
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            transition: var(--transition-smooth);
-            position: relative;
-            padding: 0.5rem 0;
         }
-
-        .nav-links a::after {
+        
+        /* Layout System */
+        .container {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 var(--space-6);
+            contain: layout style;
+        }
+        
+        main {
+            contain: layout style paint;
+        }
+        
+        .section {
+            padding: var(--space-9) 0;
+            contain: layout style paint;
+        }
+        
+        .section-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px; /* Offset for fixed nav */
+        }
+        
+        .section-features {
+            background: var(--bg-secondary);
+        }
+        
+        .section-download {
+            background: var(--bg-primary);
+            position: relative;
+            padding: var(--space-8) 0 !important; /* Spec: 128px */
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+        
+        .text-tertiary {
+            color: var(--text-tertiary);
+        }
+        
+        .text-accent {
+            color: var(--accent-primary);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            background-size: 200% 100%;
+            background-position: right;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-family: var(--font-primary);
+            font-weight: 600;
+            font-size: 18px;
+            border-radius: var(--space-3);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition);
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+            min-width: 240px;
+            height: 64px;
+            padding: 0 var(--space-4);
+        }
+        
+        .btn:hover,
+        .btn:focus-visible {
+            transform: scale(1.05);
+            background-position: left;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.6);
+        }
+        
+        .btn i {
+            margin-right: var(--space-2);
+            font-size: 20px;
+        }
+        
+        /* Hero Section */
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            z-index: 10;
+            position: relative;
+            transform: translateY(-5%); /* 45% upward bias */
+        }
+        
+        .hero-title {
+            margin-bottom: var(--space-3);
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-5);
+            max-width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 50% 50%, transparent 0%, var(--bg-primary) 70%),
+                repeating-linear-gradient(0deg, rgba(0, 217, 255, 0.05) 0px, rgba(0, 217, 255, 0.05) 1px, transparent 1px, transparent 24px),
+                repeating-linear-gradient(90deg, rgba(0, 217, 255, 0.05) 0px, rgba(0, 217, 255, 0.05) 1px, transparent 1px, transparent 24px);
+            opacity: 0.6;
+            transform: translateZ(0);
+            z-index: 1;
+            will-change: transform;
+        }
+        
+        .hero-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            overflow: hidden;
+            will-change: transform;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 20s ease-in-out 0s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-20px) translateX(15px); }
+            50% { transform: translateY(-10px) translateX(-10px); }
+            75% { transform: translateY(-25px) translateX(5px); }
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: var(--space-6);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--accent-primary);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+        
+        /* Features Section - Spec-compliant Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-4);
+            margin-top: var(--space-5);
+        }
+        
+        .feature-card {
+            background: var(--bg-tertiary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--space-3);
+            padding: var(--space-5);
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover,
+        .feature-card:focus-within {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 217, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: var(--space-3);
+            color: var(--accent-primary);
+            font-size: 24px;
+        }
+        
+        /* Technology Section */
+        .tech-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-7);
+            align-items: center;
+        }
+        
+        .tech-visual {
+            position: relative;
+            height: 500px;
+            background: rgba(0, 20, 30, 0.5);
+            border-radius: var(--space-4);
+            overflow: hidden;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tech-diagram {
+            width: 80%;
+            height: 80%;
+            position: relative;
+            contain: strict;
+        }
+        
+        .node {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-primary);
+            animation: nodePulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes nodePulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+        
+        .connection {
+            position: absolute;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            height: 2px;
+            opacity: 0.5;
+        }
+        
+        /* Download Section */
+        .spotlight {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 217, 255, 0.05) 0%, transparent 70%);
+            z-index: 1;
+        }
+        
+        /* Changelog Section - Timeline Connectors */
+        .changelog-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: var(--space-7) auto 0;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 32px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-primary), transparent);
+            z-index: 1;
+        }
+        
+        .changelog-item {
+            position: relative;
+            margin-bottom: var(--space-7);
+            padding-left: calc(32px + var(--space-4));
+        }
+        
+        .changelog-item::before {
+            content: '';
+            position: absolute;
+            left: 32px;
+            top: 8px;
+            width: 40px;
+            height: 1px;
+            background: var(--accent-primary);
+            opacity: 0.3;
+        }
+        
+        .timeline-node {
+            position: absolute;
+            left: 24px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            border: 3px solid var(--bg-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+            z-index: 2;
+        }
+        
+        .version-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-2);
+            flex-wrap: wrap;
+        }
+        
+        .version-number {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+        
+        .change-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: var(--space-1);
+        }
+        
+        /* Compatibility Section */
+        .compat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--space-3);
+            max-width: 900px;
+            margin: var(--space-7) auto 0;
+        }
+        
+        .compat-item {
+            text-align: center;
+            padding: var(--space-4) var(--space-2);
+            transition: all var(--transition);
+        }
+        
+        .compat-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--space-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all var(--transition);
+        }
+        
+        .compat-item.active .compat-icon {
+            color: white;
+            text-shadow: 0 0 15px var(--accent-primary);
+        }
+        
+        .compat-item.coming-soon {
+            opacity: 0.4;
+            position: relative;
+        }
+        
+        /* Testimonials Carousel - NEW COMPONENT */
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonials-carousel {
+            display: flex;
+            transition: transform 600ms var(--ease-out);
+        }
+        
+        .testimonial-card {
+            min-width: 400px; /* Spec width */
+            flex: 0 0 400px;
+            margin-right: var(--space-5);
+            background: rgba(26, 26, 38, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: var(--space-3);
+            padding: var(--space-5);
+            position: relative;
+            transition: all var(--transition);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px) rotateY(5deg); /* 3D tilt */
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 217, 255, 0.2);
+        }
+        
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-3);
+            margin-top: var(--space-5);
+        }
+        
+        .carousel-arrow,
+        .carousel-dot {
+            background: none;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        
+        .carousel-arrow {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-arrow:hover,
+        .carousel-dot.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+        
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            padding: 0;
+        }
+        
+        /* Footer with Gradient Border */
+        footer[role="contentinfo"] {
+            background: #080810;
+            border-top: 1px solid;
+            border-image: linear-gradient(to right, transparent, var(--accent-primary), transparent) 1;
+            padding: var(--space-7) 0 0;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-7);
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: var(--space-4);
+            position: relative;
+            padding-bottom: var(--space-2);
+        }
+        
+        .footer-column h3::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 0;
+            width: 40px;
             height: 2px;
-            background: var(--neon-cyan);
-            transition: width 0.3s ease;
+            background: var(--accent-primary);
         }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        /* --- SECCIÓN HERO OPTIMIZADA --- */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            background: rgba(0, 243, 255, 0.1);
-            color: var(--neon-cyan);
-            border-radius: 2rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(0, 243, 255, 0.3);
-            animation: glow 2s infinite alternate;
-        }
-
-        .hero-subtitle {
-            font-size: 1.3rem;
-            max-width: 700px;
-            margin: 2rem auto 3rem;
-            color: var(--text-secondary);
-        }
-
-        /* --- BOTÓN CTA MEJORADO --- */
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.2rem 3rem;
-            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
-            color: var(--void-core);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            border-radius: 4px;
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 50px rgba(0, 243, 255, 0.5);
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.7s ease;
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
-        /* --- SECCIONES GENERALES --- */
-        .section {
-            padding: 6rem 10%;
-            position: relative;
-        }
-
-        .section-alt {
-            background: linear-gradient(180deg, transparent, rgba(0, 243, 255, 0.03), transparent);
-        }
-
-        /* --- SISTEMA DE GRID MEJORADO --- */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            padding: 2.5rem 2rem;
-            transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 0;
-            background: linear-gradient(180deg, var(--neon-cyan), var(--neon-blue));
-            transition: height 0.4s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(0, 243, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .feature-card:hover::before {
-            height: 100%;
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--neon-cyan);
-        }
-
-        /* --- ZONA DE DESCARGA PREMIUM --- */
-        .download-section {
-            text-align: center;
-            padding: 8rem 2rem;
-            background: linear-gradient(180deg, transparent, rgba(0, 102, 255, 0.05), transparent);
-            position: relative;
-        }
-
-        .version-info {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1rem 2rem;
-            border-radius: 4px;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-        }
-
-        .version-tag {
-            color: var(--neon-cyan);
-            font-weight: 600;
-        }
-
-        .system-requirements {
-            margin-top: 3rem;
-            color: var(--text-dim);
-            font-size: 0.9rem;
-        }
-
-        /* --- CHANGELOG MEJORADO --- */
-        .changelog-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .changelog-item {
-            background: rgba(255, 255, 255, 0.02);
-            border-left: 3px solid var(--neon-cyan);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-radius: 0 4px 4px 0;
-            transition: var(--transition-smooth);
-        }
-
-        .changelog-item:hover {
-            background: rgba(0, 243, 255, 0.05);
-            transform: translateX(10px);
-        }
-
-        .changelog-date {
-            color: var(--neon-cyan);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .changelog-list {
-            list-style: none;
-            padding-left: 1.5rem;
-        }
-
-        .changelog-list li {
-            margin-bottom: 0.5rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .changelog-list li::before {
-            content: '▶';
-            position: absolute;
-            left: 0;
-            color: var(--neon-cyan);
-            font-size: 0.8rem;
-        }
-
-        /* --- COMPATIBILIDAD MEJORADA --- */
-        .compatibility-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .platform-card {
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-            transition: var(--transition-smooth);
-        }
-
-        .platform-card:hover {
-            background: rgba(0, 243, 255, 0.05);
-            transform: translateY(-5px);
-        }
-
-        .platform-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--neon-cyan);
-        }
-
-        /* --- TESTIMONIOS PREMIUM --- */
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .testimonial-card {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 2.5rem;
-            border-radius: 8px;
-            position: relative;
-            border: 1px solid var(--glass-border);
-        }
-
-        .testimonial-card::before {
-            content: '"';
-            position: absolute;
-            top: 1rem;
-            left: 1.5rem;
-            font-size: 4rem;
-            color: var(--neon-cyan);
-            opacity: 0.2;
-            font-family: Georgia, serif;
-        }
-
-        .testimonial-content {
-            font-style: italic;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .testimonial-author {
-            color: var(--neon-cyan);
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        /* --- FOOTER ELEGANTE --- */
-        footer {
-            padding: 4rem 10% 2rem;
-            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.8));
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-logo {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--text-primary), var(--neon-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-
-        .footer-links h4 {
-            color: var(--text-primary);
-            margin-bottom: 1.5rem;
-            font-size: 1rem;
-        }
-
-        .footer-links ul {
+        
+        .footer-links {
             list-style: none;
         }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
+        
         .footer-links a {
-            color: var(--text-secondary);
+            color: var(--text-tertiary);
             text-decoration: none;
-            transition: var(--transition-smooth);
+            transition: color var(--transition);
+            font-size: 14px;
+            display: block;
+            padding: 4px 0;
         }
-
-        .footer-links a:hover {
-            color: var(--neon-cyan);
-            padding-left: 5px;
+        
+        .footer-links a:hover,
+        .footer-links a:focus-visible {
+            color: var(--accent-primary);
         }
-
+        
         .copyright {
             text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--glass-border);
-            color: var(--text-dim);
-            font-size: 0.9rem;
+            padding: var(--space-4) 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-tertiary);
+            font-size: 14px;
         }
-
-        /* --- ANIMACIONES OPTIMIZADAS --- */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px); /* Spec: 40px start */
+            transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out);
+            will-change: opacity, transform;
         }
-
-        @keyframes glow {
-            0% { box-shadow: 0 0 10px rgba(0, 243, 255, 0.3); }
-            100% { box-shadow: 0 0 20px rgba(0, 243, 255, 0.6); }
+        
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
         }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* --- RESPONSIVE DESIGN MEJORADO --- */
-        @media (max-width: 1024px) {
-            .section {
-                padding: 5rem 5%;
+        
+        /* Staggered animations for children */
+        .fade-in > *:nth-child(1) { transition-delay: 100ms; }
+        .fade-in > *:nth-child(2) { transition-delay: 200ms; }
+        .fade-in > *:nth-child(3) { transition-delay: 300ms; }
+        .fade-in > *:nth-child(4) { transition-delay: 400ms; }
+        
+        /* Responsive Breakpoints - Spec Compliant */
+        @media (max-width: 1023px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .nav-links {
-                gap: 1.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                padding: 1rem 1.5rem;
+            .tech-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-6);
             }
             
-            .nav-links {
+            .nav-menu {
                 display: none;
-                position: fixed;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background: var(--glass-bg);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                padding: 2rem;
-                text-align: center;
-                border-bottom: 1px solid var(--glass-border);
             }
             
-            .nav-links.active {
-                display: flex;
-            }
-            
-            .mobile-menu-btn {
+            .nav-toggle {
                 display: block;
             }
+        }
+        
+        @media (max-width: 767px) {
+            .section {
+                padding: var(--space-7) 0;
+            }
             
-            h1 {
-                font-size: clamp(2.5rem, 6vw, 4rem);
+            .section-hero {
+                min-height: 80vh;
+                padding-top: 60px;
+            }
+            
+            .hero-title {
+                font-size: 48px;
             }
             
             .hero-subtitle {
-                font-size: 1.1rem;
-                padding: 0 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .section {
-                padding: 4rem 1.5rem;
+                max-width: 90%;
+                font-size: 18px;
             }
             
-            .cta-button {
-                padding: 1rem 2rem;
-                font-size: 1rem;
+            .features-grid,
+            .compat-grid {
+                grid-template-columns: 1fr;
             }
             
-            .feature-card {
-                padding: 2rem 1.5rem;
+            .testimonial-card {
+                min-width: 100%;
+            }
+            
+            .container {
+                padding: 0 var(--space-3);
+            }
+            
+            header[role="banner"] {
+                padding: var(--space-2) var(--space-3);
+            }
+            
+            .timeline-line,
+            .timeline-node {
+                left: 20px;
+            }
+            
+            .changelog-item {
+                padding-left: calc(20px + var(--space-4));
+            }
+            
+            .changelog-item::before {
+                left: 20px;
             }
         }
-
-        /* --- MEJORAS DE ACCESIBILIDAD --- */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
+        
+        /* Loading State */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 500ms ease, visibility 500ms ease;
+            contain: strict;
         }
-
-        /* --- ESTILOS PARA ENFOQUE --- */
-        :focus {
-            outline: 2px solid var(--neon-cyan);
-            outline-offset: 2px;
+        
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 217, 255, 0.2);
+            border-top: 4px solid var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
-
-        :focus:not(:focus-visible) {
-            outline: none;
-        }
-
-        /* --- MEJORAS DE RENDIMIENTO --- */
-        .will-change-transform {
-            will-change: transform;
-        }
-
-        /* --- EFECTO PARALLAX SUTIL --- */
-        .parallax-layer {
-            transition: transform 0.1s linear;
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Pantalla de carga optimizada -->
-    <div id="loading-screen">
-        <div class="loading-logo">NEXVOID</div>
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
-        </div>
-        <div class="loading-text" style="margin-top: 1rem; color: var(--text-dim);">
-            Inicializando sistema...
-        </div>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+    
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen" aria-label="Loading NEXVOID">
+        <div class="loader" role="status" aria-live="polite"></div>
     </div>
 
-    <!-- Fondo de partículas -->
-    <div id="particles-js"></div>
-
-    <!-- Navegación mejorada -->
-    <nav id="main-nav">
-        <div class="logo">NEXVOID</div>
-        <button class="mobile-menu-btn" aria-label="Menú de navegación">
-            <span>☰</span>
-        </button>
-        <ul class="nav-links">
-            <li><a href="#features">Características</a></li>
-            <li><a href="#technology">Tecnología</a></li>
-            <li><a href="#download">Descargar</a></li>
-            <li><a href="#changelog">Actualizaciones</a></li>
-            <li><a href="#compatibility">Compatibilidad</a></li>
-            <li><a href="#testimonials">Testimonios</a></li>
-        </ul>
-    </nav>
-
-    <!-- Sección Hero -->
-    <section class="hero">
-        <div class="status-badge">SISTEMA: OPERATIVO</div>
-        <h1>CONTROL<br>ABSOLUTO</h1>
-        <p class="hero-subtitle">
-            La plataforma definitiva de automatización de grado empresarial. 
-            Diseñada para rendimiento máximo, estabilidad inquebrantable y precisión milimétrica.
-        </p>
-        <a href="#download" class="cta-button">
-            <span>INICIAR SISTEMA</span>
-            <span>→</span>
-        </a>
-    </section>
-
-    <!-- Sección Características -->
-    <section id="features" class="section section-alt">
-        <h2>Arquitectura del Núcleo</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Ejecución Multi-Hilo</h3>
-                <p>Procesamiento paralelo avanzado que garantiza latencia cero y máximo rendimiento en operaciones concurrentes.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <h3>Estabilidad Robusta</h3>
-                <p>Sistema de auto-recuperación que detecta y neutraliza anomalías antes de que afecten el rendimiento.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>Seguridad Avanzada</h3>
-                <p>Protección de múltiples capas con encriptación de grado militar para operaciones confidenciales.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>Precisión Milimétrica</h3>
-                <p>API de alta fidelidad con soporte completo para scripts personalizados y extensiones avanzadas.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección Tecnología -->
-    <section id="technology" class="section">
-        <h2>Tecnología Void-X</h2>
-        <div class="feature-card" style="max-width: 900px; margin: 0 auto;">
-            <h3>Motor de Ejecución Propietario</h3>
-            <p>Desarrollado en C++ optimizado, el motor Void-X opera con una eficiencia del 99.9%, manteniendo el consumo de recursos por debajo del 1% incluso en cargas extremas.</p>
-            <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(0, 243, 255, 0.05); border-radius: 4px;">
-                <h4 style="color: var(--neon-cyan); margin-bottom: 1rem;">Especificaciones Técnicas</h4>
-                <ul style="color: var(--text-secondary); list-style: none;">
-                    <li style="margin-bottom: 0.5rem;">• Tiempo de respuesta: &lt;1ms</li>
-                    <li style="margin-bottom: 0.5rem;">• Tasa de éxito: 99.99%</li>
-                    <li style="margin-bottom: 0.5rem;">• Soporte de API: REST, WebSocket, TCP/IP</li>
-                    <li>• Compatibilidad: Múltiples entornos de ejecución</li>
+    <!-- Navigation -->
+    <header role="banner">
+        <div class="nav-container">
+            <div class="logo" aria-label="NEXVOID Home">NEXVOID</div>
+            <nav aria-label="Primary navigation">
+                <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                <ul class="nav-menu">
+                    <li><a href="#features" aria-label="Features">Features</a></li>
+                    <li><a href="#technology" aria-label="Technology">Technology</a></li>
+                    <li><a href="#download" aria-label="Download">Download</a></li>
+                    <li><a href="#changelog" aria-label="Changelog">Changelog</a></li>
+                    <li><a href="#compatibility" aria-label="Compatibility">Support</a></li>
                 </ul>
-            </div>
+            </nav>
         </div>
-    </section>
+    </header>
 
-    <!-- Sección Descarga -->
-    <section id="download" class="download-section">
-        <h2>Establecer Conexión</h2>
-        <p style="max-width: 600px; margin: 0 auto 2rem;">Descarga la plataforma definitiva de automatización</p>
-        
-        <div class="version-info">
-            <span class="version-tag">VERSIÓN: 2.5.0</span>
-            <span style="color: var(--text-dim);">|</span>
-            <span style="color: var(--text-secondary);">ESTADO: ESTABLE</span>
-            <span style="color: var(--text-dim);">|</span>
-            <span style="color: var(--text-secondary);">ARQUITECTURA: x64</span>
-        </div>
-        
-        <a href="#download" class="cta-button" style="margin: 2rem 0;">
-            <span>DESCARGAR CLIENTE</span>
-            <span>↓</span>
-        </a>
-        
-        <div class="system-requirements">
-            <p>Requisitos del sistema: Windows 10/11 64-bit • 8GB RAM • Conexión a internet estable</p>
-        </div>
-    </section>
+    <main id="main">
+        <!-- Hero Section -->
+        <section class="section-hero" id="hero" aria-labelledby="hero-title">
+            <div class="hero-grid" aria-hidden="true"></div>
+            <div class="hero-particles" id="particles" aria-hidden="true"></div>
+            
+            <div class="container">
+                <div class="hero-content fade-in">
+                    <h1 id="hero-title" class="display hero-title">Absolute Control</h1>
+                    <p class="body-large hero-subtitle">Command your systems with surgical precision through the world's most advanced exploitation framework</p>
+                    <a href="#download" class="btn btn-primary" aria-label="Download NEXVOID version 2.1">
+                        <i class="fas fa-download" aria-hidden="true"></i> Download NEXVOID v2.1
+                    </a>
+                </div>
+                
+                <div class="scroll-indicator" aria-hidden="true">
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                    <span class="caption">Scroll to explore</span>
+                </div>
+            </div>
+        </section>
 
-    <!-- Sección Changelog -->
-    <section id="changelog" class="section section-alt">
-        <h2>Registro de Actualizaciones</h2>
-        <div class="changelog-container">
-            <div class="changelog-item">
-                <div class="changelog-date">
-                    <span>📅</span>
-                    v2.5.0 - 2026-01-01
+        <!-- Features Section -->
+        <section class="section section-features" id="features" aria-labelledby="features-title">
+            <div class="container fade-in">
+                <div class="text-center">
+                    <div class="eyebrow">Core Capabilities</div>
+                    <h2 id="features-title" class="h1" style="margin: var(--space-3) 0 var(--space-5);">Precision Engineered Tools</h2>
+                    <p class="body-large text-secondary" style="max-width: 700px; margin: 0 auto;">
+                        Every module in NEXVOID is crafted for maximum efficiency, minimal footprint, and undetectable execution
+                    </p>
                 </div>
-                <ul class="changelog-list">
-                    <li>Motor de ejecución optimizado con reducción del 40% en uso de recursos</li>
-                    <li>Nuevo sistema de auto-recuperación mejorado</li>
-                    <li>Soporte extendido para APIs de terceros</li>
-                    <li>Mejoras significativas en la estabilidad del sistema</li>
-                </ul>
-            </div>
-            
-            <div class="changelog-item">
-                <div class="changelog-date">
-                    <span>📅</span>
-                    v2.4.0 - 2025-12-01
+                
+                <div class="features-grid">
+                    <article class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="h3">Zero-Delay Execution</h3>
+                        <p class="body-standard text-tertiary" style="margin-top: var(--space-2);">
+                            Bypass security systems with real-time adaptive execution paths that respond to environmental changes
+                        </p>
+                    </article>
+                    
+                    <article class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="h3">Stealth Operations</h3>
+                        <p class="body-standard text-tertiary" style="margin-top: var(--space-2);">
+                            Advanced obfuscation techniques that evade all known signature and behavioral detection systems
+                        </p>
+                    </article>
+                    
+                    <article class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="h3">Universal Compatibility</h3>
+                        <p class="body-standard text-tertiary" style="margin-top: var(--space-2);">
+                            Seamless operation across all major platforms with adaptive environment detection
+                        </p>
+                    </article>
+                    
+                    <article class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-tachometer-alt" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="h3">Resource Optimization</h3>
+                        <p class="body-standard text-tertiary" style="margin-top: var(--space-2);">
+                            Minimal system footprint with dynamic resource allocation that scales to your operational needs
+                        </p>
+                    </article>
                 </div>
-                <ul class="changelog-list">
-                    <li>Implementación de procesamiento multi-hilo avanzado</li>
-                    <li>Sistema de seguridad reforzado con encriptación adicional</li>
-                    <li>Optimizaciones de rendimiento en operaciones I/O</li>
-                    <li>Corrección de errores menores reportados</li>
-                </ul>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Sección Compatibilidad -->
-    <section id="compatibility" class="section">
-        <h2>Compatibilidad del Sistema</h2>
-        <div class="compatibility-grid">
-            <div class="platform-card">
-                <div class="platform-icon">🖥️</div>
-                <h3>Windows</h3>
-                <p>10 / 11 (64-bit)</p>
-                <p style="font-size: 0.9rem; color: var(--text-dim);">Soporte completo</p>
+        <!-- Technology Section -->
+        <section class="section tech-section" id="technology" aria-labelledby="tech-title">
+            <div class="container fade-in">
+                <div class="tech-content">
+                    <div class="tech-visual" role="img" aria-label="Animated network architecture diagram">
+                        <div class="tech-diagram" id="techDiagram"></div>
+                    </div>
+                    
+                    <div class="tech-text">
+                        <div class="eyebrow">Advanced Architecture</div>
+                        <h2 id="tech-title" class="h2" style="margin: var(--space-2) 0 var(--space-4);">Adaptive Exploitation Framework</h2>
+                        
+                        <p class="body-large" style="margin-bottom: var(--space-4);">
+                            NEXVOID's core engine employs a revolutionary architecture that dynamically adapts to target environments.
+                        </p>
+                        
+                        <p class="body-standard text-secondary" style="margin-bottom: var(--space-3);">
+                            <span class="text-accent">Neural Target Analysis</span> continuously maps system vulnerabilities while maintaining minimal footprint. The <span class="text-accent">Polymorphic Payload System</span> generates unique execution patterns for each operation, evading signature-based detection.
+                        </p>
+                        
+                        <p class="body-standard text-secondary">
+                            Our <span class="text-accent">Quantum Encryption Layer</span> ensures all communications remain undetectable, with self-destruct protocols that activate upon environmental anomalies.
+                        </p>
+                    </div>
+                </div>
             </div>
-            
-            <div class="platform-card">
-                <div class="platform-icon">🍎</div>
-                <h3>macOS</h3>
-                <p>12.0+</p>
-                <p style="font-size: 0.9rem; color: var(--text-dim);">Soporte beta</p>
-            </div>
-            
-            <div class="platform-card">
-                <div class="platform-icon">🐧</div>
-                <h3>Linux</h3>
-                <p>Ubuntu 20.04+</p>
-                <p style="font-size: 0.9rem; color: var(--text-dim);">Soporte experimental</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Sección Testimonios -->
-    <section id="testimonials" class="section section-alt">
-        <h2>Testimonios Verificados</h2>
-        <div class="testimonial-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    "La estabilidad de NEXVOID redefine lo que significa confiabilidad en automatización. Operaciones críticas que antes eran imposibles ahora son rutina."
+        <!-- Download Section -->
+        <section class="section section-download" id="download" aria-labelledby="download-title">
+            <div class="spotlight" aria-hidden="true"></div>
+            <div class="container">
+                <div class="download-content fade-in">
+                    <div class="eyebrow">Get Started</div>
+                    <h2 id="download-title" class="h1" style="margin: var(--space-2) 0 var(--space-3);">Deploy Absolute Control</h2>
+                    <p class="version-info">Current Release: v2.1.0 (Stable)</p>
+                    <a href="#" class="btn btn-primary" aria-label="Download NEXVOID for Windows, Linux, or macOS">
+                        <i class="fas fa-download" aria-hidden="true"></i> Download NEXVOID
+                    </a>
+                    <p class="body-standard text-tertiary" style="margin-top: var(--space-3);">
+                        System Requirements: Windows 10/11, Linux Kernel 5.4+, 8GB RAM minimum, SSE4.2 support
+                    </p>
                 </div>
-                <div class="testimonial-author">— Director de Operaciones, TechCorp</div>
             </div>
-            
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    "La precisión y velocidad superan cualquier solución anterior. Integración perfecta con nuestros sistemas existentes y rendimiento excepcional."
+        </section>
+
+        <!-- Changelog Section -->
+        <section class="section" id="changelog" aria-labelledby="changelog-title">
+            <div class="container fade-in">
+                <div class="text-center">
+                    <div class="eyebrow">Development Log</div>
+                    <h2 id="changelog-title" class="h2" style="margin: var(--space-2) 0 var(--space-4);">Continuous Evolution</h2>
+                    <p class="body-standard text-secondary" style="max-width: 700px; margin: 0 auto;">
+                        Transparent development with regular updates enhancing capabilities and security
+                    </p>
                 </div>
-                <div class="testimonial-author">— Arquitecto de Sistemas, DataFlow Inc.</div>
+                
+                <div class="changelog-timeline">
+                    <div class="timeline-line" aria-hidden="true"></div>
+                    
+                    <article class="changelog-item fade-in">
+                        <div class="timeline-node" aria-hidden="true"></div>
+                        <div class="version-header">
+                            <div class="version-number">v2.1.0</div>
+                            <time class="caption" datetime="2026-01-05">January 5, 2026</time>
+                        </div>
+                        <h3 class="h3" style="margin-bottom: var(--space-3);">Neural Targeting System</h3>
+                        <div class="change-item">
+                            <div class="change-icon" aria-hidden="true">✓</div>
+                            <div class="body-standard">Added adaptive environment scanning with predictive vulnerability mapping</div>
+                        </div>
+                        <div class="change-item">
+                            <div class="change-icon" aria-hidden="true">⚡</div>
+                            <div class="body-standard">Execution speed increased by 37% through optimized payload generation</div>
+                        </div>
+                        <div class="change-item">
+                            <div class="change-icon" aria-hidden="true">🔧</div>
+                            <div class="body-standard">Fixed memory leak in persistent connection module</div>
+                        </div>
+                    </article>
+                    
+                    <article class="changelog-item fade-in">
+                        <div class="timeline-node" aria-hidden="true"></div>
+                        <div class="version-header">
+                            <div class="version-number">v2.0.5</div>
+                            <time class="caption" datetime="2025-12-18">December 18, 2025</time>
+                        </div>
+                        <h3 class="h3" style="margin-bottom: var(--space-3);">Quantum Encryption Update</h3>
+                        <div class="change-item">
+                            <div class="change-icon" aria-hidden="true">✓</div>
+                            <div class="body-standard">Implemented post-quantum cryptography for all command channels</div>
+                        </div>
+                        <div class="change-item">
+                            <div class="change-icon" aria-hidden="true">⚡</div>
+                            <div class="body-standard">Reduced handshake latency by 62% with connection pooling</div>
+                        </div>
+                    </article>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Compatibility Section -->
+        <section class="section section-features" id="compatibility" aria-labelledby="compat-title">
+            <div class="container fade-in">
+                <div class="text-center">
+                    <div class="eyebrow">System Support</div>
+                    <h2 id="compat-title" class="h2" style="margin: var(--space-2) 0 var(--space-4);">Universal Deployment</h2>
+                    <p class="body-standard text-secondary" style="max-width: 700px; margin: 0 auto;">
+                        NEXVOID operates seamlessly across all major platforms with identical capabilities
+                    </p>
+                </div>
+                
+                <div class="compat-grid">
+                    <div class="compat-item active">
+                        <div class="compat-icon">
+                            <i class="fab fa-windows" aria-hidden="true"></i>
+                        </div>
+                        <div class="body-standard">Windows 10/11</div>
+                    </div>
+                    
+                    <div class="compat-item active">
+                        <div class="compat-icon">
+                            <i class="fab fa-linux" aria-hidden="true"></i>
+                        </div>
+                        <div class="body-standard">Linux</div>
+                    </div>
+                    
+                    <div class="compat-item active">
+                        <div class="compat-icon">
+                            <i class="fab fa-apple" aria-hidden="true"></i>
+                        </div>
+                        <div class="body-standard">macOS</div>
+                    </div>
+                    
+                    <div class="compat-item active">
+                        <div class="compat-icon">
+                            <i class="fas fa-server" aria-hidden="true"></i>
+                        </div>
+                        <div class="body-standard">ESXi</div>
+                    </div>
+                    
+                    <div class="compat-item coming-soon">
+                        <div class="compat-icon">
+                            <i class="fab fa-android" aria-hidden="true"></i>
+                        </div>
+                        <div class="body-standard">Android</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="section" id="testimonials" aria-labelledby="testimonials-title">
+            <div class="container fade-in">
+                <div class="text-center">
+                    <div class="eyebrow">User Experiences</div>
+                    <h2 id="testimonials-title" class="h2" style="margin: var(--space-2) 0 var(--space-4);">Trusted by Professionals</h2>
+                    <p class="body-standard text-secondary" style="max-width: 700px; margin: 0 auto;">
+                        Industry leaders rely on NEXVOID for mission-critical operations requiring absolute reliability
+                    </p>
+                </div>
+                
+                <div class="testimonials-container">
+                    <div class="testimonials-carousel" id="testimonialsCarousel">
+                        <article class="testimonial-card">
+                            <div class="quote-mark" aria-hidden="true">"</div>
+                            <p class="testimonial-text body-large">
+                                NEXVOID's polymorphic execution capabilities allowed us to maintain persistent access through multiple security upgrades without detection.
+                            </p>
+                            <div class="testimonial-divider" aria-hidden="true"></div>
+                            <div class="testimonial-author">Marcus Chen</div>
+                            <div class="caption">Security Research Lead, Tier-1 Organization</div>
+                        </article>
+                        
+                        <article class="testimonial-card">
+                            <div class="quote-mark" aria-hidden="true">"</div>
+                            <p class="testimonial-text body-large">
+                                The resource optimization is unmatched - we've deployed payloads on systems with only 512MB RAM where competitors failed completely.
+                            </p>
+                            <div class="testimonial-divider" aria-hidden="true"></div>
+                            <div class="testimonial-author">Elena Rodriguez</div>
+                            <div class="caption">Infrastructure Architect, Financial Consortium</div>
+                        </article>
+                        
+                        <article class="testimonial-card">
+                            <div class="quote-mark" aria-hidden="true">"</div>
+                            <p class="testimonial-text body-large">
+                                The neural targeting system reduced our reconnaissance time from hours to seconds while identifying zero-day vulnerabilities automatically.
+                            </p>
+                            <div class="testimonial-divider" aria-hidden="true"></div>
+                            <div class="testimonial-author">David Thorne</div>
+                            <div class="caption">Offensive Operations Director, Defense Contractor</div>
+                        </article>
+                    </div>
+                    
+                    <div class="carousel-controls">
+                        <button class="carousel-arrow" id="prevTestimonial" aria-label="Previous testimonial">
+                            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        </button>
+                        <button class="carousel-dot active" data-index="0" aria-label="Go to testimonial 1"></button>
+                        <button class="carousel-dot" data-index="1" aria-label="Go to testimonial 2"></button>
+                        <button class="carousel-dot" data-index="2" aria-label="Go to testimonial 3"></button>
+                        <button class="carousel-arrow" id="nextTestimonial" aria-label="Next testimonial">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <div class="footer-logo">NEXVOID</div>
-                <p style="color: var(--text-secondary);">Plataforma definitiva de automatización de grado empresarial.</p>
+    <footer role="contentinfo" aria-label="Footer navigation">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>NEXVOID</h3>
+                    <p class="body-standard text-tertiary" style="margin: var(--space-3) 0 var(--space-4);">
+                        Absolute control through technological dominance. Precision engineered for the most demanding operations.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="GitHub">
+                            <i class="fab fa-github" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Discord">
+                            <i class="fab fa-discord" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="#features">Core Features</a></li>
+                        <li><a href="#technology">Technology</a></li>
+                        <li><a href="#download">Download</a></li>
+                        <li><a href="#changelog">Changelog</a></li>
+                        <li><a href="#">Roadmap</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">License Agreement</a></li>
+                        <li><a href="#">Compliance</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
             </div>
             
-            <div class="footer-links">
-                <h4>NAVEGACIÓN</h4>
-                <ul>
-                    <li><a href="#features">Características</a></li>
-                    <li><a href="#technology">Tecnología</a></li>
-                    <li><a href="#download">Descargas</a></li>
-                    <li><a href="#changelog">Actualizaciones</a></li>
-                </ul>
+            <div class="copyright">
+                &copy; 2026 NEXVOID Technologies. All rights reserved. Unauthorized use prohibited.
             </div>
-            
-            <div class="footer-links">
-                <h4>RECURSOS</h4>
-                <ul>
-                    <li><a href="#compatibility">Compatibilidad</a></li>
-                    <li><a href="#testimonials">Testimonios</a></li>
-                    <li><a href="#">Documentación</a></li>
-                    <li><a href="#">Soporte</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="copyright">
-            <p>© 2026 NEXVOID INDUSTRIES. TODOS LOS DERECHOS RESERVADOS.</p>
-            <p style="margin-top: 0.5rem; font-size: 0.8rem;">Software profesional para aplicaciones críticas.</p>
         </div>
     </footer>
 
-    <!-- Scripts optimizados -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // === SISTEMA DE INICIALIZACIÓN ===
-        document.addEventListener('DOMContentLoaded', function() {
-            // Simular carga del sistema
-            const loadingScreen = document.getElementById('loading-screen');
-            const loadingProgress = document.querySelector('.loading-progress');
-            const loadingText = document.querySelector('.loading-text');
+        // DOM Elements with error handling
+        const loadingScreen = document.getElementById('loadingScreen');
+        const particlesContainer = document.getElementById('particles');
+        const techDiagram = document.getElementById('techDiagram');
+        const testimonialsCarousel = document.getElementById('testimonialsCarousel');
+        const prevBtn = document.getElementById('prevTestimonial');
+        const nextBtn = document.getElementById('nextTestimonial');
+        const dots = document.querySelectorAll('.carousel-dot');
+        
+        // Initialize after all resources loaded
+        window.addEventListener('load', () => {
+            // Hide loading screen after minimum 1s for UX
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.visibility = 'hidden';
+                }, 500);
+            }, 1000);
             
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 15;
-                loadingProgress.style.width = `${Math.min(progress, 100)}%`;
-                
-                if (progress < 30) {
-                    loadingText.textContent = 'Inicializando núcleo...';
-                } else if (progress < 60) {
-                    loadingText.textContent = 'Cargando módulos...';
-                } else if (progress < 90) {
-                    loadingText.textContent = 'Verificando sistemas...';
-                } else {
-                    loadingText.textContent = 'Sistema listo';
-                }
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        loadingScreen.style.opacity = '0';
-                        setTimeout(() => {
-                            loadingScreen.style.display = 'none';
-                            initSystem();
-                        }, 500);
-                    }, 500);
-                }
-            }, 100);
-            
-            // Menú móvil
-            const menuBtn = document.querySelector('.mobile-menu-btn');
-            const navLinks = document.querySelector('.nav-links');
-            
-            menuBtn.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-                menuBtn.setAttribute('aria-expanded', 
-                    navLinks.classList.contains('active').toString());
-            });
-            
-            // Cerrar menú al hacer clic en enlace
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('active');
-                    menuBtn.setAttribute('aria-expanded', 'false');
-                });
-            });
-            
-            // Efecto scroll en navegación
-            window.addEventListener('scroll', () => {
-                const nav = document.getElementById('main-nav');
-                if (window.scrollY > 50) {
-                    nav.classList.add('scrolled');
-                } else {
-                    nav.classList.remove('scrolled');
-                }
-            });
+            createParticles();
+            createTechDiagram();
+            initScrollAnimations();
+            initTestimonialsCarousel();
         });
         
-        // === INICIALIZACIÓN DEL SISTEMA ===
-        function initSystem() {
-            // Configurar partículas
-            particlesJS('particles-js', {
-                particles: {
-                    number: { value: 80, density: { enable: true, value_area: 800 } },
-                    color: { value: "#00f3ff" },
-                    shape: { type: "circle" },
-                    opacity: { value: 0.3, random: true },
-                    size: { value: 2, random: true },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#00f3ff",
-                        opacity: 0.1,
-                        width: 1
-                    },
-                    move: {
-                        enable: true,
-                        speed: 1,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { enable: true, mode: "repulse" },
-                        onclick: { enable: true, mode: "push" }
-                    }
-                },
-                retina_detect: true
-            });
+        // Create floating particles (optimized)
+        function createParticles() {
+            if (!particlesContainer) return;
             
-            // Parallax sutil
-            document.addEventListener('mousemove', (e) => {
-                const x = (window.innerWidth / 2 - e.clientX) / 50;
-                const y = (window.innerHeight / 2 - e.clientY) / 50;
-                document.querySelector('.hero').style.transform = 
-                    `translate(${x}px, ${y}px)`;
-            });
+            const particleCount = 50;
+            const colors = ['#00d9ff', '#6366f1', '#ff0066'];
             
-            // Animación de elementos al hacer scroll
+            const fragment = document.createDocumentFragment();
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.setAttribute('aria-hidden', 'true');
+                
+                const size = Math.random() * 4 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.background = color;
+                particle.style.opacity = Math.random() * 0.4 + 0.1;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                fragment.appendChild(particle);
+            }
+            
+            particlesContainer.appendChild(fragment);
+        }
+        
+        // Create technology diagram
+        function createTechDiagram() {
+            if (!techDiagram) return;
+            
+            const nodeCount = 12;
+            const nodes = [];
+            const connections = [];
+            
+            // Create nodes
+            for (let i = 0; i < nodeCount; i++) {
+                const node = document.createElement('div');
+                node.classList.add('node');
+                node.setAttribute('aria-hidden', 'true');
+                
+                const posX = Math.random() * 80 + 10;
+                const posY = Math.random() * 80 + 10;
+                
+                node.style.left = `${posX}%`;
+                node.style.top = `${posY}%`;
+                node.style.animationDelay = `${Math.random() * 2}s`;
+                
+                techDiagram.appendChild(node);
+                nodes.push({ element: node, x: posX, y: posY });
+            }
+            
+            // Create connections
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const distance = Math.sqrt(
+                        Math.pow(nodes[i].x - nodes[j].x, 2) + 
+                        Math.pow(nodes[i].y - nodes[j].y, 2)
+                    );
+                    
+                    if (distance < 30) {
+                        const connection = document.createElement('div');
+                        connection.classList.add('connection');
+                        connection.setAttribute('aria-hidden', 'true');
+                        
+                        const angle = Math.atan2(
+                            nodes[j].y - nodes[i].y,
+                            nodes[j].x - nodes[i].x
+                        );
+                        const length = distance * 1.5;
+                        
+                        connection.style.width = `${length}%`;
+                        connection.style.left = `${nodes[i].x}%`;
+                        connection.style.top = `${nodes[i].y}%`;
+                        connection.style.transform = `rotate(${angle}rad)`;
+                        connection.style.transformOrigin = '0 0';
+                        
+                        techDiagram.appendChild(connection);
+                        connections.push(connection);
+                    }
+                }
+            }
+        }
+        
+        // Initialize scroll-triggered animations at 80% viewport
+        function initScrollAnimations() {
             const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
+                root: null,
+                rootMargin: '0px 0px -20% 0px', // Trigger at 80% viewport
+                threshold: 0
             };
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.classList.add('appear');
+                        observer.unobserve(entry.target); // Optimize: stop observing after reveal
                     }
                 });
             }, observerOptions);
             
-            // Observar elementos para animación
-            document.querySelectorAll('.feature-card, .changelog-item, .platform-card').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                observer.observe(el);
+            document.querySelectorAll('.fade-in').forEach(element => {
+                observer.observe(element);
             });
-            
-            // Efecto hover en tarjetas
-            document.querySelectorAll('.feature-card').forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-10px) scale(1.02)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
-                });
-            });
-            
-            // Sistema de notificación para descarga
-            const downloadBtn = document.querySelector('a[href="#download"]');
-            downloadBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                showNotification('Sistema de descarga inicializado. Preparando cliente...');
-            });
-            
-            // Función de notificación
-            function showNotification(message) {
-                const notification = document.createElement('div');
-                notification.style.cssText = `
-                    position: fixed;
-                    bottom: 30px;
-                    right: 30px;
-                    background: rgba(0, 243, 255, 0.1);
-                    backdrop-filter: blur(10px);
-                    color: var(--neon-cyan);
-                    padding: 1rem 1.5rem;
-                    border-radius: 4px;
-                    border: 1px solid rgba(0, 243, 255, 0.3);
-                    z-index: 10000;
-                    transform: translateY(100px);
-                    opacity: 0;
-                    transition: all 0.3s ease;
-                    font-size: 0.9rem;
-                    max-width: 300px;
-                `;
-                notification.textContent = message;
-                document.body.appendChild(notification);
-                
-                setTimeout(() => {
-                    notification.style.transform = 'translateY(0)';
-                    notification.style.opacity = '1';
-                }, 10);
-                
-                setTimeout(() => {
-                    notification.style.transform = 'translateY(100px)';
-                    notification.style.opacity = '0';
-                    setTimeout(() => notification.remove(), 300);
-                }, 3000);
-            }
-            
-            // Efecto de escritura en título
-            const title = document.querySelector('.hero h1');
-            const originalText = title.innerHTML;
-            title.innerHTML = '';
-            let i = 0;
-            
-            function typeWriter() {
-                if (i < originalText.length) {
-                    title.innerHTML += originalText.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 50);
-                }
-            }
-            
-            setTimeout(typeWriter, 500);
         }
         
-        // === MANEJO DE ERRORES ===
-        window.addEventListener('error', function(e) {
-            console.error('Error del sistema:', e.error);
-            // Sistema de recuperación automática
-            if (e.error.message.includes('particles')) {
-                document.getElementById('particles-js').style.display = 'none';
+        // Testimonials Carousel with spec requirements
+        function initTestimonialsCarousel() {
+            let currentIndex = 0;
+            const cards = testimonialsCarousel.querySelectorAll('.testimonial-card');
+            const cardCount = cards.length;
+            
+            if (!cards.length) return;
+            
+            function updateCarousel() {
+                const offset = -currentIndex * (400 + 32); // 400px width + 32px gap
+                testimonialsCarousel.style.transform = `translateX(${offset}px)`;
+                
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
             }
+            
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + cardCount) % cardCount;
+                updateCarousel();
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % cardCount;
+                updateCarousel();
+            });
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateCarousel();
+                });
+            });
+            
+            // Auto-rotate (6 seconds)
+            let autoRotateInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % cardCount;
+                updateCarousel();
+            }, 6000);
+            
+            // Pause on hover
+            testimonialsCarousel.addEventListener('mouseenter', () => {
+                clearInterval(autoRotateInterval);
+            });
+            
+            testimonialsCarousel.addEventListener('mouseleave', () => {
+                autoRotateInterval = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % cardCount;
+                    updateCarousel();
+                }, 6000);
+            });
+        }
+        
+        // Smooth scrolling with offset for fixed header
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.offsetTop;
+                    const offsetPosition = elementPosition - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
         
-        // === OPTIMIZACIONES DE RENDIMIENTO ===
-        let resizeTimeout;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                particlesJS('particles-js', {
-                    particles: {
-                        number: { 
-                            value: Math.min(80, Math.floor(window.innerWidth / 20))
-                        }
-                    }
-                });
-            }, 250);
+        // Mouse parallax effect for hero (subtle, 0.3x)
+        document.addEventListener('mousemove', (e) => {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            
+            const x = (e.clientX - window.innerWidth / 2) / 50;
+            const y = (e.clientY - window.innerHeight / 2) / 50;
+            
+            const heroGrid = document.querySelector('.hero-grid');
+            const heroParticles = document.querySelector('.hero-particles');
+            
+            if (heroGrid) heroGrid.style.transform = `translateX(${x * 0.2}px) translateY(${y * 0.2}px)`;
+            if (heroParticles) heroParticles.style.transform = `translateX(${x * 0.3}px) translateY(${y * 0.3}px)`;
+        });
+        
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', !isExpanded);
+                navMenu.style.display = isExpanded ? 'none' : 'flex';
+                navMenu.style.position = 'absolute';
+                navMenu.style.top = '100%';
+                navMenu.style.left = '0';
+                navMenu.style.right = '0';
+                navMenu.style.background = 'rgba(10, 10, 15, 0.95)';
+                navMenu.style.flexDirection = 'column';
+                navMenu.style.padding = 'var(--space-4)';
+                navMenu.style.backdropFilter = 'blur(10px)';
+            });
+        }
+        
+        // Error handling for missing elements
+        window.addEventListener('error', (e) => {
+            console.warn('NEXVOID: Non-critical error suppressed:', e.message);
+            // Prevent animation errors from breaking UX
         });
     </script>
 </body>
